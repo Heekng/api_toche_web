@@ -85,3 +85,30 @@
     - queue_id: int
     - tft_game_type: int, 
     - tft_set_number: int, TFT 세트 번호
+
+## 랭커 리스트
+
+- 호출시점의 랭커 리스트를 받아온다.
+- `https://kr.api.riotgames.com`
+- `/tft/league/v1/challenger`
+- Response
+    - tier: string
+    - leagueId: string
+    - queue: string
+    - name: string
+    - entries: List<LeagueItemDto>
+        - freshBlood: boolean
+        - wins: int, 1등 횟수
+        - summonerName: string
+        - miniSeries: MiniSeriesDTO
+            - losses: int
+            - progress: string
+            - target: int
+            - wins: int
+        - inactive: boolean
+        - veteran: boolean
+        - hotStreak: boolean
+        - rank: string
+        - leaguePoints: int
+        - losses: int, 1등이 아닌 경우
+        - summornerId: int
