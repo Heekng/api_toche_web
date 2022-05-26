@@ -26,9 +26,8 @@ public class ChallengerInquiry {
     private List<Challenger> challengers = new ArrayList<>();
 
     @Builder
-    public ChallengerInquiry(LocalDateTime inquiryDatetime, List<Challenger> challengers) {
+    public ChallengerInquiry(LocalDateTime inquiryDatetime) {
         this.inquiryDatetime = inquiryDatetime;
-        this.challengers = challengers;
     }
 
 }

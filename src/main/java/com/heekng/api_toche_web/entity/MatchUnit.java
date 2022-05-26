@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 
 @Entity
@@ -29,7 +30,7 @@ public class MatchUnit {
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
-    @OneToMany(mappedBy = "matchUnit")
+    @OneToMany(mappedBy = "matchUnit", cascade = REMOVE)
     private List<MatchItem> matchItems = new ArrayList<>();
 
     @Builder

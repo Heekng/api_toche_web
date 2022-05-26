@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 
 @Entity
@@ -21,9 +22,10 @@ public class Match {
     @Column(name = "victory_match_id")
     private String victoryMatchId;
 
-    @OneToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY, cascade = REMOVE)
     @JoinColumn(name = "match_info_id")
     private MatchInfo matchInfo;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "summoner_id")
     private Summoner summoner;

@@ -28,7 +28,7 @@ public class Unit {
     @Column(name = "tier")
     private Integer tier;
 
-    @OneToMany(mappedBy = "unit", cascade = REMOVE)
+    @OneToMany(mappedBy = "unit")
     private List<MatchUnit> matchUnits = new ArrayList<>();
 
     @Builder
