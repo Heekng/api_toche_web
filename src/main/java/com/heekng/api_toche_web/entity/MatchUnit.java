@@ -24,10 +24,10 @@ public class MatchUnit {
     private Long matchUnitId;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "match_info_id")
+    @JoinColumn(name = "match_info_id", nullable = false)
     private MatchInfo matchInfo;
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "unit_id")
+    @JoinColumn(name = "unit_id", nullable = false)
     private Unit unit;
 
     @OneToMany(mappedBy = "matchUnit", cascade = REMOVE)

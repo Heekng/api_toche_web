@@ -18,9 +18,9 @@ public class Item {
     @GeneratedValue
     @Column(name = "item_id")
     private Long itemId;
-    @Column(name = "num")
+    @Column(name = "num", nullable = false)
     private Integer num;
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @OneToMany(mappedBy = "item")

@@ -22,15 +22,15 @@ public class MatchInfo {
     @GeneratedValue
     @Column(name = "match_info_id")
     private Long matchInfoId;
-    @Column(name = "game_datetime")
+    @Column(name = "game_datetime", nullable = false)
     private LocalDateTime gameDatetime;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "season_id")
+    @JoinColumn(name = "season_id", nullable = false)
     private Season season;
+
     @OneToOne(fetch = LAZY)
     private Match match;
-
     @OneToMany(mappedBy = "matchInfo", cascade = REMOVE)
     private List<MatchUnit> matchUnits = new ArrayList<>();
     @OneToMany(mappedBy = "matchInfo", cascade = REMOVE)

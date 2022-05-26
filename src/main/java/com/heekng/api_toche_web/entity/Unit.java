@@ -23,9 +23,9 @@ public class Unit {
     private Long unitId;
     @Column(name = "rarity")
     private Integer rarity;
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "tier")
+    @Column(name = "tier", nullable = false)
     private Integer tier;
 
     @OneToMany(mappedBy = "unit")

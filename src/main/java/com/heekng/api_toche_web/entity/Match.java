@@ -19,15 +19,15 @@ public class Match {
     @GeneratedValue
     @Column(name = "match_id")
     private Long matchId;
-    @Column(name = "victory_match_id")
+    @Column(name = "victory_match_id", nullable = false)
     private String victoryMatchId;
 
     @OneToOne(fetch = LAZY, cascade = REMOVE)
-    @JoinColumn(name = "match_info_id")
+    @JoinColumn(name = "match_info_id", nullable = false)
     private MatchInfo matchInfo;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "summoner_id")
+    @JoinColumn(name = "summoner_id", nullable = false)
     private Summoner summoner;
 
     @Builder

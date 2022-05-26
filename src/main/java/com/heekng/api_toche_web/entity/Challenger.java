@@ -20,10 +20,10 @@ public class Challenger {
     private Long challengerId;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "challenger_inquiry_id")
+    @JoinColumn(name = "challenger_inquiry_id", nullable = false)
     private ChallengerInquiry challengerInquiry;
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "summoner_id")
+    @JoinColumn(name = "summoner_id", nullable = false)
     private Summoner summoner;
 
     @Builder

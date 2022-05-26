@@ -19,7 +19,7 @@ public class Summoner {
 
     @Id
     @GeneratedValue
-    @Column(name = "summoner_id")
+    @Column(name = "summoner_id", nullable = false)
     private Long summonerId;
     @Column(name = "account_id")
     private String accountId;
@@ -27,11 +27,11 @@ public class Summoner {
     private Long profileIconId;
     @Column(name = "revision_datetime")
     private LocalDateTime revisionDatetime;
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private String id;
-    @Column(name = "puuid")
+    @Column(name = "puuid", nullable = false)
     private String puuid;
     @Column(name = "summoner_level")
     private Long summonerLevel;

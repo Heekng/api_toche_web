@@ -20,11 +20,11 @@ public class MatchItem {
     private Long matchItemId;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "match_unit_id")
+    @JoinColumn(name = "match_unit_id", nullable = false)
     private MatchUnit matchUnit;
 
     @Builder

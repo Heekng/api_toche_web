@@ -18,9 +18,9 @@ public class Trait {
     @GeneratedValue
     @Column(name = "traits_id")
     private Long traitsId;
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "tier_total_count")
+    @Column(name = "tier_total_count", nullable = false)
     private Integer tierTotalCount;
 
     @OneToMany(mappedBy = "trait")

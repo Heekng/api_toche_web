@@ -18,18 +18,18 @@ public class MatchTrait {
     @GeneratedValue
     @Column(name = "match_trait_id")
     private Long matchTraitId;
-    @Column(name = "tier_applied_count")
+    @Column(name = "tier_applied_count", nullable = false)
     private Integer tierAppliedCount;
     @Column(name = "style")
     private Integer style;
-    @Column(name = "unit_count")
+    @Column(name = "unit_count", nullable = false)
     private Integer unitCount;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "match_info_id")
+    @JoinColumn(name = "match_info_id", nullable = false)
     private MatchInfo matchInfo;
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "trait_id")
+    @JoinColumn(name = "trait_id", nullable = false)
     private Trait trait;
 
     @Builder

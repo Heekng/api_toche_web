@@ -18,7 +18,7 @@ public class Season {
     @GeneratedValue
     @Column(name = "season_id")
     private Long seasonId;
-    @Column(name = "season_num")
+    @Column(name = "season_num", nullable = false)
     private String seasonNum;
 
     @OneToMany(mappedBy = "season", cascade = CascadeType.REMOVE)
