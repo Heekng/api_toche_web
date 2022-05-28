@@ -13,6 +13,13 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames = {"summoner_id", "victory_match_id"}
+                )
+        }
+)
 public class Match {
 
     @Id

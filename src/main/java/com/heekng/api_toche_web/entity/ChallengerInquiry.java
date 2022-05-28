@@ -19,7 +19,7 @@ public class ChallengerInquiry {
     @GeneratedValue
     @Column(name = "challenger_inquiry_id")
     private Long challengerInquiryId;
-    @Column(name = "inquiry_datetime", nullable = false)
+    @Column(name = "inquiry_datetime", nullable = false, unique = true)
     private LocalDateTime inquiryDatetime;
 
     @OneToMany(mappedBy = "challengerInquiry", cascade = REMOVE)

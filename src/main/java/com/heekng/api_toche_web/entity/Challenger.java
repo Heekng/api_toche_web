@@ -12,6 +12,13 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames = {"summoner_id", "challenger_inquiry_id"}
+                )
+        }
+)
 public class Challenger {
 
     @Id

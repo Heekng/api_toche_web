@@ -23,7 +23,7 @@ public class Unit {
     private Long unitId;
     @Column(name = "rarity")
     private Integer rarity;
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
     @Column(name = "tier", nullable = false)
     private Integer tier;

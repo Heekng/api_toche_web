@@ -12,6 +12,13 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames = {"num", "name"}
+                )
+        }
+)
 public class Item {
 
     @Id

@@ -15,6 +15,13 @@ import static javax.persistence.CascadeType.REMOVE;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames = {"account_id", "puuid"}
+                )
+        }
+)
 public class Summoner {
 
     @Id
