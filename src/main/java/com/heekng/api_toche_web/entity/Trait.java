@@ -16,7 +16,7 @@ public class Trait {
 
     @Id
     @GeneratedValue
-    @Column(name = "traits_id")
+    @Column(name = "trait_id")
     private Long traitsId;
     @Column(name = "name", nullable = false, unique = true)
     private String name;
