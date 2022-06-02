@@ -1,9 +1,9 @@
-name: api_toche_web
+name: deploy
 
 on:
   push:
     branches:
-      - master
+      - deploy
   workflow_dispatch: #
 
 jobs:
