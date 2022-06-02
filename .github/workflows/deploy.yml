@@ -37,3 +37,15 @@ jobs:
       - name: Show Current Time
         run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}"
         shell: bash
+
+      - name: scp File
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HEEKNG_SSH_HOST }}
+          username: ${{ secrets.HEEKNG_SSH_USERNAME }}
+          key: ${{ secrets.HEEKNG_SSH_KEY }}
+          port: ${{ secrets.HEEKNG_SSH_PORT }}
+          source: "build/libs/*.jar"
+          target: "source"
+
+
