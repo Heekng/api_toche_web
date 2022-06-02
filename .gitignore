@@ -38,3 +38,6 @@ out/
 
 ### Custom ###
 application-real.yml
+
+### querydsl ###
+generated
