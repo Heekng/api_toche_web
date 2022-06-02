@@ -46,6 +46,9 @@ jobs:
           key: ${{ secrets.HEEKNG_SSH_KEY }}
           port: ${{ secrets.HEEKNG_SSH_PORT }}
           source: "build/libs/*.jar"
-          target: "source"
+          target: "/toche_api/source"
+          script: | 
+            cd /toche_api/script
+            sh run_toche.sh
 
 
