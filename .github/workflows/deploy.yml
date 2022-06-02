@@ -45,6 +45,7 @@ jobs:
           username: ${{ secrets.HEEKNG_SSH_USERNAME }}
           key: ${{ secrets.HEEKNG_SSH_KEY }}
           port: ${{ secrets.HEEKNG_SSH_PORT }}
+          passphrase: ${{ secrets.HEEKNG_SSH_PASSPHRASE }}
           source: "build/libs/*.jar"
           target: "source"
 
