@@ -34,7 +34,7 @@ do
   sleep 10
 done
 
-if [$cnt -eq 10]
+if $cnt -eq 10
 then
   echo "deployment failed"
   exit 1
