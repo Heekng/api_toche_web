@@ -1,9 +1,9 @@
-name: api_toche_web
+name: deploy
 
 on:
   push:
     branches:
-      - master
+      - deploy
   workflow_dispatch: #
 
 jobs:
@@ -45,7 +45,7 @@ jobs:
           username: ${{ secrets.HEEKNG_SSH_USERNAME }}
           key: ${{ secrets.HEEKNG_SSH_KEY }}
           port: ${{ secrets.HEEKNG_SSH_PORT }}
-          source: "build/libs/*.jar"
+          source: "build/libs/*.jar,run_toche.sh,Dockerfile,docker-compose.a.yml,docker-compose.b.yml,"
           target: "/toche_api/source"
 
       - name: run toche
@@ -56,7 +56,11 @@ jobs:
           key: ${{ secrets.HEEKNG_SSH_KEY }}
           port: ${{ secrets.HEEKNG_SSH_PORT }}
           script: | 
-            cd /toche_api/script
+            mv /toche_api/source/run_toche.sh /toche 
+            mv /toche_api/source/Dockerfile /toche 
+            mv /toche_api/source/docker-compose.a.yml /toche 
+            mv /toche_api/source/docker-compose.b.yml /toche 
+            cd /toche
             sh run_toche.sh
 
 

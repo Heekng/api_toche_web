@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  api_toche_web:
+    build: .
+    restart: on-failure
+    ports:
+      - 9005:8080
+
+networks:
+  default:
+    external:
+      name: mysql-network
