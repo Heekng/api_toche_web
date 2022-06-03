@@ -57,6 +57,7 @@ jobs:
           port: ${{ secrets.HEEKNG_SSH_PORT }}
           script: | 
             cd /toche_api/source
-            sh run_toche.sh
+            chmod 755 run_toche.sh
+            ./run_toche.sh
 
 
