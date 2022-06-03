@@ -26,6 +26,11 @@ do
   if [ -z "${UP}" ]
   then
     echo "server not start.."
+    if [ $cnt -eq 10 ]
+    then
+      echo "deployment failed"
+      exit 1
+    fi
   else
     break
   fi
@@ -33,12 +38,6 @@ do
   echo "wait 10 seconds"
   sleep 10
 done
-
-if $cnt -eq 10
-then
-  echo "deployment failed"
-  exit 1
-fi
 
 echo "server start"
 
