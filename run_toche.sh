@@ -17,10 +17,7 @@ fi
 
 echo "toche-${START_CONTAINER} up"
 
-NOWDATE=`date`
-CONVERTDATE=$(date +%Y)-$(date +%m)-$(date +%d) $(date +%H):$(date +%M):$(date +%S)
-
-sudo docker-compose -p toche-${START_CONTAINER} -f docker-compose.${START_CONTAINER}.yml up -d --build-arg DEPLOYTIME=${CONVERTDATE}
+sudo docker-compose -p toche-${START_CONTAINER} -f docker-compose.${START_CONTAINER}.yml up -d --build
 
 for cnt in {1..10}
 do
