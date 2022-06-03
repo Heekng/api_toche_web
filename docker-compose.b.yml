@@ -2,7 +2,10 @@ version: "3"
 
 services:
   api_toche_web:
-    build: .
+    build:
+      context: .
+      args:
+        deployTime: "${DEPLOYTIME}"
     restart: on-failure
     ports:
       - 9006:8080
