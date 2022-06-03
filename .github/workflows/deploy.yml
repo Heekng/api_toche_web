@@ -56,11 +56,11 @@ jobs:
           key: ${{ secrets.HEEKNG_SSH_KEY }}
           port: ${{ secrets.HEEKNG_SSH_PORT }}
           script: | 
-            mv /toche_api/source/run_toche.sh /toche 
-            mv /toche_api/source/Dockerfile /toche 
-            mv /toche_api/source/docker-compose.a.yml /toche 
-            mv /toche_api/source/docker-compose.b.yml /toche 
-            cd /toche
+            mv /toche_api/source/run_toche.sh /toche_api
+            mv /toche_api/source/Dockerfile /toche_api
+            mv /toche_api/source/docker-compose.a.yml /toche_api 
+            mv /toche_api/source/docker-compose.b.yml /toche_api 
+            cd /toche_api
             sh run_toche.sh
 
 
