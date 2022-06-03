@@ -1,6 +1,5 @@
 package com.heekng.api_toche_web.repository;
 
-import com.heekng.api_toche_web.entity.ChallengerInquiry;
 import com.heekng.api_toche_web.entity.Summoner;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
