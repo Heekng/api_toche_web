@@ -15,7 +15,7 @@ import static javax.persistence.CascadeType.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Unit {
+public class Unit extends BaseTimeEntity {
 
     @Id
     @GeneratedValue

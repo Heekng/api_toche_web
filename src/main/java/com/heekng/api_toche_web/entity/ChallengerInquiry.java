@@ -13,7 +13,7 @@ import static javax.persistence.CascadeType.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChallengerInquiry {
+public class ChallengerInquiry extends BaseTimeEntity {
 
     @Id
     @GeneratedValue

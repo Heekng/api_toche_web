@@ -20,7 +20,7 @@ import static javax.persistence.FetchType.*;
                 )
         }
 )
-public class Match {
+public class Match extends BaseTimeEntity {
 
     @Id
     @GeneratedValue

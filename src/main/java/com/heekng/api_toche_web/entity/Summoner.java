@@ -22,7 +22,7 @@ import static javax.persistence.CascadeType.REMOVE;
                 )
         }
 )
-public class Summoner {
+public class Summoner extends BaseTimeEntity {
 
     @Id
     @GeneratedValue

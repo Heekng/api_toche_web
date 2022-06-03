@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Trait {
+public class Trait extends BaseTimeEntity {
 
     @Id
     @GeneratedValue

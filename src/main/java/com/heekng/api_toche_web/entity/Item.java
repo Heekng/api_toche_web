@@ -19,7 +19,7 @@ import java.util.List;
                 )
         }
 )
-public class Item {
+public class Item extends BaseTimeEntity {
 
     @Id
     @GeneratedValue

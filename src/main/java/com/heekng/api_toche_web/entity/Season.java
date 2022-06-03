@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Season {
+public class Season extends BaseTimeEntity {
 
     @Id
     @GeneratedValue

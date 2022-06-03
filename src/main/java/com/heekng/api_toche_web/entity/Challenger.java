@@ -19,7 +19,7 @@ import static javax.persistence.FetchType.*;
                 )
         }
 )
-public class Challenger {
+public class Challenger extends BaseTimeEntity{
 
     @Id
     @GeneratedValue

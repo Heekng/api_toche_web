@@ -12,7 +12,7 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MatchTrait {
+public class MatchTrait extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
