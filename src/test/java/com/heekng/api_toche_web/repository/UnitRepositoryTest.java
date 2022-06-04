@@ -42,6 +42,7 @@ class UnitRepositoryTest {
                 .name("testUnit")
                 .tier(1)
                 .season(season)
+                .cost(5)
                 .build();
         unitRepository.save(unit);
     }

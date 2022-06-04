@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -30,7 +31,11 @@ public class Trait {
     private Season season;
 
     @OneToMany(mappedBy = "trait")
+    private List<UnitTrait> unitTraits;
+    @OneToMany(mappedBy = "trait")
     private List<MatchTrait> matchTraits = new ArrayList<>();
+    @OneToMany(mappedBy = "trait", cascade = ALL)
+    private List<TraitSet> traitSets = new ArrayList<>();
 
     @Builder
     public Trait(String name, Integer tierTotalCount, Season season) {

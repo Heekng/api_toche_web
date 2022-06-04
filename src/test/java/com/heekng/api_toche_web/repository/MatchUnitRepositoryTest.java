@@ -66,6 +66,7 @@ class MatchUnitRepositoryTest {
                 .name("testUnit")
                 .tier(1)
                 .season(season)
+                .cost(5)
                 .build();
         em.persist(unit);
 
