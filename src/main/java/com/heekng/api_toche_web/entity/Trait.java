@@ -9,6 +9,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,6 +24,10 @@ public class Trait {
     private String name;
     @Column(name = "tier_total_count", nullable = false)
     private Integer tierTotalCount;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "season_id", nullable = false)
+    private Season season;
 
     @OneToMany(mappedBy = "trait")
     private List<MatchTrait> matchTraits = new ArrayList<>();
