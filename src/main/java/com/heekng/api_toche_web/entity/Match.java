@@ -29,8 +29,7 @@ public class Match {
     @Column(name = "victory_match_id", nullable = false)
     private String victoryMatchId;
 
-    @OneToOne(fetch = LAZY, cascade = REMOVE)
-    @JoinColumn(name = "match_info_id")
+    @OneToOne(mappedBy = "match", fetch = LAZY, cascade = REMOVE)
     private MatchInfo matchInfo;
 
     @ManyToOne(fetch = LAZY)
