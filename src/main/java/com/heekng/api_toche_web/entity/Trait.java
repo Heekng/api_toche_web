@@ -33,8 +33,9 @@ public class Trait {
     private List<MatchTrait> matchTraits = new ArrayList<>();
 
     @Builder
-    public Trait(String name, Integer tierTotalCount) {
+    public Trait(String name, Integer tierTotalCount, Season season) {
         this.name = name;
         this.tierTotalCount = tierTotalCount;
+        this.season = season;
     }
 }

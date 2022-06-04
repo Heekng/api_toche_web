@@ -40,9 +40,10 @@ public class Item {
     private List<MatchItem> matchItems = new ArrayList<>();
 
     @Builder
-    public Item(Integer num, String name) {
+    public Item(Integer num, String name, Season season) {
         this.num = num;
         this.name = name;
+        this.season = season;
     }
 
 }

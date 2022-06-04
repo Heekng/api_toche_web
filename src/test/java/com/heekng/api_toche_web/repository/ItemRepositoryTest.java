@@ -27,12 +27,19 @@ class ItemRepositoryTest {
     ItemRepository itemRepository;
 
     Item item;
+    Season season;
 
     @BeforeEach
     void beforeEach() {
+        season = Season.builder()
+                .seasonNum("testSeasonNum")
+                .build();
+        em.persist(season);
+
         item = Item.builder()
                 .name("itemName")
                 .num(1)
+                .season(season)
                 .build();
         itemRepository.save(item);
     }
