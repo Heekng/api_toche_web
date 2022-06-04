@@ -1,6 +1,7 @@
 package com.heekng.api_toche_web.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,4 +26,9 @@ public class UnitTrait {
     @JoinColumn(name = "trait_id", nullable = false)
     private Trait trait;
 
+    @Builder
+    public UnitTrait(Unit unit, Trait trait) {
+        this.unit = unit;
+        this.trait = trait;
+    }
 }

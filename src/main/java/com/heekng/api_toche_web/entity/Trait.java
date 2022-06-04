@@ -43,4 +43,8 @@ public class Trait {
         this.tierTotalCount = tierTotalCount;
         this.season = season;
     }
+
+    public void addTraitSets(List<TraitSet> traitSets) {
+        this.traitSets.addAll(traitSets);
+    }
 }
