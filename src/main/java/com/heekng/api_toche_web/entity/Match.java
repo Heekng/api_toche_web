@@ -30,7 +30,7 @@ public class Match {
     private String victoryMatchId;
 
     @OneToOne(fetch = LAZY, cascade = REMOVE)
-    @JoinColumn(name = "match_info_id", nullable = false)
+    @JoinColumn(name = "match_info_id")
     private MatchInfo matchInfo;
 
     @ManyToOne(fetch = LAZY)
