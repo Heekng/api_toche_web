@@ -9,6 +9,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,8 +23,14 @@ public class Season extends BaseTimeEntity {
     @Column(name = "season_num", nullable = false, unique = true)
     private String seasonNum;
 
-    @OneToMany(mappedBy = "season", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "season", cascade = REMOVE)
     private List<MatchInfo> matchInfos = new ArrayList<>();
+    @OneToMany(mappedBy = "season", cascade = REMOVE)
+    private List<Unit> units = new ArrayList<>();
+    @OneToMany(mappedBy = "season", cascade = REMOVE)
+    private List<Item> items = new ArrayList<>();
+    @OneToMany(mappedBy = "season", cascade = REMOVE)
+    private List<Trait> traits = new ArrayList<>();
 
     @Builder
     public Season(String seasonNum) {

@@ -2,6 +2,7 @@ package com.heekng.api_toche_web.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -13,7 +14,8 @@ import static javax.persistence.CascadeType.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChallengerInquiry extends BaseTimeEntity {
+@Getter
+public class ChallengerInquiry {
 
     @Id
     @GeneratedValue

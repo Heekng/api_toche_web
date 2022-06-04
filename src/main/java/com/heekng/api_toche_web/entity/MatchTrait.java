@@ -1,5 +1,6 @@
 package com.heekng.api_toche_web.entity;
 
+import com.heekng.api_toche_web.enums.TraitStyle;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,8 +21,9 @@ public class MatchTrait extends BaseTimeEntity {
     private Long matchTraitId;
     @Column(name = "tier_applied_count", nullable = false)
     private Integer tierAppliedCount;
+    @Enumerated(EnumType.STRING)
     @Column(name = "style")
-    private Integer style;
+    private TraitStyle style;
     @Column(name = "unit_count", nullable = false)
     private Integer unitCount;
 
@@ -33,9 +35,9 @@ public class MatchTrait extends BaseTimeEntity {
     private Trait trait;
 
     @Builder
-    public MatchTrait(Integer tierAppliedCount, Integer style, Integer unitCount, MatchInfo matchInfo, Trait trait) {
+    public MatchTrait(Integer tierAppliedCount, Integer styleNum, Integer unitCount, MatchInfo matchInfo, Trait trait) {
         this.tierAppliedCount = tierAppliedCount;
-        this.style = style;
+        this.style = TraitStyle.valueOf("_" + styleNum);
         this.unitCount = unitCount;
         this.matchInfo = matchInfo;
         this.trait = trait;

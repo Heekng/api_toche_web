@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.*;
 
 @Entity
 @Getter
@@ -27,14 +28,25 @@ public class Unit extends BaseTimeEntity {
     private String name;
     @Column(name = "tier", nullable = false)
     private Integer tier;
+    @Column(name = "cost", nullable = false)
+    private Integer cost;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "season_id", nullable = false)
+    private Season season;
+
+    @OneToMany(mappedBy = "unit")
+    private List<UnitTrait> unitTraits;
     @OneToMany(mappedBy = "unit")
     private List<MatchUnit> matchUnits = new ArrayList<>();
 
+
     @Builder
-    public Unit(Integer rarity, String name, Integer tier) {
+    public Unit(Integer rarity, String name, Integer tier, Season season, Integer cost) {
         this.rarity = rarity;
         this.name = name;
         this.tier = tier;
+        this.season = season;
+        this.cost = cost;
     }
 }
