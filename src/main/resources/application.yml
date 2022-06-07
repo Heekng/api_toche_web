@@ -10,6 +10,12 @@ spring:
         format_sql: true
     open-in-view: false # open in view false
 
+  batch:
+    jdbc:
+      initialize-schema: NEVER
+    job:
+      names: ${job.name:NONE}
+
 logging:
   level:
     org:
