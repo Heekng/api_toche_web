@@ -17,8 +17,12 @@ public class BaseTimeEntity {
 
     @CreatedDate
     @Column(updatable = false)
+//    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+//    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime createDate;
 
     @LastModifiedDate
+//    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+//    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime lastModifiedDate;
 }
