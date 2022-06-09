@@ -38,6 +38,8 @@ dependencies {
 
 	// actuator
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	// model mapper
+	implementation 'org.modelmapper:modelmapper:3.1.0'
 }
 
 // jar 생성 해제
