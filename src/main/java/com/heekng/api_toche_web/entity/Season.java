@@ -17,7 +17,7 @@ import static javax.persistence.CascadeType.*;
 public class Season extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "season_id")
     private Long seasonId;
     @Column(name = "season_num", nullable = false, unique = true)

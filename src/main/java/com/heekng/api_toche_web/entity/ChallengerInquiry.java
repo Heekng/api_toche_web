@@ -18,7 +18,7 @@ import static javax.persistence.CascadeType.*;
 public class ChallengerInquiry {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "challenger_inquiry_id")
     private Long challengerInquiryId;
     @Column(name = "inquiry_datetime", nullable = false, unique = true)

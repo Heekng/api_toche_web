@@ -19,7 +19,7 @@ import static javax.persistence.FetchType.*;
 public class MatchUnit extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "match_unit_id")
     private Long matchUnitId;
 

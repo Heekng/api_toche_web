@@ -15,7 +15,7 @@ import static javax.persistence.FetchType.LAZY;
 public class UnitTrait {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "unit_trait_id")
     private Long unitTraitId;
 

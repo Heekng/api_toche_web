@@ -22,7 +22,7 @@ import static javax.persistence.FetchType.*;
 public class Challenger extends BaseTimeEntity{
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "challenger_id")
     private Long challengerId;
 

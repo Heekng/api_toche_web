@@ -18,9 +18,9 @@ import static javax.persistence.FetchType.LAZY;
 public class Trait extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trait_id")
-    private Long traitsId;
+    private Long traitId;
     @Column(name = "name", nullable = false, unique = true)
     private String name;
     @Column(name = "tier_total_count", nullable = false)

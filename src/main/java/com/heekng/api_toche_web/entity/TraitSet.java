@@ -1,10 +1,7 @@
 package com.heekng.api_toche_web.entity;
 
 import com.heekng.api_toche_web.enums.TraitStyle;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,10 +10,11 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class TraitSet {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trait_set_id")
     private Long traitSetId;
     @Enumerated(EnumType.STRING)
