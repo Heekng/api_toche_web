@@ -35,8 +35,8 @@ public class Unit extends BaseTimeEntity {
     @JoinColumn(name = "season_id", nullable = false)
     private Season season;
 
-    @OneToMany(mappedBy = "unit")
-    private List<UnitTrait> unitTraits;
+    @OneToMany(mappedBy = "unit", cascade = ALL)
+    private List<UnitTrait> unitTraits = new ArrayList<>();
     @OneToMany(mappedBy = "unit")
     private List<MatchUnit> matchUnits = new ArrayList<>();
 
@@ -48,5 +48,9 @@ public class Unit extends BaseTimeEntity {
         this.tier = tier;
         this.season = season;
         this.cost = cost;
+    }
+
+    public void addUnitTraits(List<UnitTrait> unitTraits) {
+        this.unitTraits.addAll(unitTraits);
     }
 }
