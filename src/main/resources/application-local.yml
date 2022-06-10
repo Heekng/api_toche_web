@@ -10,3 +10,5 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+path.setPatch: /Users/heekng/heekngCoding/api_toche_web_setPatch/

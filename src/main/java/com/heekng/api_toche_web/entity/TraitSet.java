@@ -1,10 +1,7 @@
 package com.heekng.api_toche_web.entity;
 
 import com.heekng.api_toche_web.enums.TraitStyle;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +10,7 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class TraitSet {
 
     @Id
@@ -28,7 +26,7 @@ public class TraitSet {
     private Integer max;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "trait_id", nullable = false)
+    @JoinColumn(name = "trait_id")
     private Trait trait;
 
     @Builder
