@@ -98,4 +98,14 @@ class TraitRepositoryTest {
         assertThat(findTrait).isNotNull();
         assertThat(traitSet).isNotNull();
     }
+
+    @Test
+    void findBySeasonSeasonIdAndNameContainingTest() throws Exception {
+        //when
+        Trait findTrait = traitRepository.findBySeasonSeasonIdAndNameContaining(season.getSeasonId(), trait.getName());
+        //then
+        assertThat(findTrait).isNotNull();
+        assertThat(findTrait).isEqualTo(trait);
+
+    }
 }

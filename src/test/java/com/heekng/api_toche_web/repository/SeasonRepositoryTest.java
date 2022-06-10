@@ -54,4 +54,14 @@ class SeasonRepositoryTest {
         assertThat(afterDeleteObject).isEmpty();
     }
 
+    @Test
+    void findBySeasonNumTest() throws Exception {
+        //when
+        Optional<Season> findSeason = seasonRepository.findBySeasonNum("testSeason");
+        //then
+        assertThat(findSeason).isNotEmpty();
+        assertThat(findSeason.get()).isEqualTo(season);
+
+    }
+
 }
