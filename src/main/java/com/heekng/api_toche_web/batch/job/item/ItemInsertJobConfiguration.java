@@ -33,8 +33,6 @@ import javax.persistence.EntityManagerFactory;
 @Slf4j
 public class ItemInsertJobConfiguration {
 
-    @Value("${path.setPatch}")
-    private String SET_PATCH_PATH;
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory emf;
