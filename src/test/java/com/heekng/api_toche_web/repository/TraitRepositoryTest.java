@@ -3,6 +3,8 @@ package com.heekng.api_toche_web.repository;
 import com.heekng.api_toche_web.entity.Item;
 import com.heekng.api_toche_web.entity.Season;
 import com.heekng.api_toche_web.entity.Trait;
+import com.heekng.api_toche_web.entity.TraitSet;
+import com.heekng.api_toche_web.enums.TraitStyle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +50,7 @@ class TraitRepositoryTest {
     @Test
     void basicTest() throws Exception {
         // findById
-        Optional<Trait> findByIdObject = traitRepository.findById(trait.getTraitsId());
+        Optional<Trait> findByIdObject = traitRepository.findById(trait.getTraitId());
         assertThat(findByIdObject).isNotEmpty();
         assertThat(findByIdObject.get()).isEqualTo(trait);
 
@@ -59,7 +61,41 @@ class TraitRepositoryTest {
 
         // delete
         traitRepository.delete(trait);
-        Optional<Trait> afterDeleteObject = traitRepository.findById(trait.getTraitsId());
+        Optional<Trait> afterDeleteObject = traitRepository.findById(trait.getTraitId());
         assertThat(afterDeleteObject).isEmpty();
+    }
+
+    @Test
+    void cascadePersistTest() throws Exception {
+        //given
+        Season seasonCascade = Season.builder()
+                .seasonNum("testSeasonNumCascade")
+                .build();
+        em.persist(seasonCascade);
+
+        Trait traitCascade = Trait.builder()
+                .season(season)
+                .name("traitNameCascade")
+                .tierTotalCount(5)
+                .build();
+
+        TraitSet traitSetCascade = TraitSet.builder()
+                .min(1)
+                .max(3)
+                .style(TraitStyle.valueOf("_" + 1))
+                .trait(traitCascade)
+                .build();
+
+        traitCascade.addTraitSets(List.of(traitSetCascade));
+
+        //when
+        traitRepository.save(traitCascade);
+        em.flush();
+        em.clear();
+        //then
+        Trait findTrait = traitRepository.findById(traitCascade.getTraitId()).get();
+        TraitSet traitSet = findTrait.getTraitSets().get(0);
+        assertThat(findTrait).isNotNull();
+        assertThat(traitSet).isNotNull();
     }
 }
