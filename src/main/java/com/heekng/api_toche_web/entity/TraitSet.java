@@ -26,7 +26,7 @@ public class TraitSet {
     private Integer max;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "trait_id")
+    @JoinColumn(name = "trait_id", nullable = false)
     private Trait trait;
 
     @Builder

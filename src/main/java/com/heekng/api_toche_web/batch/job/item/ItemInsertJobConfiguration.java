@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
@@ -23,7 +22,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
 
 import javax.persistence.EntityManagerFactory;
 
@@ -59,7 +57,7 @@ public class ItemInsertJobConfiguration {
     public ItemReader<? extends ItemInsertVO> itemInsertReader() {
         return new JsonItemReaderBuilder<ItemInsertVO>()
                 .name("jsonItemInsertReader")
-                .resource(new ClassPathResource("defaultDatas/items.json"))
+                .resource(new ClassPathResource("set5patch1115/items.json"))
                 .jsonObjectReader(new JacksonJsonObjectReader<>(ItemInsertVO.class))
                 .build();
     }

@@ -9,6 +9,6 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
 
 path.setPatch: /Users/heekng/heekngCoding/api_toche_web_setPatch/

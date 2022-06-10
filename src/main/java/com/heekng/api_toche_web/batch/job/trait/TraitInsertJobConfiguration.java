@@ -1,10 +1,7 @@
 package com.heekng.api_toche_web.batch.job.trait;
 
-import com.heekng.api_toche_web.batch.chunk.processor.ItemInsertProcessor;
 import com.heekng.api_toche_web.batch.chunk.processor.TraitInsertProcessor;
-import com.heekng.api_toche_web.batch.domain.ItemInsertVO;
 import com.heekng.api_toche_web.batch.domain.TraitInsertVO;
-import com.heekng.api_toche_web.entity.Item;
 import com.heekng.api_toche_web.entity.Season;
 import com.heekng.api_toche_web.entity.Trait;
 import com.heekng.api_toche_web.repository.SeasonRepository;
@@ -59,7 +56,7 @@ public class TraitInsertJobConfiguration {
     public ItemReader<? extends TraitInsertVO> traitInsertReader() {
         return new JsonItemReaderBuilder<TraitInsertVO>()
                 .name("jsonTraitInsertReader")
-                .resource(new ClassPathResource("defaultDatas/traits.json"))
+                .resource(new ClassPathResource("set5patch1115/traits.json"))
                 .jsonObjectReader(new JacksonJsonObjectReader<>(TraitInsertVO.class))
                 .build();
     }

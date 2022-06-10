@@ -58,7 +58,7 @@ public class UnitInsertJobConfiguration {
     public ItemReader<? extends UnitInsertVO> unitInsertReader() {
         return new JsonItemReaderBuilder<UnitInsertVO>()
                 .name("jsonUnitInsertReader")
-                .resource(new ClassPathResource("defaultDatas/champions.json"))
+                .resource(new ClassPathResource("set5patch1115/champions.json"))
                 .jsonObjectReader(new JacksonJsonObjectReader<>(UnitInsertVO.class))
                 .build();
     }
