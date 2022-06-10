@@ -12,6 +12,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 
 import javax.persistence.EntityManagerFactory;
 
@@ -31,6 +33,8 @@ import javax.persistence.EntityManagerFactory;
 @Slf4j
 public class ItemInsertJobConfiguration {
 
+    @Value("${path.setPatch}")
+    private String SET_PATCH_PATH;
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory emf;
@@ -44,7 +48,6 @@ public class ItemInsertJobConfiguration {
     }
 
     @Bean
-    @JobScope
     public Step itemInsertStep() {
         return stepBuilderFactory.get("itemInsertStep")
                 .<ItemInsertVO, Item>chunk(10)
@@ -64,8 +67,8 @@ public class ItemInsertJobConfiguration {
     }
 
     @Bean
-    @JobScope
-    public ItemProcessor<? super ItemInsertVO, ? extends Item> itemInsertProcessor(@Value("#{jobParameters['seasonNum']}") String seasonNum) {
+    @StepScope
+    public ItemProcessor<? super ItemInsertVO, ? extends Item> itemInsertProcessor(@Value("#{jobParameters[seasonNum]}") String seasonNum) {
         Season season = seasonRepository.findBySeasonNum(seasonNum).orElseThrow(() -> new IllegalStateException("존재하지 않는 Season입니다."));
         return new ItemInsertProcessor(season);
     }
