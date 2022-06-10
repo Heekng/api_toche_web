@@ -14,7 +14,7 @@ import static javax.persistence.FetchType.*;
 public class TraitSet {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trait_set_id")
     private Long traitSetId;
     @Enumerated(EnumType.STRING)

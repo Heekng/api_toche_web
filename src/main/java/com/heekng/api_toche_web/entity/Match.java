@@ -23,7 +23,7 @@ import static javax.persistence.FetchType.*;
 public class Match extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "match_id")
     private Long matchId;
     @Column(name = "victory_match_id", nullable = false)

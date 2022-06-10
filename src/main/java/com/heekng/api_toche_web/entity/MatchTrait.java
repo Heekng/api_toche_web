@@ -16,7 +16,7 @@ import static javax.persistence.FetchType.*;
 public class MatchTrait extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "match_trait_id")
     private Long matchTraitId;
     @Column(name = "tier_applied_count", nullable = false)

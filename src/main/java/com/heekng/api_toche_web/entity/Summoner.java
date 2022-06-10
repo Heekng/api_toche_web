@@ -25,7 +25,7 @@ import static javax.persistence.CascadeType.REMOVE;
 public class Summoner extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "summoner_id", nullable = false)
     private Long summonerId;
     @Column(name = "account_id")
