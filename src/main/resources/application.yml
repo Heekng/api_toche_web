@@ -1,8 +1,8 @@
 spring:
   profiles:
     group:
-      "local": "local"
-      "real": "real"
+      "local": "local,private"
+      "real": "real,private"
 
   jpa:
     properties:
@@ -15,7 +15,7 @@ spring:
       initialize-schema: NEVER
     job:
       names: ${job.name:NONE}
-      enabled: false # 배치 자동실행 막기
+#      enabled: false # 배치 자동실행 막기
 
 logging:
   level:
