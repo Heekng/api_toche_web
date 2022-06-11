@@ -4,7 +4,6 @@ import com.heekng.api_toche_web.batch.chunk.processor.ApiRankerListProcessor;
 import com.heekng.api_toche_web.batch.dto.LeagueListDTO;
 import com.heekng.api_toche_web.batch.dto.LeagueRankerDTO;
 import com.heekng.api_toche_web.entity.Summoner;
-import com.heekng.api_toche_web.entity.Unit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -14,6 +13,7 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.*;
 import org.springframework.batch.item.database.builder.JpaItemWriterBuilder;
+import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +30,7 @@ public class ApiRankerListJobConfiguration {
     private String RIOTAPI_PATH_RANKER;
     @Value("${riotApi.key}")
     private String RIOTAPI_KEY;
+
     private boolean checkRestCall = false;
     private LeagueListDTO apiResponseLeagueListDTO;
     private Integer apiResponseIndex = 0;
@@ -42,16 +43,29 @@ public class ApiRankerListJobConfiguration {
     public Job apiRankerListJob() {
         return jobBuilderFactory.get("apiRankerListJob")
                 .start(apiRankerListStep())
+                .next(apiRankerListResetStep())
                 .build();
     }
 
     @Bean
     public Step apiRankerListStep() {
         return stepBuilderFactory.get("apiRankerListStep")
-                .<LeagueRankerDTO, Summoner>chunk(1)
+                .<LeagueRankerDTO, Summoner>chunk(10)
                 .reader(apiRankerListReader(null))
                 .processor(apiRankerListProcessor())
                 .writer(apiRankerListWriter())
+                .build();
+    }
+
+    @Bean
+    public Step apiRankerListResetStep() {
+        return stepBuilderFactory.get("apiRankerListResetStep")
+                .tasklet((contribution, chunkContext) -> {
+                    checkRestCall = false;
+                    apiResponseLeagueListDTO = null;
+                    apiResponseIndex = 0;
+                    return RepeatStatus.FINISHED;
+                })
                 .build();
     }
 
@@ -74,7 +88,6 @@ public class ApiRankerListJobConfiguration {
         return new ItemReader<LeagueRankerDTO>() {
             @Override
             public LeagueRankerDTO read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
-
                 if (!checkRestCall) {
                     StringBuilder builder = new StringBuilder();
                     builder.append(RIOTAPI_PATH_RANKER);
@@ -82,7 +95,6 @@ public class ApiRankerListJobConfiguration {
                     builder.append("?");
                     builder.append("api_key=");
                     builder.append(RIOTAPI_KEY);
-                    System.out.println("API CALL!");
                     String uri = builder.toString();
 
                     RestTemplate restTemplate = new RestTemplate();
