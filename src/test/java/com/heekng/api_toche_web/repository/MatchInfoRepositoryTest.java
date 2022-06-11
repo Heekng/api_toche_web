@@ -1,6 +1,6 @@
 package com.heekng.api_toche_web.repository;
 
-import com.heekng.api_toche_web.entity.Match;
+import com.heekng.api_toche_web.entity.TftMatch;
 import com.heekng.api_toche_web.entity.MatchInfo;
 import com.heekng.api_toche_web.entity.Season;
 import com.heekng.api_toche_web.entity.Summoner;
@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -30,7 +29,7 @@ class MatchInfoRepositoryTest {
     MatchInfoRepository matchInfoRepository;
 
     Summoner summoner;
-    Match match;
+    TftMatch match;
     Season season;
     MatchInfo matchInfo;
 
@@ -43,7 +42,7 @@ class MatchInfoRepositoryTest {
                 .build();
         em.persist(summoner);
 
-        match = Match.builder()
+        match = TftMatch.builder()
                 .victoryMatchId("1234567")
                 .summoner(summoner)
                 .build();
@@ -57,7 +56,7 @@ class MatchInfoRepositoryTest {
         LocalDateTime gameDatetime = LocalDateTime.of(2022, 6, 4, 15, 22);
         matchInfo = MatchInfo.builder()
                 .gameDatetime(gameDatetime)
-                .match(match)
+                .tftMatch(match)
                 .season(season)
                 .build();
         matchInfoRepository.save(matchInfo);
@@ -66,7 +65,7 @@ class MatchInfoRepositoryTest {
     @Test
     void basicTest() throws Exception {
         // findById
-        Optional<MatchInfo> findByIdObject = matchInfoRepository.findById(matchInfo.getMatchInfoId());
+        Optional<MatchInfo> findByIdObject = matchInfoRepository.findById(matchInfo.getId());
         assertThat(findByIdObject).isNotEmpty();
         assertThat(findByIdObject.get()).isEqualTo(matchInfo);
 
@@ -77,7 +76,7 @@ class MatchInfoRepositoryTest {
 
         // delete
         matchInfoRepository.delete(matchInfo);
-        Optional<MatchInfo> afterDeleteObject = matchInfoRepository.findById(matchInfo.getMatchInfoId());
+        Optional<MatchInfo> afterDeleteObject = matchInfoRepository.findById(matchInfo.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
 }

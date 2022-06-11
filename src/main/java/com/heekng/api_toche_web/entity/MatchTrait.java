@@ -18,7 +18,7 @@ public class MatchTrait extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "match_trait_id")
-    private Long matchTraitId;
+    private Long id;
     @Column(name = "tier_applied_count", nullable = false)
     private Integer tierAppliedCount;
     @Enumerated(EnumType.STRING)

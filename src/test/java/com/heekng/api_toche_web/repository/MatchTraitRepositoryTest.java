@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -27,7 +26,7 @@ class MatchTraitRepositoryTest {
     MatchTraitRepository matchTraitRepository;
 
     Summoner summoner;
-    Match match;
+    TftMatch match;
     Season season;
     MatchInfo matchInfo;
     Trait trait;
@@ -42,7 +41,7 @@ class MatchTraitRepositoryTest {
                 .build();
         em.persist(summoner);
 
-        match = Match.builder()
+        match = TftMatch.builder()
                 .victoryMatchId("1234567")
                 .summoner(summoner)
                 .build();
@@ -56,7 +55,7 @@ class MatchTraitRepositoryTest {
         LocalDateTime gameDatetime = LocalDateTime.of(2022, 6, 4, 15, 22);
         matchInfo = MatchInfo.builder()
                 .gameDatetime(gameDatetime)
-                .match(match)
+                .tftMatch(match)
                 .season(season)
                 .build();
         em.persist(matchInfo);
@@ -81,7 +80,7 @@ class MatchTraitRepositoryTest {
     @Test
     void basicTest() throws Exception {
         // findById
-        Optional<MatchTrait> findByIdObject = matchTraitRepository.findById(matchTrait.getMatchTraitId());
+        Optional<MatchTrait> findByIdObject = matchTraitRepository.findById(matchTrait.getId());
         assertThat(findByIdObject).isNotEmpty();
         assertThat(findByIdObject.get()).isEqualTo(matchTrait);
 
@@ -92,7 +91,7 @@ class MatchTraitRepositoryTest {
 
         // delete
         matchTraitRepository.delete(matchTrait);
-        Optional<MatchTrait> afterDeleteObject = matchTraitRepository.findById(matchTrait.getMatchTraitId());
+        Optional<MatchTrait> afterDeleteObject = matchTraitRepository.findById(matchTrait.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
 

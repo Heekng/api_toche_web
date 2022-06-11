@@ -19,7 +19,7 @@ public class Season extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "season_id")
-    private Long seasonId;
+    private Long id;
     @Column(name = "season_num", nullable = false, unique = true)
     private String seasonNum;
 

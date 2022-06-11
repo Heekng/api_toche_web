@@ -1,7 +1,6 @@
 package com.heekng.api_toche_web.repository;
 
 import com.heekng.api_toche_web.entity.ChallengerInquiry;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -35,7 +33,7 @@ class ChallengerInquiryRepositoryTest {
         // save
         challengerInquiryRepository.save(challengerInquiry);
 
-        Optional<ChallengerInquiry> findByIdObject = challengerInquiryRepository.findById(challengerInquiry.getChallengerInquiryId());
+        Optional<ChallengerInquiry> findByIdObject = challengerInquiryRepository.findById(challengerInquiry.getId());
         assertThat(findByIdObject).isNotEmpty();
         assertThat(findByIdObject.get()).isEqualTo(challengerInquiry);
 
@@ -44,7 +42,7 @@ class ChallengerInquiryRepositoryTest {
         assertThat(findAllObject.size()).isEqualTo(1);
 
         challengerInquiryRepository.delete(challengerInquiry);
-        Optional<ChallengerInquiry> afterDeleteObject = challengerInquiryRepository.findById(challengerInquiry.getChallengerInquiryId());
+        Optional<ChallengerInquiry> afterDeleteObject = challengerInquiryRepository.findById(challengerInquiry.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
 }

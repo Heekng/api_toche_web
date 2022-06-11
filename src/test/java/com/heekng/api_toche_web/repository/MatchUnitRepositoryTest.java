@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -27,7 +26,7 @@ class MatchUnitRepositoryTest {
     MatchUnitRepository matchUnitRepository;
 
     Summoner summoner;
-    Match match;
+    TftMatch match;
     Season season;
     MatchInfo matchInfo;
     Unit unit;
@@ -42,7 +41,7 @@ class MatchUnitRepositoryTest {
                 .build();
         em.persist(summoner);
 
-        match = Match.builder()
+        match = TftMatch.builder()
                 .victoryMatchId("1234567")
                 .summoner(summoner)
                 .build();
@@ -56,7 +55,7 @@ class MatchUnitRepositoryTest {
         LocalDateTime gameDatetime = LocalDateTime.of(2022, 6, 4, 15, 22);
         matchInfo = MatchInfo.builder()
                 .gameDatetime(gameDatetime)
-                .match(match)
+                .tftMatch(match)
                 .season(season)
                 .build();
         em.persist(matchInfo);
@@ -80,7 +79,7 @@ class MatchUnitRepositoryTest {
     @Test
     void basicTest() throws Exception {
         // findById
-        Optional<MatchUnit> findByIdObject = matchUnitRepository.findById(matchUnit.getMatchUnitId());
+        Optional<MatchUnit> findByIdObject = matchUnitRepository.findById(matchUnit.getId());
         assertThat(findByIdObject).isNotEmpty();
         assertThat(findByIdObject.get()).isEqualTo(matchUnit);
 
@@ -91,7 +90,7 @@ class MatchUnitRepositoryTest {
 
         // delete
         matchUnitRepository.delete(matchUnit);
-        Optional<MatchUnit> afterDeleteObject = matchUnitRepository.findById(matchUnit.getMatchUnitId());
+        Optional<MatchUnit> afterDeleteObject = matchUnitRepository.findById(matchUnit.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
 }

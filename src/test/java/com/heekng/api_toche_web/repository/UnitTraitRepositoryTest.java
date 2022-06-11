@@ -1,7 +1,6 @@
 package com.heekng.api_toche_web.repository;
 
 import com.heekng.api_toche_web.entity.*;
-import com.heekng.api_toche_web.enums.TraitStyle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -64,7 +62,7 @@ class UnitTraitRepositoryTest {
     @Test
     void basicTest() throws Exception {
         // findById
-        Optional<UnitTrait> findByIdObject = unitTraitRepository.findById(unitTrait.getUnitTraitId());
+        Optional<UnitTrait> findByIdObject = unitTraitRepository.findById(unitTrait.getId());
         assertThat(findByIdObject).isNotEmpty();
         assertThat(findByIdObject.get()).isEqualTo(unitTrait);
 
@@ -75,7 +73,7 @@ class UnitTraitRepositoryTest {
 
         // delete
         unitTraitRepository.delete(unitTrait);
-        Optional<UnitTrait> afterDeleteObject = unitTraitRepository.findById(unitTrait.getUnitTraitId());
+        Optional<UnitTrait> afterDeleteObject = unitTraitRepository.findById(unitTrait.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
 }

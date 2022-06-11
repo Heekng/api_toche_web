@@ -1,8 +1,8 @@
 spring:
   profiles:
     group:
-      "local": "local"
-      "real": "real"
+      "local": "local,private"
+      "real": "real,private"
 
   jpa:
     properties:

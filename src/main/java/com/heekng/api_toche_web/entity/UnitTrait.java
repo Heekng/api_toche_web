@@ -17,7 +17,7 @@ public class UnitTrait {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "unit_trait_id")
-    private Long unitTraitId;
+    private Long id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "unit_id", nullable = false)

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 
 @Entity
@@ -15,27 +16,31 @@ import static javax.persistence.FetchType.*;
 @Table(
         uniqueConstraints = {
                 @UniqueConstraint(
-                        columnNames = {"summoner_id", "challenger_inquiry_id"}
+                        columnNames = {"summoner_id", "victory_match_id"}
                 )
         }
 )
-public class Challenger extends BaseTimeEntity{
+public class TftMatch extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "challenger_id")
+    @Column(name = "tft_match_id")
     private Long id;
+    @Column(name = "victory_match_id", nullable = false)
+    private String victoryMatchId;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "challenger_inquiry_id", nullable = false)
-    private ChallengerInquiry challengerInquiry;
+    @OneToOne(mappedBy = "tftMatch", fetch = LAZY, cascade = REMOVE)
+    private MatchInfo matchInfo;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "summoner_id", nullable = false)
     private Summoner summoner;
 
     @Builder
-    public Challenger(ChallengerInquiry challengerInquiry, Summoner summoner) {
-        this.challengerInquiry = challengerInquiry;
+    public TftMatch(Long matchId, String victoryMatchId, MatchInfo matchInfo, Summoner summoner) {
+        this.id = matchId;
+        this.victoryMatchId = victoryMatchId;
+        this.matchInfo = matchInfo;
         this.summoner = summoner;
     }
 }

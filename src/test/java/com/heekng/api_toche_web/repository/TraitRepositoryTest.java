@@ -1,6 +1,5 @@
 package com.heekng.api_toche_web.repository;
 
-import com.heekng.api_toche_web.entity.Item;
 import com.heekng.api_toche_web.entity.Season;
 import com.heekng.api_toche_web.entity.Trait;
 import com.heekng.api_toche_web.entity.TraitSet;
@@ -18,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -50,7 +48,7 @@ class TraitRepositoryTest {
     @Test
     void basicTest() throws Exception {
         // findById
-        Optional<Trait> findByIdObject = traitRepository.findById(trait.getTraitId());
+        Optional<Trait> findByIdObject = traitRepository.findById(trait.getId());
         assertThat(findByIdObject).isNotEmpty();
         assertThat(findByIdObject.get()).isEqualTo(trait);
 
@@ -61,7 +59,7 @@ class TraitRepositoryTest {
 
         // delete
         traitRepository.delete(trait);
-        Optional<Trait> afterDeleteObject = traitRepository.findById(trait.getTraitId());
+        Optional<Trait> afterDeleteObject = traitRepository.findById(trait.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
 
@@ -93,7 +91,7 @@ class TraitRepositoryTest {
         em.flush();
         em.clear();
         //then
-        Trait findTrait = traitRepository.findById(traitCascade.getTraitId()).get();
+        Trait findTrait = traitRepository.findById(traitCascade.getId()).get();
         TraitSet traitSet = findTrait.getTraitSets().get(0);
         assertThat(findTrait).isNotNull();
         assertThat(traitSet).isNotNull();
@@ -102,7 +100,7 @@ class TraitRepositoryTest {
     @Test
     void findBySeasonSeasonIdAndNameContainingTest() throws Exception {
         //when
-        Trait findTrait = traitRepository.findBySeasonSeasonIdAndNameContaining(season.getSeasonId(), trait.getName());
+        Trait findTrait = traitRepository.findBySeasonIdAndNameContaining(season.getId(), trait.getName());
         //then
         assertThat(findTrait).isNotNull();
         assertThat(findTrait).isEqualTo(trait);

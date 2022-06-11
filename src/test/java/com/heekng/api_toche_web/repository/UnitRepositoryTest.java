@@ -1,6 +1,5 @@
 package com.heekng.api_toche_web.repository;
 
-import com.heekng.api_toche_web.entity.Item;
 import com.heekng.api_toche_web.entity.Season;
 import com.heekng.api_toche_web.entity.Unit;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -50,7 +48,7 @@ class UnitRepositoryTest {
     @Test
     void basicTest() throws Exception {
         // findById
-        Optional<Unit> findByIdObject = unitRepository.findById(unit.getUnitId());
+        Optional<Unit> findByIdObject = unitRepository.findById(unit.getId());
         assertThat(findByIdObject).isNotEmpty();
         assertThat(findByIdObject.get()).isEqualTo(unit);
 
@@ -61,7 +59,7 @@ class UnitRepositoryTest {
 
         // delete
         unitRepository.delete(unit);
-        Optional<Unit> afterDeleteObject = unitRepository.findById(unit.getUnitId());
+        Optional<Unit> afterDeleteObject = unitRepository.findById(unit.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
 

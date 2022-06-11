@@ -22,8 +22,8 @@ public class UnitInsertProcessor implements ItemProcessor<UnitInsertVO, Unit> {
         Unit unit = unitInsertVO.toEntity(season);
         List<UnitTrait> unitTraits = unitInsertVO.getTraits().stream()
                 .map(traitName ->
-                        traitRepository.findBySeasonSeasonIdAndNameContaining(
-                                season.getSeasonId(),
+                        traitRepository.findBySeasonIdAndNameContaining(
+                                season.getId(),
                                 traitName.substring(traitName.indexOf("_") + 1)
                         )
                 ).map(trait ->

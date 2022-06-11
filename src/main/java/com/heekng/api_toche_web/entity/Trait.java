@@ -20,7 +20,7 @@ public class Trait extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trait_id")
-    private Long traitId;
+    private Long id;
     @Column(name = "name", nullable = false, unique = true)
     private String name;
     @Column(name = "tier_total_count", nullable = false)
