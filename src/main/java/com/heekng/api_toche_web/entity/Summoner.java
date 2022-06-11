@@ -38,7 +38,7 @@ public class Summoner extends BaseTimeEntity {
     private String name;
     @Column(name = "id", nullable = false)
     private String id;
-    @Column(name = "puuid", nullable = false)
+    @Column(name = "puuid")
     private String puuid;
     @Column(name = "summoner_level")
     private Long summonerLevel;
