@@ -15,13 +15,6 @@ import static javax.persistence.CascadeType.REMOVE;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        columnNames = {"account_id", "puuid"}
-                )
-        }
-)
 public class Summoner extends BaseTimeEntity {
 
     @Id
@@ -36,7 +29,7 @@ public class Summoner extends BaseTimeEntity {
     private LocalDateTime revisionDatetime;
     @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "id", nullable = false)
+    @Column(name = "id", nullable = false, unique = true)
     private String id;
     @Column(name = "puuid")
     private String puuid;
