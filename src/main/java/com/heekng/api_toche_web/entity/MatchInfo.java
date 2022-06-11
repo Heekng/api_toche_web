@@ -29,8 +29,8 @@ public class MatchInfo extends BaseTimeEntity {
     @JoinColumn(name = "season_id", nullable = false)
     private Season season;
     @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "match_id")
-    private Match match;
+    @JoinColumn(name = "tft_match_id")
+    private TftMatch tftMatch;
 
     @OneToMany(mappedBy = "matchInfo", cascade = REMOVE)
     private List<MatchUnit> matchUnits = new ArrayList<>();
@@ -38,9 +38,9 @@ public class MatchInfo extends BaseTimeEntity {
     private List<MatchTrait> matchTraits = new ArrayList<>();
 
     @Builder
-    public MatchInfo(LocalDateTime gameDatetime, Season season, Match match) {
+    public MatchInfo(LocalDateTime gameDatetime, Season season, TftMatch tftMatch) {
         this.gameDatetime = gameDatetime;
         this.season = season;
-        this.match = match;
+        this.tftMatch = tftMatch;
     }
 }

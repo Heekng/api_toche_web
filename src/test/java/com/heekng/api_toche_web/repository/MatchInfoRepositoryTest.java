@@ -1,6 +1,6 @@
 package com.heekng.api_toche_web.repository;
 
-import com.heekng.api_toche_web.entity.Match;
+import com.heekng.api_toche_web.entity.TftMatch;
 import com.heekng.api_toche_web.entity.MatchInfo;
 import com.heekng.api_toche_web.entity.Season;
 import com.heekng.api_toche_web.entity.Summoner;
@@ -29,7 +29,7 @@ class MatchInfoRepositoryTest {
     MatchInfoRepository matchInfoRepository;
 
     Summoner summoner;
-    Match match;
+    TftMatch match;
     Season season;
     MatchInfo matchInfo;
 
@@ -42,7 +42,7 @@ class MatchInfoRepositoryTest {
                 .build();
         em.persist(summoner);
 
-        match = Match.builder()
+        match = TftMatch.builder()
                 .victoryMatchId("1234567")
                 .summoner(summoner)
                 .build();
@@ -56,7 +56,7 @@ class MatchInfoRepositoryTest {
         LocalDateTime gameDatetime = LocalDateTime.of(2022, 6, 4, 15, 22);
         matchInfo = MatchInfo.builder()
                 .gameDatetime(gameDatetime)
-                .match(match)
+                .tftMatch(match)
                 .season(season)
                 .build();
         matchInfoRepository.save(matchInfo);

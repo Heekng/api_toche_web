@@ -39,7 +39,7 @@ public class Summoner extends BaseTimeEntity {
     @OneToMany(mappedBy = "summoner", cascade = REMOVE)
     private List<Challenger> challengers = new ArrayList<>();
     @OneToMany(mappedBy = "summoner", cascade = REMOVE)
-    private List<Match> matches = new ArrayList<>();
+    private List<TftMatch> tftMatches = new ArrayList<>();
 
     public Summoner updateRiotSummonerName(String riotSummonerName) {
         this.riotSummonerName = riotSummonerName;

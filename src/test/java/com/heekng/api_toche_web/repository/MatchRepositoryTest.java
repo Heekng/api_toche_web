@@ -1,6 +1,6 @@
 package com.heekng.api_toche_web.repository;
 
-import com.heekng.api_toche_web.entity.Match;
+import com.heekng.api_toche_web.entity.TftMatch;
 import com.heekng.api_toche_web.entity.Summoner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ class MatchRepositoryTest {
     MatchRepository matchRepository;
 
     Summoner summoner;
-    Match match;
+    TftMatch match;
 
     @BeforeEach
     void beforeEach() {
@@ -36,7 +36,7 @@ class MatchRepositoryTest {
                 .build();
         em.persist(summoner);
 
-        match = Match.builder()
+        match = TftMatch.builder()
                 .victoryMatchId("1234567")
                 .summoner(summoner)
                 .build();
@@ -46,18 +46,18 @@ class MatchRepositoryTest {
     @Test
     void basicTest() throws Exception {
         // findById
-        Optional<Match> findByIdObject = matchRepository.findById(match.getId());
+        Optional<TftMatch> findByIdObject = matchRepository.findById(match.getId());
         assertThat(findByIdObject).isNotEmpty();
         assertThat(findByIdObject.get()).isEqualTo(match);
 
         // findAll
-        List<Match> findAllObject = matchRepository.findAll();
+        List<TftMatch> findAllObject = matchRepository.findAll();
         assertThat(findAllObject).isNotEmpty();
         assertThat(findAllObject.size()).isEqualTo(1);
 
         // delete
         matchRepository.delete(match);
-        Optional<Match> afterDeleteObject = matchRepository.findById(match.getId());
+        Optional<TftMatch> afterDeleteObject = matchRepository.findById(match.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
 }

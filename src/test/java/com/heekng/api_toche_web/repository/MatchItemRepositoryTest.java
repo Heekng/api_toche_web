@@ -26,7 +26,7 @@ class MatchItemRepositoryTest {
     MatchItemRepository matchItemRepository;
 
     Summoner summoner;
-    Match match;
+    TftMatch match;
     Season season;
     MatchInfo matchInfo;
     Unit unit;
@@ -43,7 +43,7 @@ class MatchItemRepositoryTest {
                 .build();
         em.persist(summoner);
 
-        match = Match.builder()
+        match = TftMatch.builder()
                 .victoryMatchId("1234567")
                 .summoner(summoner)
                 .build();
@@ -57,7 +57,7 @@ class MatchItemRepositoryTest {
         LocalDateTime gameDatetime = LocalDateTime.of(2022, 6, 4, 15, 22);
         matchInfo = MatchInfo.builder()
                 .gameDatetime(gameDatetime)
-                .match(match)
+                .tftMatch(match)
                 .season(season)
                 .build();
         em.persist(matchInfo);
