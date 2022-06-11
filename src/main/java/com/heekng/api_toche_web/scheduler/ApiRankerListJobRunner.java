@@ -19,13 +19,13 @@ public class ApiRankerListJobRunner extends JobRunner {
     @Override
     protected void doRun(ApplicationArguments args) {
         JobDetail jobDetailChallenger = buildJobDetail(ApiRankerListChallengerSchJob.class, "ApiRankerListChallengerJob", "batch", new HashMap<>());
-        Trigger triggerChallenger = buildJobTrigger("0 13 * * * ?");
+        Trigger triggerChallenger = buildJobTrigger("0 0 * * * ?");
 
         JobDetail jobDetailGrandmaster = buildJobDetail(ApiRankerListGrandmasterSchJob.class, "ApiRankerListGrandmasterJob", "batch", new HashMap<>());
-        Trigger triggerGrandmaster = buildJobTrigger("0 22 * * * ?");
+        Trigger triggerGrandmaster = buildJobTrigger("0 5 * * * ?");
 
         JobDetail jobDetailMaster = buildJobDetail(ApiRankerListMasterSchJob.class, "ApiRankerListMasterJob", "batch", new HashMap<>());
-        Trigger triggerMaster = buildJobTrigger("0 15 * * * ?");
+        Trigger triggerMaster = buildJobTrigger("0 10 * * * ?");
 
         try {
             scheduler.scheduleJob(jobDetailChallenger, triggerChallenger);

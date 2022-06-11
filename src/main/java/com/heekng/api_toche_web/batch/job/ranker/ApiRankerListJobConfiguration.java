@@ -38,6 +38,7 @@ public class ApiRankerListJobConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory emf;
+    private final ApiRankerListProcessor apiRankerListProcessor;
 
     @Bean
     public Job apiRankerListJob() {
@@ -52,7 +53,7 @@ public class ApiRankerListJobConfiguration {
         return stepBuilderFactory.get("apiRankerListStep")
                 .<LeagueRankerDTO, Summoner>chunk(10)
                 .reader(apiRankerListReader(null))
-                .processor(apiRankerListProcessor())
+                .processor(apiRankerListProcessor)
                 .writer(apiRankerListWriter())
                 .build();
     }
@@ -73,14 +74,9 @@ public class ApiRankerListJobConfiguration {
     public ItemWriter<? super Summoner> apiRankerListWriter() {
         return new JpaItemWriterBuilder<Summoner>()
                 .entityManagerFactory(emf)
+                .usePersist(false)
                 .build();
     }
-
-    @Bean
-    public ItemProcessor<? super LeagueRankerDTO, ? extends Summoner> apiRankerListProcessor() {
-        return new ApiRankerListProcessor();
-    }
-
 
     @Bean
     @StepScope
