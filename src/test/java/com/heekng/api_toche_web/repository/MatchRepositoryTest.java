@@ -1,6 +1,5 @@
 package com.heekng.api_toche_web.repository;
 
-import com.heekng.api_toche_web.entity.Challenger;
 import com.heekng.api_toche_web.entity.Match;
 import com.heekng.api_toche_web.entity.Summoner;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -48,7 +46,7 @@ class MatchRepositoryTest {
     @Test
     void basicTest() throws Exception {
         // findById
-        Optional<Match> findByIdObject = matchRepository.findById(match.getMatchId());
+        Optional<Match> findByIdObject = matchRepository.findById(match.getId());
         assertThat(findByIdObject).isNotEmpty();
         assertThat(findByIdObject.get()).isEqualTo(match);
 
@@ -59,7 +57,7 @@ class MatchRepositoryTest {
 
         // delete
         matchRepository.delete(match);
-        Optional<Match> afterDeleteObject = matchRepository.findById(match.getMatchId());
+        Optional<Match> afterDeleteObject = matchRepository.findById(match.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
 }

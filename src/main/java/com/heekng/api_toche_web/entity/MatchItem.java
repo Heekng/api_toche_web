@@ -17,7 +17,7 @@ public class MatchItem extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "match_item_id")
-    private Long matchItemId;
+    private Long id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "item_id", nullable = false)

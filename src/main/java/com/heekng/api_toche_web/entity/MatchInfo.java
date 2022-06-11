@@ -21,7 +21,7 @@ public class MatchInfo extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "match_info_id")
-    private Long matchInfoId;
+    private Long id;
     @Column(name = "game_datetime", nullable = false)
     private LocalDateTime gameDatetime;
 

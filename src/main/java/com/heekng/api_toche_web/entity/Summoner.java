@@ -20,17 +20,17 @@ public class Summoner extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "summoner_id", nullable = false)
-    private Long summonerId;
+    private Long id;
     @Column(name = "account_id")
     private String accountId;
     @Column(name = "profile_icon_id")
     private Long profileIconId;
     @Column(name = "revision_datetime")
     private LocalDateTime revisionDatetime;
-    @Column(name = "name", nullable = false)
-    private String name;
-    @Column(name = "id", nullable = false, unique = true)
-    private String id;
+    @Column(name = "riot_summoner_name", nullable = false)
+    private String riotSummonerName;
+    @Column(name = "riot_summoner_id", nullable = false, unique = true)
+    private String riotSummonerId;
     @Column(name = "puuid")
     private String puuid;
     @Column(name = "summoner_level")
@@ -46,8 +46,8 @@ public class Summoner extends BaseTimeEntity {
         this.accountId = accountId;
         this.profileIconId = profileIconId;
         this.revisionDatetime = revisionDatetime;
-        this.name = name;
-        this.id = id;
+        this.riotSummonerName = name;
+        this.riotSummonerId = id;
         this.puuid = puuid;
         this.summonerLevel = summonerLevel;
     }

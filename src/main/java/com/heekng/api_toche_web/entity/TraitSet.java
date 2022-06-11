@@ -16,7 +16,7 @@ public class TraitSet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trait_set_id")
-    private Long traitSetId;
+    private Long id;
     @Enumerated(EnumType.STRING)
     @Column(name = "style")
     private TraitStyle style;

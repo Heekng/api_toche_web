@@ -10,7 +10,11 @@ spring:
       initialize-schema: NEVER
     job:
       names: ${job.name:NONE}
+      enabled: false # 배치 자동실행 막기
 
 logging:
   level:
     org.hibernate.SQL: debug # 임시로 로그 남김
+
+riotApi.path.ranker: null
+riotApi.key: null

@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -47,7 +46,7 @@ class ItemRepositoryTest {
     @Test
     void basicTest() throws Exception {
         // findById
-        Optional<Item> findByIdObject = itemRepository.findById(item.getItemId());
+        Optional<Item> findByIdObject = itemRepository.findById(item.getId());
         assertThat(findByIdObject).isNotEmpty();
         assertThat(findByIdObject.get()).isEqualTo(item);
 
@@ -58,7 +57,7 @@ class ItemRepositoryTest {
 
         // delete
         itemRepository.delete(item);
-        Optional<Item> afterDeleteObject = itemRepository.findById(item.getItemId());
+        Optional<Item> afterDeleteObject = itemRepository.findById(item.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
 }

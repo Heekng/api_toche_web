@@ -25,7 +25,7 @@ public class Match extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "match_id")
-    private Long matchId;
+    private Long id;
     @Column(name = "victory_match_id", nullable = false)
     private String victoryMatchId;
 
@@ -38,7 +38,7 @@ public class Match extends BaseTimeEntity {
 
     @Builder
     public Match(Long matchId, String victoryMatchId, MatchInfo matchInfo, Summoner summoner) {
-        this.matchId = matchId;
+        this.id = matchId;
         this.victoryMatchId = victoryMatchId;
         this.matchInfo = matchInfo;
         this.summoner = summoner;

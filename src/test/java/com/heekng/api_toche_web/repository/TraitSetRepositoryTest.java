@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -58,7 +57,7 @@ class TraitSetRepositoryTest {
     @Test
     void basicTest() throws Exception {
         // findById
-        Optional<TraitSet> findByIdObject = traitSetRepository.findById(traitSet.getTraitSetId());
+        Optional<TraitSet> findByIdObject = traitSetRepository.findById(traitSet.getId());
         assertThat(findByIdObject).isNotEmpty();
         assertThat(findByIdObject.get()).isEqualTo(traitSet);
 
@@ -69,7 +68,7 @@ class TraitSetRepositoryTest {
 
         // delete
         traitSetRepository.delete(traitSet);
-        Optional<TraitSet> afterDeleteObject = traitSetRepository.findById(traitSet.getTraitSetId());
+        Optional<TraitSet> afterDeleteObject = traitSetRepository.findById(traitSet.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
 

@@ -20,7 +20,7 @@ public class ChallengerInquiry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "challenger_inquiry_id")
-    private Long challengerInquiryId;
+    private Long id;
     @Column(name = "inquiry_datetime", nullable = false, unique = true)
     private LocalDateTime inquiryDatetime;
 

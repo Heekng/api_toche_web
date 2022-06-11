@@ -21,7 +21,7 @@ public class Unit extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "unit_id")
-    private Long unitId;
+    private Long id;
     @Column(name = "rarity")
     private Integer rarity;
     @Column(name = "name", nullable = false, unique = true)
