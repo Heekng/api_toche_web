@@ -16,30 +16,31 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MatchInfo {
+public class MatchInfo extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "match_info_id")
-    private Long matchInfoId;
+    private Long id;
     @Column(name = "game_datetime", nullable = false)
     private LocalDateTime gameDatetime;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "season_id", nullable = false)
     private Season season;
-
     @OneToOne(fetch = LAZY)
-    private Match match;
+    @JoinColumn(name = "tft_match_id")
+    private TftMatch tftMatch;
+
     @OneToMany(mappedBy = "matchInfo", cascade = REMOVE)
     private List<MatchUnit> matchUnits = new ArrayList<>();
     @OneToMany(mappedBy = "matchInfo", cascade = REMOVE)
     private List<MatchTrait> matchTraits = new ArrayList<>();
 
     @Builder
-    public MatchInfo(LocalDateTime gameDatetime, Season season, Match match) {
+    public MatchInfo(LocalDateTime gameDatetime, Season season, TftMatch tftMatch) {
         this.gameDatetime = gameDatetime;
         this.season = season;
-        this.match = match;
+        this.tftMatch = tftMatch;
     }
 }

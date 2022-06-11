@@ -20,17 +20,16 @@ import static javax.persistence.FetchType.*;
                 )
         }
 )
-public class Match {
+public class TftMatch extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
-    @Column(name = "match_id")
-    private Long matchId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tft_match_id")
+    private Long id;
     @Column(name = "victory_match_id", nullable = false)
     private String victoryMatchId;
 
-    @OneToOne(fetch = LAZY, cascade = REMOVE)
-    @JoinColumn(name = "match_info_id", nullable = false)
+    @OneToOne(mappedBy = "tftMatch", fetch = LAZY, cascade = REMOVE)
     private MatchInfo matchInfo;
 
     @ManyToOne(fetch = LAZY)
@@ -38,8 +37,8 @@ public class Match {
     private Summoner summoner;
 
     @Builder
-    public Match(Long matchId, String victoryMatchId, MatchInfo matchInfo, Summoner summoner) {
-        this.matchId = matchId;
+    public TftMatch(Long matchId, String victoryMatchId, MatchInfo matchInfo, Summoner summoner) {
+        this.id = matchId;
         this.victoryMatchId = victoryMatchId;
         this.matchInfo = matchInfo;
         this.summoner = summoner;

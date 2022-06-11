@@ -12,12 +12,12 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MatchItem {
+public class MatchItem extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "match_item_id")
-    private Long matchItemId;
+    private Long id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "item_id", nullable = false)

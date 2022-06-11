@@ -2,6 +2,7 @@ package com.heekng.api_toche_web.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -13,12 +14,13 @@ import static javax.persistence.CascadeType.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class ChallengerInquiry {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "challenger_inquiry_id")
-    private Long challengerInquiryId;
+    private Long id;
     @Column(name = "inquiry_datetime", nullable = false, unique = true)
     private LocalDateTime inquiryDatetime;
 

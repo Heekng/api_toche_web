@@ -19,12 +19,12 @@ import static javax.persistence.FetchType.*;
                 )
         }
 )
-public class Challenger {
+public class Challenger extends BaseTimeEntity{
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "challenger_id")
-    private Long challengerId;
+    private Long id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "challenger_inquiry_id", nullable = false)
