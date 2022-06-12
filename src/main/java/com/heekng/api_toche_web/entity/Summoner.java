@@ -1,12 +1,15 @@
 package com.heekng.api_toche_web.entity;
 
+import com.heekng.api_toche_web.batch.dto.SummonerDetailDTO;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +47,14 @@ public class Summoner extends BaseTimeEntity {
     public Summoner updateRiotSummonerName(String riotSummonerName) {
         this.riotSummonerName = riotSummonerName;
         return this;
+    }
+
+    public void updateBySummonerDetailDto(SummonerDetailDTO summonerDetailDTO) {
+        this.accountId = summonerDetailDTO.getAccountId();
+        this.puuid = summonerDetailDTO.getPuuid();
+        this.profileIconId = summonerDetailDTO.getProfileIconId();
+        this.revisionDatetime = LocalDateTime.ofInstant(Instant.ofEpochMilli(summonerDetailDTO.getRevisionDate()), ZoneId.systemDefault());
+        this.summonerLevel = summonerDetailDTO.getSummonerLevel();
     }
 
     @Builder
