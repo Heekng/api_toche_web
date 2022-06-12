@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,6 +50,7 @@ public class ApiRankerListChallengerSchJob extends QuartzJobBean {
 
         JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
         JobParameters jobParameters = jobParametersBuilder
+                .addLong("id", new Date().getTime())
                 .addString("runDate", dateString)
                 .addString("tierName", TIER_NAME)
                 .toJobParameters();
