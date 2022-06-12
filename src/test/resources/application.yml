@@ -16,5 +16,8 @@ logging:
   level:
     org.hibernate.SQL: debug # 임시로 로그 남김
 
-riotApi.path.ranker: null
-riotApi.key: null
+riotApi:
+  key: null
+  path:
+    ranker: null
+    summonerDetail: null
