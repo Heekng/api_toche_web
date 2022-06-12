@@ -19,7 +19,7 @@ public class ApiMatchListJobRunner extends JobRunner {
     @Override
     protected void doRun(ApplicationArguments args) {
         JobDetail jobDetailMaster = buildJobDetail(ApiMatchListSchJob.class, "ApiMathListSchJob", "batch", new HashMap<>());
-        Trigger triggerMaster = buildJobTrigger("0 10 * * * ?");
+        Trigger triggerMaster = buildJobTrigger("0 13 * * * ?");
 
         try {
             scheduler.scheduleJob(jobDetailMaster, triggerMaster);

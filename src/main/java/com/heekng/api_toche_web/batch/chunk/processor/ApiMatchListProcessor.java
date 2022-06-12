@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,15 +40,21 @@ public class ApiMatchListProcessor implements ItemProcessor<Summoner, List<TftMa
 
         RestTemplate restTemplate = new RestTemplate();
         List<String> matchList = restTemplate.getForObject(uri, List.class);
+        List<TftMatch> tftMatchList = new ArrayList<>();
 
-        log.info(matchList.toString());
-
-        return matchList.stream()
-                .filter(matchId -> !tftMatchRepository.existsByMatchId(matchId))
-                .map(matchId -> TftMatch.builder()
+        for (String matchId : matchList) {
+            Boolean existsByMatchId = tftMatchRepository.existsByMatchId(matchId);
+            if (!existsByMatchId) {
+                TftMatch tftMatch = TftMatch.builder()
                         .matchId(matchId)
                         .summoner(summoner)
-                        .build())
-                .collect(Collectors.toList());
+                        .build();
+                tftMatchList.add(tftMatch);
+            } else {
+                break;
+            }
+        }
+
+        return tftMatchList;
     }
 }
