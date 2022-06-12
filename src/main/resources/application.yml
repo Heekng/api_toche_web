@@ -28,3 +28,7 @@ management:
     web:
       base-path: /serverStatus
 
+riotApi:
+  path:
+    ranker: https://kr.api.riotgames.com/tft/league/v1/
+    summonerDetail: https://kr.api.riotgames.com/tft/summoner/v1/summoners/
