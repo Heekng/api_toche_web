@@ -17,12 +17,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-class MatchRepositoryTest {
+class TftMatchRepositoryTest {
 
     @PersistenceContext
     EntityManager em;
     @Autowired
-    MatchRepository matchRepository;
+    TftMatchRepository matchRepository;
 
     Summoner summoner;
     TftMatch match;
@@ -37,7 +37,7 @@ class MatchRepositoryTest {
         em.persist(summoner);
 
         match = TftMatch.builder()
-                .victoryMatchId("1234567")
+                .matchId("1234567")
                 .summoner(summoner)
                 .build();
         matchRepository.save(match);
@@ -59,5 +59,15 @@ class MatchRepositoryTest {
         matchRepository.delete(match);
         Optional<TftMatch> afterDeleteObject = matchRepository.findById(match.getId());
         assertThat(afterDeleteObject).isEmpty();
+    }
+
+    @Test
+    void existsByMatchIdTest() throws Exception {
+        //when
+        Boolean existsByMatchId = matchRepository.existsByMatchId(match.getMatchId());
+        Boolean notExistsByMatchId = matchRepository.existsByMatchId("123123");
+        //then
+        assertThat(existsByMatchId).isTrue();
+        assertThat(notExistsByMatchId).isFalse();
     }
 }
