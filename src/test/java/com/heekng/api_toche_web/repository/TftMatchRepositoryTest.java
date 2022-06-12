@@ -17,12 +17,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-class MatchRepositoryTest {
+class TftMatchRepositoryTest {
 
     @PersistenceContext
     EntityManager em;
     @Autowired
-    MatchRepository matchRepository;
+    TftMatchRepository matchRepository;
 
     Summoner summoner;
     TftMatch match;

@@ -4,7 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class MatchRepositoryImpl implements MatchRepositoryCustom {
+public class TftMatchRepositoryImpl implements TftMatchRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
