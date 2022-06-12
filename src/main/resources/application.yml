@@ -15,7 +15,7 @@ spring:
       initialize-schema: NEVER
     job:
       names: ${job.name:NONE}
-      enabled: false # 배치 자동실행 막기
+#      enabled: false # 배치 자동실행 막기
 
 logging:
   level:
@@ -28,3 +28,7 @@ management:
     web:
       base-path: /serverStatus
 
+riotApi:
+  path:
+    ranker: https://kr.api.riotgames.com/tft/league/v1/
+    summonerDetail: https://kr.api.riotgames.com/tft/summoner/v1/summoners/
