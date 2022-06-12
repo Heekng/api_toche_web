@@ -16,7 +16,7 @@ import static javax.persistence.FetchType.*;
 @Table(
         uniqueConstraints = {
                 @UniqueConstraint(
-                        columnNames = {"summoner_id", "victory_match_id"}
+                        columnNames = {"summoner_id", "match_id"}
                 )
         }
 )
@@ -26,8 +26,8 @@ public class TftMatch extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tft_match_id")
     private Long id;
-    @Column(name = "victory_match_id", nullable = false)
-    private String victoryMatchId;
+    @Column(name = "match_id", nullable = false)
+    private String matchId;
 
     @OneToOne(mappedBy = "tftMatch", fetch = LAZY, cascade = REMOVE)
     private MatchInfo matchInfo;
@@ -37,9 +37,9 @@ public class TftMatch extends BaseTimeEntity {
     private Summoner summoner;
 
     @Builder
-    public TftMatch(Long matchId, String victoryMatchId, MatchInfo matchInfo, Summoner summoner) {
-        this.id = matchId;
-        this.victoryMatchId = victoryMatchId;
+    public TftMatch(Long id, String matchId, MatchInfo matchInfo, Summoner summoner) {
+        this.id = id;
+        this.matchId = matchId;
         this.matchInfo = matchInfo;
         this.summoner = summoner;
     }

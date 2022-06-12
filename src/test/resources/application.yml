@@ -21,3 +21,4 @@ riotApi:
   path:
     ranker: null
     summonerDetail: null
+    matches: null

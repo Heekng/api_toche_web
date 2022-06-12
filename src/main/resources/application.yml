@@ -32,3 +32,4 @@ riotApi:
   path:
     ranker: https://kr.api.riotgames.com/tft/league/v1/
     summonerDetail: https://kr.api.riotgames.com/tft/summoner/v1/summoners/
+    matches: https://asia.api.riotgames.com/tft/match/v1/matches/by-puuid/

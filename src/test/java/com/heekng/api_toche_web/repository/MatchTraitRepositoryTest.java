@@ -42,7 +42,7 @@ class MatchTraitRepositoryTest {
         em.persist(summoner);
 
         match = TftMatch.builder()
-                .victoryMatchId("1234567")
+                .matchId("1234567")
                 .summoner(summoner)
                 .build();
         em.persist(match);
