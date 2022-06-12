@@ -60,4 +60,14 @@ class TftMatchRepositoryTest {
         Optional<TftMatch> afterDeleteObject = matchRepository.findById(match.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
+
+    @Test
+    void existsByMatchIdTest() throws Exception {
+        //when
+        Boolean existsByMatchId = matchRepository.existsByMatchId(match.getMatchId());
+        Boolean notExistsByMatchId = matchRepository.existsByMatchId("123123");
+        //then
+        assertThat(existsByMatchId).isTrue();
+        assertThat(notExistsByMatchId).isFalse();
+    }
 }
