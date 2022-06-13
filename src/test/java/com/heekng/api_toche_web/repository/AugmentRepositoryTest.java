@@ -71,4 +71,12 @@ class AugmentRepositoryTest {
         assertThat(findAugment).isEqualTo(augment);
     }
 
+    @Test
+    void findByNameAndSeasonIdTest() throws Exception {
+        //when
+        Augment findAugment = augmentRepository.findByNameAndSeasonId(augment.getName(), season.getId()).get();
+        //then
+        assertThat(findAugment).isEqualTo(augment);
+    }
+
 }
