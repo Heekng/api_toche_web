@@ -49,7 +49,8 @@ class MatchInfoRepositoryTest {
         em.persist(match);
 
         season = Season.builder()
-                .seasonNum("testSeasonNum")
+                .seasonNum(6)
+                .seasonName("TFTSet6")
                 .build();
         em.persist(season);
 

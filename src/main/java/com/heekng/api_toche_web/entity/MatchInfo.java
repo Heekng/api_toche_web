@@ -28,14 +28,16 @@ public class MatchInfo extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "season_id", nullable = false)
     private Season season;
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "tft_match_id")
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "tft_match_id", nullable = false)
     private TftMatch tftMatch;
 
-    @OneToMany(mappedBy = "matchInfo", cascade = REMOVE)
+    @OneToMany(mappedBy = "matchInfo", cascade = ALL)
     private List<MatchUnit> matchUnits = new ArrayList<>();
-    @OneToMany(mappedBy = "matchInfo", cascade = REMOVE)
+    @OneToMany(mappedBy = "matchInfo", cascade = ALL)
     private List<MatchTrait> matchTraits = new ArrayList<>();
+    @OneToMany(mappedBy = "matchInfo", cascade = ALL)
+    private List<MatchAugment> matchAugments = new ArrayList<>();
 
     @Builder
     public MatchInfo(LocalDateTime gameDatetime, Season season, TftMatch tftMatch) {

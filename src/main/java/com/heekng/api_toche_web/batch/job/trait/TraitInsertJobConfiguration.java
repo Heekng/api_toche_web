@@ -63,7 +63,7 @@ public class TraitInsertJobConfiguration {
 
     @Bean
     @StepScope
-    public ItemProcessor<? super TraitInsertVO, ? extends Trait> traitInsertProcessor(@Value("#{jobParameters[seasonNum]}") String seasonNum) {
+    public ItemProcessor<? super TraitInsertVO, ? extends Trait> traitInsertProcessor(@Value("#{jobParameters[seasonNum]}") Integer seasonNum) {
         Season season = seasonRepository.findBySeasonNum(seasonNum).orElseThrow(() -> new IllegalStateException("존재하지 않는 Season입니다."));
         return new TraitInsertProcessor(season);
     }
