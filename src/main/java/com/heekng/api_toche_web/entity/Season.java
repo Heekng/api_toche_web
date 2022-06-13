@@ -34,6 +34,8 @@ public class Season extends BaseTimeEntity {
     private List<Item> items = new ArrayList<>();
     @OneToMany(mappedBy = "season", cascade = REMOVE)
     private List<Trait> traits = new ArrayList<>();
+    @OneToMany(mappedBy = "season", cascade = REMOVE)
+    private List<Augment> augments = new ArrayList<>();
 
     @Builder
     public Season(Integer seasonNum, String seasonName) {
