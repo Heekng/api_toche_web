@@ -5,4 +5,4 @@ COPY ${JAR_FILE} api_toche_web.jar
 COPY /private/application-real.yml application-real.yml
 COPY /private/application-private.yml application-private.yml
 
-ENTRYPOINT ["java", "-Duser.timezone=Aisa/Seoul", "-Dspring.config.location=classpath:/application.yml,/application-real.yml,/application-private.yml", "-jar", "api_toche_web.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=real", "-Dspring.config.location=classpath:/application.yml,/application-real.yml,/application-private.yml", "-jar", "api_toche_web.jar"]
