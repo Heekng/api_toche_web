@@ -28,8 +28,8 @@ public class MatchInfo extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "season_id", nullable = false)
     private Season season;
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "tft_match_id")
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "tft_match_id", nullable = false)
     private TftMatch tftMatch;
 
     @OneToMany(mappedBy = "matchInfo", cascade = REMOVE)

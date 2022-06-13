@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.List;
+
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 
@@ -29,18 +31,17 @@ public class TftMatch extends BaseTimeEntity {
     @Column(name = "match_id", nullable = false)
     private String matchId;
 
-    @OneToOne(mappedBy = "tftMatch", fetch = LAZY, cascade = REMOVE)
-    private MatchInfo matchInfo;
+    @OneToMany(mappedBy = "tftMatch", fetch = LAZY, cascade = REMOVE)
+    private List<MatchInfo> matchInfos;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "summoner_id", nullable = false)
     private Summoner summoner;
 
     @Builder
-    public TftMatch(Long id, String matchId, MatchInfo matchInfo, Summoner summoner) {
+    public TftMatch(Long id, String matchId, Summoner summoner) {
         this.id = id;
         this.matchId = matchId;
-        this.matchInfo = matchInfo;
         this.summoner = summoner;
     }
 }
