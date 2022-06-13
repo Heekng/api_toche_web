@@ -63,4 +63,12 @@ class AugmentRepositoryTest {
         assertThat(afterDeleteObject).isEmpty();
     }
 
+    @Test
+    void findByNameTest() throws Exception {
+        //when
+        Augment findAugment = augmentRepository.findByName(augment.getName()).get();
+        //then
+        assertThat(findAugment).isEqualTo(augment);
+    }
+
 }
