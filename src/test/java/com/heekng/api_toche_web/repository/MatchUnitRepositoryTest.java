@@ -49,6 +49,7 @@ class MatchUnitRepositoryTest {
 
         season = Season.builder()
                 .seasonNum(6)
+                .seasonName("TFTSet6")
                 .build();
         em.persist(season);
 

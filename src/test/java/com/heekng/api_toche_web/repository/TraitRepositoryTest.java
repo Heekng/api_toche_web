@@ -34,6 +34,7 @@ class TraitRepositoryTest {
     void beforeEach() {
         season = Season.builder()
                 .seasonNum(6)
+                .seasonName("TFTSet6")
                 .build();
         em.persist(season);
 
@@ -68,6 +69,7 @@ class TraitRepositoryTest {
         //given
         Season seasonCascade = Season.builder()
                 .seasonNum(7)
+                .seasonName("TFTSet7")
                 .build();
         em.persist(seasonCascade);
 

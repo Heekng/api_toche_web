@@ -30,6 +30,7 @@ class SeasonRepositoryTest {
     void beforeEach() {
         season = Season.builder()
                 .seasonNum(6)
+                .seasonName("TFTSet6")
                 .build();
         seasonRepository.save(season);
     }
