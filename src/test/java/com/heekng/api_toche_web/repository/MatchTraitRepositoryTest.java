@@ -48,7 +48,7 @@ class MatchTraitRepositoryTest {
         em.persist(match);
 
         season = Season.builder()
-                .seasonNum("testSeasonNum")
+                .seasonNum(6)
                 .build();
         em.persist(season);
 

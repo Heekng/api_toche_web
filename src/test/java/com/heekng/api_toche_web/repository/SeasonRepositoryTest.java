@@ -29,7 +29,7 @@ class SeasonRepositoryTest {
     @BeforeEach
     void beforeEach() {
         season = Season.builder()
-                .seasonNum("testSeason")
+                .seasonNum(6)
                 .build();
         seasonRepository.save(season);
     }
@@ -55,7 +55,7 @@ class SeasonRepositoryTest {
     @Test
     void findBySeasonNumTest() throws Exception {
         //when
-        Optional<Season> findSeason = seasonRepository.findBySeasonNum("testSeason");
+        Optional<Season> findSeason = seasonRepository.findBySeasonNum(6);
         //then
         assertThat(findSeason).isNotEmpty();
         assertThat(findSeason.get()).isEqualTo(season);

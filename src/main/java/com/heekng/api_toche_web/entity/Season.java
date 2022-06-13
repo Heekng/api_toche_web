@@ -21,7 +21,8 @@ public class Season extends BaseTimeEntity {
     @Column(name = "season_id")
     private Long id;
     @Column(name = "season_num", nullable = false, unique = true)
-    private String seasonNum;
+    private Integer seasonNum;
+
 
     @OneToMany(mappedBy = "season", cascade = REMOVE)
     private List<MatchInfo> matchInfos = new ArrayList<>();
@@ -33,7 +34,7 @@ public class Season extends BaseTimeEntity {
     private List<Trait> traits = new ArrayList<>();
 
     @Builder
-    public Season(String seasonNum) {
+    public Season(Integer seasonNum) {
         this.seasonNum = seasonNum;
     }
 }

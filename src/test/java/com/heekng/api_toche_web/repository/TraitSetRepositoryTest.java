@@ -34,7 +34,7 @@ class TraitSetRepositoryTest {
     @BeforeEach
     void beforeEach() {
         season = Season.builder()
-                .seasonNum("testSeasonNum")
+                .seasonNum(6)
                 .build();
         em.persist(season);
 
