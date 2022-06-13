@@ -20,7 +20,7 @@ public class Augment extends BaseTimeEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "augment_id")
     private Long id;
-    @Column(name = "name", unique = true)
+    @Column(name = "name")
     private String name;
 
     @ManyToOne(fetch = LAZY)
