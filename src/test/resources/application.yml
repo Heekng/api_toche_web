@@ -22,3 +22,4 @@ riotApi:
     ranker: null
     summonerDetail: null
     matches: null
+    matcheDetail: null
