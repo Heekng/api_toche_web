@@ -26,9 +26,9 @@ public class Unit extends BaseTimeEntity {
     private Integer rarity;
     @Column(name = "name", nullable = false, unique = true)
     private String name;
-    @Column(name = "tier", nullable = false)
+    @Column(name = "tier")
     private Integer tier;
-    @Column(name = "cost", nullable = false)
+    @Column(name = "cost")
     private Integer cost;
 
     @ManyToOne(fetch = LAZY)
