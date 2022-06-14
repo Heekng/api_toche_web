@@ -74,7 +74,7 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
         }
 
         Integer tftSetNumber = matchDetailDTO.getInfo().getTft_set_number();
-        String tftSetCoreName = matchDetailDTO.getInfo().getTft_set_core_name();
+        String tftSetCoreName = matchDetailDTO.getInfo().getTft_set_core_name() != null ? matchDetailDTO.getInfo().getTft_set_core_name() : matchDetailDTO.getInfo().getTft_set_name();
 
         Season season = seasonService.findOrSave(tftSetNumber, tftSetCoreName);
         LocalDateTime gameDatetime = LocalDateTime.ofInstant(Instant.ofEpochMilli(matchDetailDTO.getInfo().getGame_datetime()), ZoneId.systemDefault());
@@ -107,7 +107,7 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
             List<UnitDTO> unitDTOS = participantDTO.getUnits();
             for (UnitDTO unitDTO : unitDTOS) {
                 log.info(unitDTO.toString());
-                Unit unit = unitService.findOrSave(unitDTO.getName(), unitDTO.getRarity(), season);
+                Unit unit = unitService.findOrSave(unitDTO.getCharacter_id(), unitDTO.getRarity(), season);
                 List<Item> items = new ArrayList<>();
                 for (int j = 0; j < unitDTO.getItems().size(); j++) {
                     Integer itemNum = unitDTO.getItems().get(j);
