@@ -67,8 +67,6 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
             }
             matchDetailDTO = restTemplate.getForObject(uri, MatchDetailDTO.class);
         }
-        log.info(matchId);
-        log.info(matchDetailDTO.toString());
 
         // 게임타입이 standard 가 아닌 경우 저장하지 않는다.
         if (!matchDetailDTO.getInfo().getTft_game_type().equals("standard")) {
