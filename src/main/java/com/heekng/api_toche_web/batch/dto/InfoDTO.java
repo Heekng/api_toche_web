@@ -14,6 +14,7 @@ public class InfoDTO {
     private Long queue_id;
     private String tft_game_type;
     private String tft_set_core_name;
+    private String tft_set_name;
     private Integer tft_set_number;
 
 }
