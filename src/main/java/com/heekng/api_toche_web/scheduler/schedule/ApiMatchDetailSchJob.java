@@ -1,10 +1,12 @@
-package com.heekng.api_toche_web.scheduler.job;
+package com.heekng.api_toche_web.scheduler.schedule;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.batch.core.*;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
@@ -13,9 +15,9 @@ import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
-public class ApiSummonerDetailSchJob extends QuartzJobBean {
+public class ApiMatchDetailSchJob extends QuartzJobBean {
 
-    private final Job apiSummonerDetailJob;
+    private final Job apiMatchDetailJob;
     private final JobLauncher jobLauncher;
 
     @SneakyThrows
@@ -26,6 +28,6 @@ public class ApiSummonerDetailSchJob extends QuartzJobBean {
                 .addLong("id", new Date().getTime())
                 .toJobParameters();
 
-        jobLauncher.run(apiSummonerDetailJob, jobParameters);
+        jobLauncher.run(apiMatchDetailJob, jobParameters);
     }
 }

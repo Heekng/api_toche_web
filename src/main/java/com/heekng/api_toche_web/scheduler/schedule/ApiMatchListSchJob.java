@@ -1,4 +1,4 @@
-package com.heekng.api_toche_web.scheduler.job;
+package com.heekng.api_toche_web.scheduler.schedule;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -15,9 +15,9 @@ import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
-public class ApiMatchDetailSchJob extends QuartzJobBean {
+public class ApiMatchListSchJob extends QuartzJobBean {
 
-    private final Job apiMatchDetailJob;
+    private final Job apiMatchListJob;
     private final JobLauncher jobLauncher;
 
     @SneakyThrows
@@ -28,6 +28,6 @@ public class ApiMatchDetailSchJob extends QuartzJobBean {
                 .addLong("id", new Date().getTime())
                 .toJobParameters();
 
-        jobLauncher.run(apiMatchDetailJob, jobParameters);
+        jobLauncher.run(apiMatchListJob, jobParameters);
     }
 }

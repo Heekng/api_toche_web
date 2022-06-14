@@ -1,6 +1,6 @@
 package com.heekng.api_toche_web.scheduler.runner;
 
-import com.heekng.api_toche_web.scheduler.job.ApiMatchDetailSchJob;
+import com.heekng.api_toche_web.scheduler.schedule.ApiMatchDetailSchJob;
 import lombok.RequiredArgsConstructor;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
