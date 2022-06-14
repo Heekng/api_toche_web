@@ -61,4 +61,15 @@ class ItemRepositoryTest {
         Optional<Item> afterDeleteObject = itemRepository.findById(item.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
+
+    @Test
+    void findByNameAndSeasonIdTest() throws Exception {
+        //when
+        Optional<Item> optionalItem = itemRepository.findByNameAndSeasonId(item.getName(), season.getId());
+        //then
+        assertThat(optionalItem).isNotEmpty();
+        assertThat(optionalItem.get().getName()).isEqualTo(item.getName());
+        assertThat(optionalItem.get().getNum()).isEqualTo(item.getNum());
+        assertThat(optionalItem.get().getSeason().getSeasonName()).isEqualTo(season.getSeasonName());
+    }
 }
