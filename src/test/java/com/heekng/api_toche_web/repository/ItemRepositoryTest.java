@@ -61,4 +61,37 @@ class ItemRepositoryTest {
         Optional<Item> afterDeleteObject = itemRepository.findById(item.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
+
+    @Test
+    void findByNameAndSeasonIdTest() throws Exception {
+        //when
+        Optional<Item> optionalItem = itemRepository.findByNameAndSeasonId(item.getName(), season.getId());
+        //then
+        assertThat(optionalItem).isNotEmpty();
+        assertThat(optionalItem.get().getName()).isEqualTo(item.getName());
+        assertThat(optionalItem.get().getNum()).isEqualTo(item.getNum());
+        assertThat(optionalItem.get().getSeason().getSeasonName()).isEqualTo(season.getSeasonName());
+    }
+
+    @Test
+    void searchLastSeasonItemByRiotItemIdTest() throws Exception {
+        //given
+        Season testSeason = Season.builder()
+                .seasonNum(7)
+                .seasonName("TFTSet7")
+                .build();
+        em.persist(testSeason);
+
+        Item testItem = Item.builder()
+                .name("testItemName")
+                .num(1)
+                .season(testSeason)
+                .build();
+        em.persist(testItem);
+        //when
+        Optional<Item> itemOptional = itemRepository.searchLastSeasonItemByRiotItemId(item.getNum());
+        //then
+        assertThat(itemOptional).isNotEmpty();
+        assertThat(itemOptional.get()).isEqualTo(testItem);
+    }
 }

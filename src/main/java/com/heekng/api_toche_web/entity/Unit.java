@@ -16,6 +16,13 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames = {"name", "season_id"}
+                )
+        }
+)
 public class Unit extends BaseTimeEntity {
 
     @Id
@@ -24,11 +31,11 @@ public class Unit extends BaseTimeEntity {
     private Long id;
     @Column(name = "rarity")
     private Integer rarity;
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "tier", nullable = false)
+    @Column(name = "tier")
     private Integer tier;
-    @Column(name = "cost", nullable = false)
+    @Column(name = "cost")
     private Integer cost;
 
     @ManyToOne(fetch = LAZY)

@@ -14,13 +14,20 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames = {"name", "season_id"}
+                )
+        }
+)
 public class Augment extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "augment_id")
     private Long id;
-    @Column(name = "name", unique = true)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @ManyToOne(fetch = LAZY)

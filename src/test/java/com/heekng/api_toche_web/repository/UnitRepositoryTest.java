@@ -64,4 +64,14 @@ class UnitRepositoryTest {
         assertThat(afterDeleteObject).isEmpty();
     }
 
+    @Test
+    void findByNameAndSeasonIdTest() throws Exception {
+        //when
+        Optional<Unit> findUnitOptional = unitRepository.findByNameAndSeasonId(unit.getName(), season.getId());
+        //then
+        assertThat(findUnitOptional).isNotEmpty();
+        assertThat(findUnitOptional.get().getName()).isEqualTo(unit.getName());
+        assertThat(findUnitOptional.get().getSeason().getSeasonName()).isEqualTo(season.getSeasonName());
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.heekng.api_toche_web.batch.chunk.processor;
 
+import com.heekng.api_toche_web.batch.dto.MatchDetailDTO;
 import com.heekng.api_toche_web.entity.Summoner;
 import com.heekng.api_toche_web.entity.TftMatch;
 import com.heekng.api_toche_web.repository.TftMatchRepository;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -39,7 +41,18 @@ public class ApiMatchListProcessor implements ItemProcessor<Summoner, List<TftMa
         String uri = builder.toString();
 
         RestTemplate restTemplate = new RestTemplate();
-        List<String> matchList = restTemplate.getForObject(uri, List.class);
+        List<String> matchList = null;
+        try {
+            matchList = restTemplate.getForObject(uri, List.class);
+        } catch (HttpClientErrorException e) {
+            String message = e.getMessage();
+            if (message.contains("Rate limit exceeded")) {
+                log.info("wait maximum request");
+                Thread.sleep(120000);
+            }
+            matchList = restTemplate.getForObject(uri, List.class);
+        }
+
         List<TftMatch> tftMatchList = new ArrayList<>();
 
         for (String matchId : matchList) {
