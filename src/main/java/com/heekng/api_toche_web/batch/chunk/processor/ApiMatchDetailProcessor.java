@@ -89,7 +89,7 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
                     .season(season)
                     .gameDatetime(gameDatetime)
                     .tftMatch(tftMatch)
-                    .rank(i + 1)
+                    .ranking(i + 1)
                     .build();
 
             // augment
