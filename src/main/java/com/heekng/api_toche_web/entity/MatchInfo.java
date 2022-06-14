@@ -48,4 +48,14 @@ public class MatchInfo extends BaseTimeEntity {
         this.season = season;
         this.tftMatch = tftMatch;
     }
+
+    public void addMatchUnit(MatchUnit matchUnit) {
+        this.matchUnits.add(matchUnit);
+    }
+    public void addMatchAugment(MatchAugment matchAugment) {
+        this.matchAugments.add(matchAugment);
+    }
+    public void addMatchTrait(MatchTrait matchTrait) {
+        this.matchTraits.add(matchTrait);
+    }
 }
