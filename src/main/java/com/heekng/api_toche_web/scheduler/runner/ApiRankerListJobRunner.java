@@ -1,5 +1,8 @@
-package com.heekng.api_toche_web.scheduler;
+package com.heekng.api_toche_web.scheduler.runner;
 
+import com.heekng.api_toche_web.scheduler.schedule.ApiRankerListChallengerSchJob;
+import com.heekng.api_toche_web.scheduler.schedule.ApiRankerListGrandmasterSchJob;
+import com.heekng.api_toche_web.scheduler.schedule.ApiRankerListMasterSchJob;
 import lombok.RequiredArgsConstructor;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;

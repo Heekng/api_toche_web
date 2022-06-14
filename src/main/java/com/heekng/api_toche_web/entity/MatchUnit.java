@@ -30,12 +30,16 @@ public class MatchUnit extends BaseTimeEntity {
     @JoinColumn(name = "unit_id", nullable = false)
     private Unit unit;
 
-    @OneToMany(mappedBy = "matchUnit", cascade = REMOVE)
+    @OneToMany(mappedBy = "matchUnit", cascade = ALL)
     private List<MatchItem> matchItems = new ArrayList<>();
 
     @Builder
     public MatchUnit(MatchInfo matchInfo, Unit unit) {
         this.matchInfo = matchInfo;
         this.unit = unit;
+    }
+
+    public void addMatchItem(MatchItem matchItem) {
+        this.matchItems.add(matchItem);
     }
 }

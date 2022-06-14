@@ -24,6 +24,8 @@ public class MatchInfo extends BaseTimeEntity {
     private Long id;
     @Column(name = "game_datetime", nullable = false)
     private LocalDateTime gameDatetime;
+    @Column(name = "rank")
+    private Integer rank;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "season_id", nullable = false)
@@ -40,9 +42,20 @@ public class MatchInfo extends BaseTimeEntity {
     private List<MatchAugment> matchAugments = new ArrayList<>();
 
     @Builder
-    public MatchInfo(LocalDateTime gameDatetime, Season season, TftMatch tftMatch) {
+    public MatchInfo(LocalDateTime gameDatetime, Integer rank, Season season, TftMatch tftMatch) {
         this.gameDatetime = gameDatetime;
+        this.rank = rank;
         this.season = season;
         this.tftMatch = tftMatch;
+    }
+
+    public void addMatchUnit(MatchUnit matchUnit) {
+        this.matchUnits.add(matchUnit);
+    }
+    public void addMatchAugment(MatchAugment matchAugment) {
+        this.matchAugments.add(matchAugment);
+    }
+    public void addMatchTrait(MatchTrait matchTrait) {
+        this.matchTraits.add(matchTrait);
     }
 }
