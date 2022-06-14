@@ -14,6 +14,13 @@ import static javax.persistence.CascadeType.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames = {"season_num", "season_name"}
+                )
+        }
+)
 public class Season extends BaseTimeEntity {
 
     @Id
