@@ -1,5 +1,6 @@
 package com.heekng.api_toche_web.repository;
 
+import com.heekng.api_toche_web.dto.SeasonDTO;
 import com.heekng.api_toche_web.entity.Season;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -63,4 +64,32 @@ class SeasonRepositoryTest {
 
     }
 
+    @Test
+    void searchBySeasonsRequestTest() throws Exception {
+        //given
+        Season testSeason1 = Season.builder()
+                .seasonNum(1)
+                .seasonName("testSeason1")
+                .build();
+        seasonRepository.save(testSeason1);
+        Season testSeason2 = Season.builder()
+                .seasonNum(2)
+                .seasonName("testSeason2")
+                .build();
+        seasonRepository.save(testSeason2);
+        Season testSeason2_2 = Season.builder()
+                .seasonNum(2)
+                .seasonName("testSeason2_2")
+                .build();
+        seasonRepository.save(testSeason2_2);
+        //when
+        SeasonDTO.SeasonsRequest seasonsRequest = SeasonDTO.SeasonsRequest.builder()
+                .seasonNum(2)
+                .build();
+        List<Season> seasons = seasonRepository.searchBySeasonsRequest(seasonsRequest);
+        //then
+        assertThat(seasons).isNotEmpty();
+        assertThat(seasons.size()).isEqualTo(2);
+        assertThat(seasons.get(0).getSeasonName()).isEqualTo(testSeason2_2.getSeasonName());
+    }
 }
