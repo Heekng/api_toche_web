@@ -1,4 +1,4 @@
-package com.heekng.api_toche_web.scheduler;
+package com.heekng.api_toche_web.scheduler.job;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -18,12 +18,12 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class ApiRankerListGrandmasterSchJob extends QuartzJobBean {
+public class ApiRankerListChallengerSchJob extends QuartzJobBean {
 
     private final Job apiRankerListJob;
     private final JobLauncher jobLauncher;
     private final JobExplorer jobExplorer;
-    private final String TIER_NAME = "grandmaster";
+    private final String TIER_NAME = "challenger";
     @SneakyThrows
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {

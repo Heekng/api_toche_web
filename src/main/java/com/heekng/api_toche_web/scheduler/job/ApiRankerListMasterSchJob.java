@@ -1,4 +1,4 @@
-package com.heekng.api_toche_web.scheduler;
+package com.heekng.api_toche_web.scheduler.job;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

@@ -1,5 +1,6 @@
-package com.heekng.api_toche_web.scheduler;
+package com.heekng.api_toche_web.scheduler.runner;
 
+import com.heekng.api_toche_web.scheduler.job.ApiMatchListSchJob;
 import lombok.RequiredArgsConstructor;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -12,14 +13,14 @@ import java.util.HashMap;
 
 @Component
 @RequiredArgsConstructor
-public class ApiSummonerDetailJobRunner extends JobRunner {
+public class ApiMatchListJobRunner extends JobRunner {
 
     private final Scheduler scheduler;
 
     @Override
     protected void doRun(ApplicationArguments args) {
-        JobDetail jobDetailMaster = buildJobDetail(ApiSummonerDetailSchJob.class, "ApiSummonerDetailSchJob", "batch", new HashMap<>());
-        Trigger triggerMaster = buildJobTrigger("0 5 * * * ?");
+        JobDetail jobDetailMaster = buildJobDetail(ApiMatchListSchJob.class, "ApiMathListSchJob", "batch", new HashMap<>());
+        Trigger triggerMaster = buildJobTrigger("0 10 * * * ?");
 
         try {
             scheduler.scheduleJob(jobDetailMaster, triggerMaster);
