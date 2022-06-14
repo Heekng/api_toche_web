@@ -17,7 +17,7 @@ import static javax.persistence.FetchType.LAZY;
 @Table(
         uniqueConstraints = {
                 @UniqueConstraint(
-                        columnNames = {"num", "name"}
+                        columnNames = {"num", "name", "season_id"}
                 )
         }
 )
