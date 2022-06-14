@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface ItemRepository extends JpaRepository<Item, Long>, ItemRepositoryCustom {
     Optional<Item> findByNameAndSeasonId(String name, Long seasonId);
+
+    
 }
