@@ -99,4 +99,17 @@ class AugmentRepositoryTest {
         assertThat(augments.get(0)).isEqualTo(augment);
     }
 
+    @Test
+    void findWithSeasonByIdTest() throws Exception {
+        //when
+        Optional<Augment> augmentOptional = augmentRepository.findWithSeasonById(augment.getId());
+        //then
+        assertThat(augmentOptional).isNotEmpty();
+        assertThat(augmentOptional.get()).isEqualTo(augment);
+        assertThat(augmentOptional.get().getName()).isEqualTo(augment.getName());
+        assertThat(augmentOptional.get().getSeason()).isEqualTo(season);
+        assertThat(augmentOptional.get().getSeason().getSeasonName()).isEqualTo(season.getSeasonName());
+
+    }
+
 }
