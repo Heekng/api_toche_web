@@ -3,6 +3,7 @@ package com.heekng.api_toche_web.dto;
 import com.heekng.api_toche_web.entity.Season;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 public class SeasonDTO {
 
@@ -20,6 +21,7 @@ public class SeasonDTO {
     }
 
     @Data
+    @NoArgsConstructor
     public static class SeasonsResponse {
 
         private Long seasonId;
