@@ -14,15 +14,22 @@ import static javax.persistence.CascadeType.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames = {"season_num", "season_name"}
+                )
+        }
+)
 public class Season extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "season_id")
     private Long id;
-    @Column(name = "season_num", nullable = false, unique = true)
+    @Column(name = "season_num", nullable = false)
     private Integer seasonNum;
-    @Column(name = "season_name", nullable = false, unique = true)
+    @Column(name = "season_name", nullable = false)
     private String seasonName;
 
 
