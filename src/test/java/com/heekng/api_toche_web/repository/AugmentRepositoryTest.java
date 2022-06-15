@@ -1,5 +1,6 @@
 package com.heekng.api_toche_web.repository;
 
+import com.heekng.api_toche_web.dto.AugmentDTO;
 import com.heekng.api_toche_web.entity.Augment;
 import com.heekng.api_toche_web.entity.Item;
 import com.heekng.api_toche_web.entity.Season;
@@ -77,6 +78,25 @@ class AugmentRepositoryTest {
         Augment findAugment = augmentRepository.findByNameAndSeasonId(augment.getName(), season.getId()).get();
         //then
         assertThat(findAugment).isEqualTo(augment);
+    }
+
+    @Test
+    void searchByAugmentsRequestTest() throws Exception {
+        //given
+        Augment testAugment = Augment.builder()
+                .name("testAugmentName")
+                .season(season)
+                .build();
+        augmentRepository.save(testAugment);
+        //when
+        AugmentDTO.AugmentsRequest augmentsRequest = AugmentDTO.AugmentsRequest.builder()
+                .seasonId(season.getId())
+                .build();
+        List<Augment> augments = augmentRepository.searchByAugmentsRequest(augmentsRequest);
+        //then
+        assertThat(augments).isNotEmpty();
+        assertThat(augments.size()).isEqualTo(2);
+        assertThat(augments.get(0)).isEqualTo(augment);
     }
 
 }
