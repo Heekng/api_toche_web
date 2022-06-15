@@ -149,9 +149,12 @@ class TraitRepositoryTest {
                 .traitName("testTrait")
                 .build();
         List<Trait> traits = traitRepository.searchByTraitsRequest(traitsRequest);
+        em.flush();
+        em.clear();
         //then
         assertThat(traits).isNotEmpty();
         assertThat(traits.size()).isEqualTo(2);
         assertThat(traits.get(0).getName()).isEqualTo(testTrait1.getName());
+        assertThat(traits.get(0).getSeason().getSeasonName()).isEqualTo(testSeason.getSeasonName());
     }
 }

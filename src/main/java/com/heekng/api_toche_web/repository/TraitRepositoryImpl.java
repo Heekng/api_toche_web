@@ -25,6 +25,7 @@ public class TraitRepositoryImpl implements TraitRepositoryCustom {
         return queryFactory
                 .selectFrom(trait)
                 .leftJoin(trait.season, season)
+                .fetchJoin()
                 .where(
                         traitNameContains(traitsRequest.getTraitName()),
                         seasonIdEq(traitsRequest.getSeasonId())
