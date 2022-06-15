@@ -1,8 +1,10 @@
 package com.heekng.api_toche_web.repository;
 
+import com.heekng.api_toche_web.dto.ItemDTO;
 import com.heekng.api_toche_web.entity.Item;
 import com.heekng.api_toche_web.entity.Season;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -93,5 +95,37 @@ class ItemRepositoryTest {
         //then
         assertThat(itemOptional).isNotEmpty();
         assertThat(itemOptional.get()).isEqualTo(testItem);
+    }
+
+    @Test
+    @DisplayName("searchByItemsRequest 는 seasonId를 이용할 수 있으며, itemNum 오름차순으로 정렬된다.")
+    void searchByItemsRequestTest() throws Exception {
+        Item testItem = Item.builder()
+                .name("testItemName")
+                .num(2)
+                .season(season)
+                .build();
+        em.persist(testItem);
+        //when
+        ItemDTO.ItemsRequest itemsRequest = ItemDTO.ItemsRequest.builder()
+                .seasonId(season.getId())
+                .build();
+        List<Item> items = itemRepository.searchByItemsRequest(itemsRequest);
+        //then
+        assertThat(items).isNotEmpty();
+        assertThat(items.size()).isEqualTo(2);
+        assertThat(items.get(0).getName()).isEqualTo(item.getName());
+    }
+    
+    @Test
+    void findWithSeasonByIdTest() throws Exception {
+        //when
+        Optional<Item> itemOptional = itemRepository.findWithSeasonById(item.getId());
+        em.flush();
+        em.clear();
+        //then
+        assertThat(itemOptional).isNotEmpty();
+        assertThat(itemOptional.get().getName()).isEqualTo(item.getName());
+        assertThat(itemOptional.get().getSeason().getSeasonName()).isEqualTo(season.getSeasonName());
     }
 }

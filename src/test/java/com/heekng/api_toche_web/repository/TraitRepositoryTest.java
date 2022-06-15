@@ -1,5 +1,6 @@
 package com.heekng.api_toche_web.repository;
 
+import com.heekng.api_toche_web.dto.TraitDTO;
 import com.heekng.api_toche_web.entity.Season;
 import com.heekng.api_toche_web.entity.Trait;
 import com.heekng.api_toche_web.entity.TraitSet;
@@ -117,6 +118,55 @@ class TraitRepositoryTest {
         assertThat(traitOptional).isNotEmpty();
         assertThat(traitOptional.get().getName()).isEqualTo(trait.getName());
         assertThat(traitOptional.get().getTierTotalCount()).isEqualTo(trait.getTierTotalCount());
+        assertThat(traitOptional.get().getSeason().getSeasonName()).isEqualTo(season.getSeasonName());
+    }
+
+    @Test
+    void searchByTraitsRequestTest() throws Exception {
+        //given
+        Season testSeason = Season.builder()
+                .seasonNum(1)
+                .seasonName("testSeason1")
+                .build();
+        em.persist(testSeason);
+
+        Trait testTrait1 = Trait.builder()
+                .season(testSeason)
+                .name("testTraitName1")
+                .tierTotalCount(5)
+                .build();
+        traitRepository.save(testTrait1);
+
+        Trait testTrait2 = Trait.builder()
+                .season(testSeason)
+                .name("testTraitName2")
+                .tierTotalCount(5)
+                .build();
+        traitRepository.save(testTrait2);
+        //when
+        TraitDTO.TraitsRequest traitsRequest = TraitDTO.TraitsRequest.builder()
+                .seasonId(testSeason.getId())
+                .traitName("testTrait")
+                .build();
+        List<Trait> traits = traitRepository.searchByTraitsRequest(traitsRequest);
+        em.flush();
+        em.clear();
+        //then
+        assertThat(traits).isNotEmpty();
+        assertThat(traits.size()).isEqualTo(2);
+        assertThat(traits.get(0).getName()).isEqualTo(testTrait1.getName());
+        assertThat(traits.get(0).getSeason().getSeasonName()).isEqualTo(testSeason.getSeasonName());
+    }
+
+    @Test
+    void findWithSeasonByIdTest() throws Exception {
+        //when
+        Optional<Trait> traitOptional = traitRepository.findWithSeasonById(trait.getId());
+        em.flush();
+        em.clear();
+        //then
+        assertThat(traitOptional).isNotEmpty();
+        assertThat(traitOptional.get().getName()).isEqualTo(trait.getName());
         assertThat(traitOptional.get().getSeason().getSeasonName()).isEqualTo(season.getSeasonName());
     }
 }
