@@ -116,4 +116,16 @@ class ItemRepositoryTest {
         assertThat(items.size()).isEqualTo(2);
         assertThat(items.get(0).getName()).isEqualTo(item.getName());
     }
+    
+    @Test
+    void findWithSeasonByIdTest() throws Exception {
+        //when
+        Optional<Item> itemOptional = itemRepository.findWithSeasonById(item.getId());
+        em.flush();
+        em.clear();
+        //then
+        assertThat(itemOptional).isNotEmpty();
+        assertThat(itemOptional.get().getName()).isEqualTo(item.getName());
+        assertThat(itemOptional.get().getSeason().getSeasonName()).isEqualTo(season.getSeasonName());
+    }
 }
