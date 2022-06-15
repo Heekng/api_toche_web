@@ -29,7 +29,7 @@ public class SeasonApiController {
     }
 
     @GetMapping("/seasons/{seasonId}")
-    public SeasonDTO.SeasonsResponse seasonListBySeasonNum(
+    public SeasonDTO.SeasonsResponse seasonBySeasonId(
             @PathVariable("seasonId") Long seasonId
     ) {
         Season season = seasonRepository.findById(seasonId)
