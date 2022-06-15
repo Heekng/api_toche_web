@@ -23,7 +23,7 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public ModelMapper rooseMapper() {
+    public ModelMapper looseMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
         return modelMapper;
