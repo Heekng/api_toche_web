@@ -157,4 +157,16 @@ class TraitRepositoryTest {
         assertThat(traits.get(0).getName()).isEqualTo(testTrait1.getName());
         assertThat(traits.get(0).getSeason().getSeasonName()).isEqualTo(testSeason.getSeasonName());
     }
+
+    @Test
+    void findWithSeasonByIdTest() throws Exception {
+        //when
+        Optional<Trait> traitOptional = traitRepository.findWithSeasonById(trait.getId());
+        em.flush();
+        em.clear();
+        //then
+        assertThat(traitOptional).isNotEmpty();
+        assertThat(traitOptional.get().getName()).isEqualTo(trait.getName());
+        assertThat(traitOptional.get().getSeason().getSeasonName()).isEqualTo(season.getSeasonName());
+    }
 }
