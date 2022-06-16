@@ -10,5 +10,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+  quartz:
+    auto-startup: false
 
 path.setPatch: /Users/heekng/heekngCoding/api_toche_web_setPatch/
