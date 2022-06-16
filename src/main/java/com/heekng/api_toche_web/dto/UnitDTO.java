@@ -26,15 +26,13 @@ public class UnitDTO {
     public static class UnitsResponse {
         private Long unitId;
         private String unitName;
-        private String seasonName;
-        private Integer seasonNum;
+        private SeasonDTO.SeasonsResponse season;
 
         @Builder
-        public UnitsResponse(Long unitId, String unitName, String seasonName, Integer seasonNum) {
+        public UnitsResponse(Long unitId, String unitName, SeasonDTO.SeasonsResponse season) {
             this.unitId = unitId;
             this.unitName = unitName;
-            this.seasonName = seasonName;
-            this.seasonNum = seasonNum;
+            this.season = season;
         }
     }
 
