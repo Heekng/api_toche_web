@@ -125,7 +125,6 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
                     items.add(item);
                 }
                 MatchUnit matchUnit = MatchUnit.builder()
-                        .matchInfo(matchInfo)
                         .unit(unit)
                         .build();
                 for (Item item : items) {
