@@ -31,4 +31,8 @@ public class MatchAugment extends BaseTimeEntity{
         this.matchInfo = matchInfo;
         this.augment = augment;
     }
+
+    public void changeMatchInfo(MatchInfo matchInfo) {
+        this.matchInfo = matchInfo;
+    }
 }

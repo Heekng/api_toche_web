@@ -50,13 +50,15 @@ public class MatchInfo extends BaseTimeEntity {
     }
 
     public void addMatchUnit(MatchUnit matchUnit) {
-        matchUnit.setMatchInfo(this);
+        matchUnit.changeMatchInfo(this);
         this.matchUnits.add(matchUnit);
     }
     public void addMatchAugment(MatchAugment matchAugment) {
+        matchAugment.changeMatchInfo(this);
         this.matchAugments.add(matchAugment);
     }
     public void addMatchTrait(MatchTrait matchTrait) {
+        matchTrait.changeMatchInfo(this);
         this.matchTraits.add(matchTrait);
     }
 }

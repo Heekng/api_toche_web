@@ -32,4 +32,8 @@ public class MatchItem extends BaseTimeEntity {
         this.item = item;
         this.matchUnit = matchUnit;
     }
+
+    public void changeMatchUnit(MatchUnit matchUnit) {
+        this.matchUnit = matchUnit;
+    }
 }

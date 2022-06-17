@@ -40,10 +40,11 @@ public class MatchUnit extends BaseTimeEntity {
     }
 
     public void addMatchItem(MatchItem matchItem) {
+        matchItem.changeMatchUnit(this);
         this.matchItems.add(matchItem);
     }
 
-    public void setMatchInfo(MatchInfo matchInfo) {
+    public void changeMatchInfo(MatchInfo matchInfo) {
         this.matchInfo = matchInfo;
     }
 }
