@@ -53,11 +53,13 @@ public class UnitDTO {
     public static class GuidResultResponse {
         private List<UnitDTO.UnitsResponse> units;
         private Long resultCount;
+        private Integer allUsedCount;
 
         @Builder
-        public GuidResultResponse(List<UnitsResponse> units, Long resultCount) {
+        public GuidResultResponse(List<UnitsResponse> units, Long resultCount, Integer allUsedCount) {
             this.units = units;
             this.resultCount = resultCount;
+            this.allUsedCount = allUsedCount;
         }
     }
 
