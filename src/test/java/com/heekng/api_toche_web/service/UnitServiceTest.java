@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -73,6 +75,57 @@ class UnitServiceTest {
         assertThat(optionalUnit).isNotEmpty();
         assertThat(optionalUnit.get().getName()).isEqualTo(findUnit.getName());
         assertThat(optionalUnit.get().getSeason().getSeasonName()).isEqualTo(findUnit.getSeason().getSeasonName());
+    }
+
+    @Test
+    @DisplayName("isExistUnits 는 존재하지 않는 유닛이 리스트로 넘어온 경우 false를 리턴한다.")
+    void isExistUnitsFalseTest() throws Exception {
+        //given
+        Unit testUnit1 = Unit.builder()
+                .name("testUnitName1")
+                .season(season)
+                .rarity(1)
+                .build();
+        unitRepository.save(testUnit1);
+        Unit testUnit2 = Unit.builder()
+                .name("testUnitName2")
+                .season(season)
+                .rarity(1)
+                .build();
+        unitRepository.save(testUnit2);
+        //when
+        List<Long> unitIds = new ArrayList<>();
+        unitIds.add(testUnit1.getId());
+        unitIds.add(testUnit2.getId());
+        unitIds.add(1234L);
+        Boolean existUnits = unitService.isExistUnits(unitIds);
+        //then
+        assertThat(existUnits).isFalse();
+    }
+
+    @Test
+    @DisplayName("isExistUnits 는 존재하는 유닛이 리스트로 넘어온 경우 true를 리턴한다.")
+    void isExistUnitsTrueTest() throws Exception {
+        //given
+        Unit testUnit1 = Unit.builder()
+                .name("testUnitName1")
+                .season(season)
+                .rarity(1)
+                .build();
+        unitRepository.save(testUnit1);
+        Unit testUnit2 = Unit.builder()
+                .name("testUnitName2")
+                .season(season)
+                .rarity(1)
+                .build();
+        unitRepository.save(testUnit2);
+        //when
+        List<Long> unitIds = new ArrayList<>();
+        unitIds.add(testUnit1.getId());
+        unitIds.add(testUnit2.getId());
+        Boolean existUnits = unitService.isExistUnits(unitIds);
+        //then
+        assertThat(existUnits).isTrue();
     }
 
 
