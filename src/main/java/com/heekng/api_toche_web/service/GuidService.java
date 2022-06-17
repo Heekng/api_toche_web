@@ -21,16 +21,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class GuidService {
 
-    private final UnitRepository unitRepository;
     private final MatchInfoRepository matchInfoRepository;
     private final ModelMapper standardMapper;
 
     public UnitDTO.GuidResultResponse guidByUnits(UnitDTO.GuidRequest guidRequest) {
-        List<Unit> units = guidRequest.getUnitIds().stream()
-                .map(unitRepository::findById)
-                .map(unitOptional -> unitOptional.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Unit 입니다.")))
-                .collect(Collectors.toList());
-
         // 전체 리스트
         List<MatchInfo> matchInfos = matchInfoRepository.searchByUnitContains(guidRequest.getUnitIds());
         // unitId list
