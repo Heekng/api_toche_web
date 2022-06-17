@@ -42,4 +42,8 @@ public class MatchTrait extends BaseTimeEntity {
         this.matchInfo = matchInfo;
         this.trait = trait;
     }
+
+    public void changeMatchInfo(MatchInfo matchInfo) {
+        this.matchInfo = matchInfo;
+    }
 }

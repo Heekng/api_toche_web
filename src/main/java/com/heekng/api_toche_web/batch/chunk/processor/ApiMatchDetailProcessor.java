@@ -97,7 +97,6 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
             List<Augment> augments = augmentStringList.stream().map(augmentName -> augmentService.findOrSave(augmentName, season)).collect(Collectors.toList());
             for (Augment augment : augments) {
                 MatchAugment matchAugment = MatchAugment.builder()
-                        .matchInfo(matchInfo)
                         .augment(augment)
                         .build();
                 matchInfo.addMatchAugment(matchAugment);
@@ -125,12 +124,10 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
                     items.add(item);
                 }
                 MatchUnit matchUnit = MatchUnit.builder()
-                        .matchInfo(matchInfo)
                         .unit(unit)
                         .build();
                 for (Item item : items) {
                     MatchItem matchItem = MatchItem.builder()
-                            .matchUnit(matchUnit)
                             .item(item)
                             .build();
                     matchUnit.addMatchItem(matchItem);
@@ -147,7 +144,6 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
                         .tierAppliedCount(traitDTO.getTier_current())
                         .styleNum(traitDTO.getStyle())
                         .trait(trait)
-                        .matchInfo(matchInfo)
                         .build();
                 matchInfo.addMatchTrait(matchTrait);
             }
