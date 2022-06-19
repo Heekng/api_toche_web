@@ -12,6 +12,7 @@ import org.hibernate.Hibernate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.heekng.api_toche_web.entity.QMatchAugment.*;
 import static com.heekng.api_toche_web.entity.QMatchInfo.*;
 import static com.heekng.api_toche_web.entity.QMatchUnit.*;
 import static com.heekng.api_toche_web.entity.QUnit.*;
@@ -53,13 +54,50 @@ public class MatchInfoRepositoryImpl implements MatchInfoRepositoryCustom {
         return matchInfos;
     }
 
+    @Override
+    public List<MatchInfo> searchByAugmentContains(List<Long> augmentIds) {
+        Map<MatchInfo, List<MatchAugment>> transform = queryFactory
+                .selectFrom(matchInfo)
+                .leftJoin(matchInfo.matchAugments, matchAugment)
+                .where(
+                        augmentContains(augmentIds)
+                )
+                .distinct()
+                .transform(groupBy(matchInfo).as(list(matchAugment)));
+        List<MatchInfo> matchInfos = transform.entrySet().stream()
+                .filter(matchInfoListEntry -> {
+                    Set<Long> allAugmentIds = matchInfoListEntry.getValue().stream()
+                            .map(MatchAugment::getAugment)
+                            .map(Augment::getId)
+                            .collect(Collectors.toSet());
+                    return allAugmentIds.containsAll(augmentIds);
+                })
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+        matchInfos.stream().map(MatchInfo::getMatchUnits).forEach(Hibernate::initialize);
+        matchInfos.stream().map(MatchInfo::getMatchUnits).forEach(matchUnits ->
+                matchUnits.stream().map(MatchUnit::getUnit).forEach(Hibernate::initialize)
+        );
+        return matchInfos;
+    }
+
     private BooleanBuilder unitContains(List<Long> unitIds) {
         BooleanBuilder builder = new BooleanBuilder();
         unitIds.forEach(unitId -> builder.or(unitIdContains(unitId)));
         return builder;
     }
 
+    private BooleanBuilder augmentContains(List<Long> augmentIds) {
+        BooleanBuilder builder = new BooleanBuilder();
+        augmentIds.forEach(augmentId -> builder.or(augmentIdContains(augmentId)));
+        return builder;
+    }
+
     private BooleanExpression unitIdContains(Long unitId) {
         return unitId != null ? matchUnit.unit.id.eq(unitId) : null;
+    }
+
+    private BooleanExpression augmentIdContains(Long augmentId) {
+        return augmentId != null ? matchAugment.augment.id.eq(augmentId) : null;
     }
 }
