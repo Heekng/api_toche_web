@@ -9,10 +9,8 @@ import org.springframework.batch.item.ItemProcessor;
 @RequiredArgsConstructor
 public class ItemInsertProcessor implements ItemProcessor<ItemInsertVO, Item> {
 
-    private final Season season;
-
     @Override
     public Item process(ItemInsertVO itemInsertVO) throws Exception {
-        return itemInsertVO.toEntity(season);
+        return itemInsertVO.toEntity();
     }
 }

@@ -48,7 +48,7 @@ public class ItemInsertJobConfiguration {
         return stepBuilderFactory.get("itemInsertStep")
                 .<ItemInsertVO, Item>chunk(10)
                 .reader(itemInsertReader())
-                .processor(itemInsertProcessor(null))
+                .processor(itemInsertProcessor())
                 .writer(itemInsertWriter())
                 .build();
     }
@@ -64,9 +64,8 @@ public class ItemInsertJobConfiguration {
 
     @Bean
     @StepScope
-    public ItemProcessor<? super ItemInsertVO, ? extends Item> itemInsertProcessor(@Value("#{jobParameters[seasonNum]}") Integer seasonNum) {
-        Season season = seasonRepository.findBySeasonNum(seasonNum).orElseThrow(() -> new IllegalStateException("존재하지 않는 Season입니다."));
-        return new ItemInsertProcessor(season);
+    public ItemProcessor<? super ItemInsertVO, ? extends Item> itemInsertProcessor() {
+        return new ItemInsertProcessor();
     }
 
     @Bean

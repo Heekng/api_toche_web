@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface ItemRepositoryCustom {
 
-    Optional<Item> searchLastSeasonItemByRiotItemId(Integer ItemNum);
+    Optional<Item> searchItemByRiotItemId(Integer ItemNum);
 
     List<Item> searchByItemsRequest(ItemDTO.ItemsRequest itemsRequest);
 

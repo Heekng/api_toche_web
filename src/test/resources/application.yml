@@ -27,3 +27,7 @@ riotApi:
     summonerDetail: null
     matches: null
     matcheDetail: null
+
+cdragon:
+  path:
+    tftLastJson: null
