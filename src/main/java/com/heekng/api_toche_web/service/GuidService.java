@@ -32,7 +32,7 @@ public class GuidService {
         return filterGuidResultByMatchInfos(matchInfos);
     }
 
-    public GuidDTO.GuidResultResponse guidByUnits(AugmentDTO.GuidRequest guidRequest) {
+    public GuidDTO.GuidResultResponse guidByAugments(AugmentDTO.GuidRequest guidRequest) {
         // 전체 리스트
         List<MatchInfo> matchInfos = matchInfoRepository.searchByAugmentContains(guidRequest.getAugmentIds());
         return filterGuidResultByMatchInfos(matchInfos);
