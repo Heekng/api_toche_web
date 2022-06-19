@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class AugmentDTO {
@@ -44,7 +45,7 @@ public class AugmentDTO {
     public static class GuidRequest {
 
         @NotNull
-        @Length(max = 3)
+        @Size(max = 3)
         private List<Long> augmentIds;
 
         @Builder
