@@ -34,7 +34,7 @@ public class AugmentService {
         return augment;
     }
 
-    public Boolean isExistUnits(List<Long> augments) {
+    public Boolean isExistAugments(List<Long> augments) {
         List<Optional<Augment>> augmentOptionalList = augments.stream()
                 .map(augmentRepository::findById)
                 .collect(Collectors.toList());

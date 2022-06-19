@@ -4,7 +4,6 @@ import com.heekng.api_toche_web.entity.Augment;
 import com.heekng.api_toche_web.entity.Season;
 import com.heekng.api_toche_web.repository.AugmentRepository;
 import com.heekng.api_toche_web.repository.SeasonRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -78,8 +76,8 @@ class AugmentServiceTest {
     }
 
     @Test
-    @DisplayName("isExistUnits 는 존재하지 않는 유닛 ID일 경우 False를 리턴한다.")
-    void isExistUnitsFalseTest() throws Exception {
+    @DisplayName("isExistAugments 는 존재하지 않는 증강체 ID일 경우 False를 리턴한다.")
+    void isExistAugmentsFalseTest() throws Exception {
         //given
         Augment testAugment1 = Augment.builder()
                 .name("testAugmentName1")
@@ -101,14 +99,14 @@ class AugmentServiceTest {
         augmentIds.add(testAugment1.getId());
         augmentIds.add(testAugment2.getId());
         augmentIds.add(100L);
-        Boolean existUnits = augmentService.isExistUnits(augmentIds);
+        Boolean existUnits = augmentService.isExistAugments(augmentIds);
         //then
         assertThat(existUnits).isFalse();
     }
 
     @Test
-    @DisplayName("isExistUnits 는 존재하는 유닛 ID일 경우 True를 리턴한다.")
-    void isExistUnitsTrueTest() throws Exception {
+    @DisplayName("isExistAugments 는 존재하는 증강체 ID일 경우 True를 리턴한다.")
+    void isExistAugmentsTrueTest() throws Exception {
         //given
         Augment testAugment1 = Augment.builder()
                 .name("testAugmentName1")
@@ -130,7 +128,7 @@ class AugmentServiceTest {
         augmentIds.add(testAugment1.getId());
         augmentIds.add(testAugment2.getId());
         augmentIds.add(testAugment3.getId());
-        Boolean existUnits = augmentService.isExistUnits(augmentIds);
+        Boolean existUnits = augmentService.isExistAugments(augmentIds);
         //then
         assertThat(existUnits).isTrue();
     }
