@@ -41,7 +41,6 @@ class AugmentRepositoryTest {
 
         augment = Augment.builder()
                 .name("augmentName")
-                .season(season)
                 .build();
         augmentRepository.save(augment);
     }
@@ -73,19 +72,10 @@ class AugmentRepositoryTest {
     }
 
     @Test
-    void findByNameAndSeasonIdTest() throws Exception {
-        //when
-        Augment findAugment = augmentRepository.findByNameAndSeasonId(augment.getName(), season.getId()).get();
-        //then
-        assertThat(findAugment).isEqualTo(augment);
-    }
-
-    @Test
     void searchByAugmentsRequestTest() throws Exception {
         //given
         Augment testAugment = Augment.builder()
                 .name("testAugmentName")
-                .season(season)
                 .build();
         augmentRepository.save(testAugment);
         //when
@@ -97,19 +87,6 @@ class AugmentRepositoryTest {
         assertThat(augments).isNotEmpty();
         assertThat(augments.size()).isEqualTo(2);
         assertThat(augments.get(0)).isEqualTo(augment);
-    }
-
-    @Test
-    void findWithSeasonByIdTest() throws Exception {
-        //when
-        Optional<Augment> augmentOptional = augmentRepository.findWithSeasonById(augment.getId());
-        //then
-        assertThat(augmentOptional).isNotEmpty();
-        assertThat(augmentOptional.get()).isEqualTo(augment);
-        assertThat(augmentOptional.get().getName()).isEqualTo(augment.getName());
-        assertThat(augmentOptional.get().getSeason()).isEqualTo(season);
-        assertThat(augmentOptional.get().getSeason().getSeasonName()).isEqualTo(season.getSeasonName());
-
     }
 
 }

@@ -11,8 +11,4 @@ public interface AugmentRepository extends JpaRepository<Augment, Long>, Augment
 
     Optional<Augment> findByName(String name);
 
-    Optional<Augment> findByNameAndSeasonId(String name, Long SeasonId);
-
-    @EntityGraph(attributePaths = "season")
-    Optional<Augment> findWithSeasonById(Long id);
 }
