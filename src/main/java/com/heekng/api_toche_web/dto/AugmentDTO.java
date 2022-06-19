@@ -1,8 +1,13 @@
 package com.heekng.api_toche_web.dto;
 
+import com.heekng.api_toche_web.entity.Unit;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 public class AugmentDTO {
 
@@ -34,5 +39,35 @@ public class AugmentDTO {
             this.season = season;
         }
     }
+
+    @Data
+    public static class GuidRequest {
+
+        @NotNull
+        @Length(max = 3)
+        private List<Long> augmentIds;
+
+        @Builder
+        public GuidRequest(List<Long> augmentIds) {
+            this.augmentIds = augmentIds;
+        }
+    }
+
+    @Data
+    public static class GuidResultResponse {
+
+        private List<UnitDTO.UnitsResponse> units;
+        private Long resultCount;
+        private Integer allUsedCount;
+
+        @Builder
+        public GuidResultResponse(List<UnitDTO.UnitsResponse> units, Long resultCount, Integer allUsedCount) {
+            this.units = units;
+            this.resultCount = resultCount;
+            this.allUsedCount = allUsedCount;
+        }
+    }
+
+
 
 }
