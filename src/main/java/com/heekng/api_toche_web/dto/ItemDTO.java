@@ -28,14 +28,12 @@ public class ItemDTO {
         private Long itemId;
         private Integer itemNum;
         private String itemName;
-        private SeasonDTO.SeasonsResponse season;
 
         @Builder
-        public ItemsResponse(Long itemId, Integer itemNum, String itemName, SeasonDTO.SeasonsResponse season) {
+        public ItemsResponse(Long itemId, Integer itemNum, String itemName) {
             this.itemId = itemId;
             this.itemNum = itemNum;
             this.itemName = itemName;
-            this.season = season;
         }
     }
 }
