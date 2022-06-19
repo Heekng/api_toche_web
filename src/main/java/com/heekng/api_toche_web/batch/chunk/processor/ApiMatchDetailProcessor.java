@@ -113,7 +113,7 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
                     String itemName = "";
                     // 시즌 7부터 itemName이 제공되기 때문에 itemName이 없을 경우 처리
                     if (unitDTO.getItemNames() == null) {
-                        Optional<Item> itemOptional = itemRepository.searchLastSeasonItemByRiotItemId(itemNum);
+                        Optional<Item> itemOptional = itemRepository.searchItemByRiotItemId(itemNum);
                         if (itemOptional.isPresent()) {
                             itemName = itemOptional.get().getName();
                         }

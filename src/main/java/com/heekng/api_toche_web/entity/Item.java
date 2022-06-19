@@ -17,7 +17,7 @@ import static javax.persistence.FetchType.LAZY;
 @Table(
         uniqueConstraints = {
                 @UniqueConstraint(
-                        columnNames = {"num", "name", "season_id"}
+                        columnNames = {"num", "name"}
                 )
         }
 )
@@ -32,18 +32,13 @@ public class Item extends BaseTimeEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "season_id", nullable = false)
-    private Season season;
-
     @OneToMany(mappedBy = "item")
     private List<MatchItem> matchItems = new ArrayList<>();
 
     @Builder
-    public Item(Integer num, String name, Season season) {
+    public Item(Integer num, String name) {
         this.num = num;
         this.name = name;
-        this.season = season;
     }
 
 }

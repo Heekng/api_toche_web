@@ -81,7 +81,6 @@ class MatchItemRepositoryTest {
         item = Item.builder()
                 .name("itemName")
                 .num(1)
-                .season(season)
                 .build();
         em.persist(item);
 

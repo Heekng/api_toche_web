@@ -41,7 +41,6 @@ class ItemRepositoryTest {
         item = Item.builder()
                 .name("itemName")
                 .num(1)
-                .season(season)
                 .build();
         itemRepository.save(item);
     }
@@ -67,34 +66,20 @@ class ItemRepositoryTest {
     @Test
     void findByNameAndSeasonIdTest() throws Exception {
         //when
-        Optional<Item> optionalItem = itemRepository.findByNameAndSeasonId(item.getName(), season.getId());
+        Optional<Item> optionalItem = itemRepository.findByName(item.getName());
         //then
         assertThat(optionalItem).isNotEmpty();
         assertThat(optionalItem.get().getName()).isEqualTo(item.getName());
         assertThat(optionalItem.get().getNum()).isEqualTo(item.getNum());
-        assertThat(optionalItem.get().getSeason().getSeasonName()).isEqualTo(season.getSeasonName());
     }
 
     @Test
-    void searchLastSeasonItemByRiotItemIdTest() throws Exception {
-        //given
-        Season testSeason = Season.builder()
-                .seasonNum(7)
-                .seasonName("TFTSet7")
-                .build();
-        em.persist(testSeason);
-
-        Item testItem = Item.builder()
-                .name("testItemName")
-                .num(1)
-                .season(testSeason)
-                .build();
-        em.persist(testItem);
+    void searchByRiotItemIdTest() throws Exception {
         //when
-        Optional<Item> itemOptional = itemRepository.searchLastSeasonItemByRiotItemId(item.getNum());
+        Optional<Item> itemOptional = itemRepository.searchItemByRiotItemId(item.getNum());
         //then
         assertThat(itemOptional).isNotEmpty();
-        assertThat(itemOptional.get()).isEqualTo(testItem);
+        assertThat(itemOptional.get()).isEqualTo(item);
     }
 
     @Test
@@ -103,7 +88,6 @@ class ItemRepositoryTest {
         Item testItem = Item.builder()
                 .name("testItemName")
                 .num(2)
-                .season(season)
                 .build();
         em.persist(testItem);
         //when
@@ -116,16 +100,5 @@ class ItemRepositoryTest {
         assertThat(items.size()).isEqualTo(2);
         assertThat(items.get(0).getName()).isEqualTo(item.getName());
     }
-    
-    @Test
-    void findWithSeasonByIdTest() throws Exception {
-        //when
-        Optional<Item> itemOptional = itemRepository.findWithSeasonById(item.getId());
-        em.flush();
-        em.clear();
-        //then
-        assertThat(itemOptional).isNotEmpty();
-        assertThat(itemOptional.get().getName()).isEqualTo(item.getName());
-        assertThat(itemOptional.get().getSeason().getSeasonName()).isEqualTo(season.getSeasonName());
-    }
+
 }
