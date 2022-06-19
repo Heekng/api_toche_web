@@ -133,17 +133,14 @@ class GuidServiceTest {
         unitRepository.save(testUnit3);
         Augment testAugment1 = Augment.builder()
                 .name("testAugment1")
-                .season(testSeason)
                 .build();
         augmentRepository.save(testAugment1);
         Augment testAugment2 = Augment.builder()
                 .name("testAugment2")
-                .season(testSeason)
                 .build();
         augmentRepository.save(testAugment2);
         Augment testAugment3 = Augment.builder()
                 .name("testAugment3")
-                .season(testSeason)
                 .build();
         augmentRepository.save(testAugment3);
 

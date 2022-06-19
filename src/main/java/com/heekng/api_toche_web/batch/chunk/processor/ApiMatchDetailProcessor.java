@@ -94,7 +94,7 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
 
             // augment
             List<String> augmentStringList = participantDTO.getAugments();
-            List<Augment> augments = augmentStringList.stream().map(augmentName -> augmentService.findOrSave(augmentName, season)).collect(Collectors.toList());
+            List<Augment> augments = augmentStringList.stream().map(augmentName -> augmentService.findOrSave(augmentName)).collect(Collectors.toList());
             for (Augment augment : augments) {
                 MatchAugment matchAugment = MatchAugment.builder()
                         .augment(augment)

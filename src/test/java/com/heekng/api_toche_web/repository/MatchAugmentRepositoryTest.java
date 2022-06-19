@@ -62,7 +62,6 @@ class MatchAugmentRepositoryTest {
 
         augment = Augment.builder()
                 .name("augmentName")
-                .season(season)
                 .build();
         em.persist(augment);
 

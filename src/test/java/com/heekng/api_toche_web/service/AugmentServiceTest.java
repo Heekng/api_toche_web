@@ -46,7 +46,6 @@ class AugmentServiceTest {
 
         augment = Augment.builder()
                 .name("augmentName")
-                .season(season)
                 .build();
         augmentRepository.save(augment);
     }
@@ -55,7 +54,7 @@ class AugmentServiceTest {
     @DisplayName("이미 존재하는 특성은 저장하지 않는다.")
     void findOrSaveFindTest() throws Exception {
         //when
-        Augment findAugment = augmentService.findOrSave(augment.getName(), season);
+        Augment findAugment = augmentService.findOrSave(augment.getName());
         //then
         assertThat(findAugment.getId()).isEqualTo(augment.getId());
     }
@@ -64,14 +63,13 @@ class AugmentServiceTest {
     @DisplayName("존재하지 않는 특성은 새로 저장한다.")
     void findOrSaveSaveTest() throws Exception {
         //when
-        Augment findAugment = augmentService.findOrSave("testAugmentName", season);
+        Augment findAugment = augmentService.findOrSave("testAugmentName");
         em.flush();
         em.clear();
         Optional<Augment> optionalAugment = augmentRepository.findById(findAugment.getId());
         //then
         assertThat(optionalAugment).isNotEmpty();
         assertThat(optionalAugment.get().getName()).isEqualTo(findAugment.getName());
-        assertThat(optionalAugment.get().getSeason().getSeasonName()).isEqualTo(findAugment.getSeason().getSeasonName());
 
     }
 
@@ -81,17 +79,14 @@ class AugmentServiceTest {
         //given
         Augment testAugment1 = Augment.builder()
                 .name("testAugmentName1")
-                .season(season)
                 .build();
         augmentRepository.save(testAugment1);
         Augment testAugment2 = Augment.builder()
                 .name("testAugmentName2")
-                .season(season)
                 .build();
         augmentRepository.save(testAugment2);
         Augment testAugment3 = Augment.builder()
                 .name("testAugmentName3")
-                .season(season)
                 .build();
         augmentRepository.save(testAugment3);
         //when
@@ -110,17 +105,14 @@ class AugmentServiceTest {
         //given
         Augment testAugment1 = Augment.builder()
                 .name("testAugmentName1")
-                .season(season)
                 .build();
         augmentRepository.save(testAugment1);
         Augment testAugment2 = Augment.builder()
                 .name("testAugmentName2")
-                .season(season)
                 .build();
         augmentRepository.save(testAugment2);
         Augment testAugment3 = Augment.builder()
                 .name("testAugmentName3")
-                .season(season)
                 .build();
         augmentRepository.save(testAugment3);
         //when

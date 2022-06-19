@@ -31,13 +31,11 @@ public class AugmentDTO {
 
         private Long augmentId;
         private String augmentName;
-        private SeasonDTO.SeasonsResponse season;
 
         @Builder
-        public AugmentsResponse(Long augmentId, String augmentName, SeasonDTO.SeasonsResponse season) {
+        public AugmentsResponse(Long augmentId, String augmentName) {
             this.augmentId = augmentId;
             this.augmentName = augmentName;
-            this.season = season;
         }
     }
 
