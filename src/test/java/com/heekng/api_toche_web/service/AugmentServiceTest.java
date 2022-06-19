@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -75,4 +77,61 @@ class AugmentServiceTest {
 
     }
 
+    @Test
+    @DisplayName("isExistUnits 는 존재하지 않는 유닛 ID일 경우 False를 리턴한다.")
+    void isExistUnitsFalseTest() throws Exception {
+        //given
+        Augment testAugment1 = Augment.builder()
+                .name("testAugmentName1")
+                .season(season)
+                .build();
+        augmentRepository.save(testAugment1);
+        Augment testAugment2 = Augment.builder()
+                .name("testAugmentName2")
+                .season(season)
+                .build();
+        augmentRepository.save(testAugment2);
+        Augment testAugment3 = Augment.builder()
+                .name("testAugmentName3")
+                .season(season)
+                .build();
+        augmentRepository.save(testAugment3);
+        //when
+        List<Long> augmentIds = new ArrayList<>();
+        augmentIds.add(testAugment1.getId());
+        augmentIds.add(testAugment2.getId());
+        augmentIds.add(100L);
+        Boolean existUnits = augmentService.isExistUnits(augmentIds);
+        //then
+        assertThat(existUnits).isFalse();
+    }
+
+    @Test
+    @DisplayName("isExistUnits 는 존재하는 유닛 ID일 경우 True를 리턴한다.")
+    void isExistUnitsTrueTest() throws Exception {
+        //given
+        Augment testAugment1 = Augment.builder()
+                .name("testAugmentName1")
+                .season(season)
+                .build();
+        augmentRepository.save(testAugment1);
+        Augment testAugment2 = Augment.builder()
+                .name("testAugmentName2")
+                .season(season)
+                .build();
+        augmentRepository.save(testAugment2);
+        Augment testAugment3 = Augment.builder()
+                .name("testAugmentName3")
+                .season(season)
+                .build();
+        augmentRepository.save(testAugment3);
+        //when
+        List<Long> augmentIds = new ArrayList<>();
+        augmentIds.add(testAugment1.getId());
+        augmentIds.add(testAugment2.getId());
+        augmentIds.add(testAugment3.getId());
+        Boolean existUnits = augmentService.isExistUnits(augmentIds);
+        //then
+        assertThat(existUnits).isTrue();
+    }
 }
