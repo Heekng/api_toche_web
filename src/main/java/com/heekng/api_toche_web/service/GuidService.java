@@ -1,5 +1,7 @@
 package com.heekng.api_toche_web.service;
 
+import com.heekng.api_toche_web.dto.AugmentDTO;
+import com.heekng.api_toche_web.dto.GuidDTO;
 import com.heekng.api_toche_web.dto.UnitDTO;
 import com.heekng.api_toche_web.entity.MatchInfo;
 import com.heekng.api_toche_web.entity.MatchUnit;
@@ -24,10 +26,20 @@ public class GuidService {
     private final MatchInfoRepository matchInfoRepository;
     private final ModelMapper standardMapper;
 
-    public UnitDTO.GuidResultResponse guidByUnits(UnitDTO.GuidRequest guidRequest) {
+    public GuidDTO.GuidResultResponse guidByUnits(UnitDTO.GuidRequest guidRequest) {
         // 전체 리스트
         List<MatchInfo> matchInfos = matchInfoRepository.searchByUnitContains(guidRequest.getUnitIds());
-        // unitId list
+        return filterGuidResultByMatchInfos(matchInfos);
+    }
+
+    public GuidDTO.GuidResultResponse guidByUnits(AugmentDTO.GuidRequest guidRequest) {
+        // 전체 리스트
+        List<MatchInfo> matchInfos = matchInfoRepository.searchByAugmentContains(guidRequest.getAugmentIds());
+        return filterGuidResultByMatchInfos(matchInfos);
+    }
+
+    private GuidDTO.GuidResultResponse filterGuidResultByMatchInfos(List<MatchInfo> matchInfos) {
+        // unit list
         List<List<Unit>> unitsList = matchInfos.stream()
                 .map(matchInfo -> matchInfo.getMatchUnits().stream().map(MatchUnit::getUnit).collect(Collectors.toList()))
                 .collect(Collectors.toList());
@@ -45,7 +57,7 @@ public class GuidService {
                 .map(unit -> standardMapper.map(unit, UnitDTO.UnitsResponse.class))
                 .collect(Collectors.toList());
 
-        return UnitDTO.GuidResultResponse.builder()
+        return GuidDTO.GuidResultResponse.builder()
                 .units(unitsResponseList)
                 .resultCount(resultEntry.getValue())
                 .allUsedCount(matchInfos.size())
