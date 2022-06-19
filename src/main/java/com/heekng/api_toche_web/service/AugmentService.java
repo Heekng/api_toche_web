@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -30,5 +32,17 @@ public class AugmentService {
             augment = augmentOptional.get();
         }
         return augment;
+    }
+
+    public Boolean isExistAugments(List<Long> augments) {
+        List<Optional<Augment>> augmentOptionalList = augments.stream()
+                .map(augmentRepository::findById)
+                .collect(Collectors.toList());
+        for (Optional<Augment> augmentOptional: augmentOptionalList) {
+            if (augmentOptional.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

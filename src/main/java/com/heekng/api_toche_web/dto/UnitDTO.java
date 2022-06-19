@@ -1,11 +1,10 @@
 package com.heekng.api_toche_web.dto;
 
-import com.heekng.api_toche_web.entity.Season;
-import com.heekng.api_toche_web.entity.Unit;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class UnitDTO {
@@ -41,25 +40,12 @@ public class UnitDTO {
 
     @Data
     public static class GuidRequest {
+        @NotNull(message = "unitIds is not null")
         private List<Long> unitIds;
 
         @Builder
         public GuidRequest(List<Long> unitIds) {
             this.unitIds = unitIds;
-        }
-    }
-
-    @Data
-    public static class GuidResultResponse {
-        private List<UnitDTO.UnitsResponse> units;
-        private Long resultCount;
-        private Integer allUsedCount;
-
-        @Builder
-        public GuidResultResponse(List<UnitsResponse> units, Long resultCount, Integer allUsedCount) {
-            this.units = units;
-            this.resultCount = resultCount;
-            this.allUsedCount = allUsedCount;
         }
     }
 

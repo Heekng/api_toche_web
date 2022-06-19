@@ -153,4 +153,67 @@ class MatchInfoRepositoryTest {
         testList2.add(3L);
         assertThat(testList1).isEqualTo(testList2);
     }
+
+    @Test
+    @DisplayName("searchByAugmentContains 는 입력한 증강체 ID가 모두 포함된 덱을 리턴한다.")
+    void searchByAugmentContainsTest() throws Exception {
+        //given
+        Augment testAugment1 = Augment.builder()
+                .name("testAugment1")
+                .season(season)
+                .build();
+        em.persist(testAugment1);
+        Augment testAugment2 = Augment.builder()
+                .name("testAugment2")
+                .season(season)
+                .build();
+        em.persist(testAugment2);
+        Augment testAugment3 = Augment.builder()
+                .name("testAugment3")
+                .season(season)
+                .build();
+        em.persist(testAugment3);
+        MatchAugment matchAugment1 = MatchAugment.builder()
+                .augment(testAugment1)
+                .matchInfo(matchInfo)
+                .build();
+        em.persist(matchAugment1);
+        MatchAugment matchAugment2 = MatchAugment.builder()
+                .augment(testAugment2)
+                .matchInfo(matchInfo)
+                .build();
+        em.persist(matchAugment2);
+        MatchAugment matchAugment3 = MatchAugment.builder()
+                .augment(testAugment3)
+                .matchInfo(matchInfo)
+                .build();
+        em.persist(matchAugment3);
+
+
+        LocalDateTime matchDateTime = LocalDateTime.of(2022, 6, 16, 17, 48);
+        MatchInfo testMatchInfo = MatchInfo.builder()
+                .tftMatch(match)
+                .season(season)
+                .ranking(2)
+                .gameDatetime(matchDateTime)
+                .build();
+        MatchAugment matchAugment4 = MatchAugment.builder()
+                .augment(testAugment1)
+                .build();
+        testMatchInfo.addMatchAugment(matchAugment4);
+        em.persist(testMatchInfo);
+        em.flush();
+        em.clear();
+        //when
+        List<Long> augmentIds = new ArrayList<>();
+        augmentIds.add(testAugment1.getId());
+        augmentIds.add(testAugment2.getId());
+        List<MatchInfo> matchInfos = matchInfoRepository.searchByAugmentContains(augmentIds);
+
+        //then
+        assertThat(matchInfos).isNotEmpty();
+        assertThat(matchInfos.size()).isEqualTo(1);
+        assertThat(matchInfos.get(0).getId()).isEqualTo(matchInfo.getId());
+    }
+
 }

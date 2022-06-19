@@ -7,4 +7,6 @@ import java.util.List;
 public interface MatchInfoRepositoryCustom {
 
     List<MatchInfo> searchByUnitContains(List<Long> unitIds);
+
+    List<MatchInfo> searchByAugmentContains(List<Long> augmentIds);
 }
