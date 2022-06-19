@@ -19,13 +19,12 @@ public class AugmentService {
     private final AugmentRepository augmentRepository;
 
     @Transactional
-    public Augment findOrSave(String name, Season season) {
-        Optional<Augment> augmentOptional = augmentRepository.findByNameAndSeasonId(name, season.getId());
+    public Augment findOrSave(String name) {
+        Optional<Augment> augmentOptional = augmentRepository.findByName(name);
         Augment augment = null;
         if (augmentOptional.isEmpty()) {
             augment = Augment.builder()
                     .name(name)
-                    .season(season)
                     .build();
             augmentRepository.save(augment);
         } else {

@@ -34,7 +34,7 @@ public class AugmentApiController {
     public AugmentDTO.AugmentsResponse augmentByAugmentId(
             @PathVariable(name = "augmentId", required = true) Long augmentId
     ) {
-        Augment augment = augmentRepository.findWithSeasonById(augmentId)
+        Augment augment = augmentRepository.findById(augmentId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Trait 입니다."));
         return standardMapper.map(augment, AugmentDTO.AugmentsResponse.class);
     }

@@ -14,32 +14,20 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        columnNames = {"name", "season_id"}
-                )
-        }
-)
 public class Augment extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "augment_id")
     private Long id;
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
-
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "season_id", nullable = false)
-    private Season season;
 
     @OneToMany(mappedBy = "augment")
     private List<MatchAugment> matchAugments = new ArrayList<>();
 
     @Builder
-    public Augment(String name, Season season) {
+    public Augment(String name) {
         this.name = name;
-        this.season = season;
     }
 }

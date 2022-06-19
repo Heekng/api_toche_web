@@ -160,17 +160,14 @@ class MatchInfoRepositoryTest {
         //given
         Augment testAugment1 = Augment.builder()
                 .name("testAugment1")
-                .season(season)
                 .build();
         em.persist(testAugment1);
         Augment testAugment2 = Augment.builder()
                 .name("testAugment2")
-                .season(season)
                 .build();
         em.persist(testAugment2);
         Augment testAugment3 = Augment.builder()
                 .name("testAugment3")
-                .season(season)
                 .build();
         em.persist(testAugment3);
         MatchAugment matchAugment1 = MatchAugment.builder()

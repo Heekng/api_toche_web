@@ -25,15 +25,10 @@ public class AugmentRepositoryImpl implements AugmentRepositoryCustom {
     public List<Augment> searchByAugmentsRequest(AugmentDTO.AugmentsRequest augmentsRequest) {
         return queryFactory
                 .selectFrom(augment)
-                .leftJoin(augment.season, season)
-                .fetchJoin()
                 .where(
-                        augmentNameContains(augmentsRequest.getAugmentName()),
-                        seasonIdEq(augmentsRequest.getSeasonId())
+                        augmentNameContains(augmentsRequest.getAugmentName())
                 )
                 .orderBy(
-                        season.seasonNum.desc(),
-                        season.seasonName.desc(),
                         augment.name.asc()
                 )
                 .fetch();
