@@ -2,7 +2,6 @@ package com.heekng.api_toche_web.service;
 
 import com.heekng.api_toche_web.entity.Item;
 import com.heekng.api_toche_web.entity.Season;
-import com.heekng.api_toche_web.entity.Unit;
 import com.heekng.api_toche_web.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,11 +18,10 @@ public class ItemService {
 
     @Transactional
     public Item findOrSave(String name, Integer num, Season season) {
-        Optional<Item> itemOptional = itemRepository.findByNameAndSeasonId(name, season.getId());
+        Optional<Item> itemOptional = itemRepository.findByName(name);
         Item item = null;
         if (itemOptional.isEmpty()) {
             item = Item.builder()
-                    .season(season)
                     .name(name)
                     .num(num)
                     .build();

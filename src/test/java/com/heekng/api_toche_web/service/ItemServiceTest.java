@@ -44,7 +44,6 @@ class ItemServiceTest {
         seasonRepository.save(season);
 
         item = Item.builder()
-                .season(season)
                 .num(1)
                 .name("itemName")
                 .build();
@@ -71,7 +70,6 @@ class ItemServiceTest {
         //then
         assertThat(itemOptional).isNotEmpty();
         assertThat(itemOptional.get().getName()).isEqualTo(findItem.getName());
-        assertThat(itemOptional.get().getSeason().getSeasonName()).isEqualTo(findItem.getSeason().getSeasonName());
     }
 
 }

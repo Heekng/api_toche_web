@@ -19,16 +19,14 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Optional<Item> searchLastSeasonItemByRiotItemId(Integer itemNum) {
+    public Optional<Item> searchItemByRiotItemId(Integer itemNum) {
         return Optional.ofNullable(
                 queryFactory
                     .select(item)
                     .from(item)
-                    .innerJoin(item.season, season)
                     .where(
                             item.num.eq(itemNum), item.name.isNotNull()
                     )
-                    .orderBy(season.seasonNum.desc(), season.seasonName.desc())
                     .fetchFirst()
         );
     }
@@ -37,16 +35,11 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
     public List<Item> searchByItemsRequest(ItemDTO.ItemsRequest itemsRequest) {
         return queryFactory
                 .selectFrom(item)
-                .leftJoin(item.season, season)
-                .fetchJoin()
                 .where(
-                        seasonIdEq(itemsRequest.getSeasonId()),
                         itemNameContains(itemsRequest.getItemName()),
                         itemNumEq(itemsRequest.getItemNum())
                 )
                 .orderBy(
-                        season.seasonNum.desc(),
-                        season.seasonName.desc(),
                         item.num.asc()
                 )
                 .fetch();

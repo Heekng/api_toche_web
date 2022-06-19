@@ -30,11 +30,10 @@ public class ItemInsertVO {
         this.radiantBonus = radiantBonus;
     }
 
-    public Item toEntity(Season season) {
+    public Item toEntity() {
         return Item.builder()
                 .name(this.name)
                 .num(this.id)
-                .season(season)
                 .build();
     }
 }
