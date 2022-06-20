@@ -62,4 +62,9 @@ public class Unit extends BaseTimeEntity {
     public void addUnitTraits(List<UnitTrait> unitTraits) {
         this.unitTraits.addAll(unitTraits);
     }
+
+    public void addStat(Stat stat) {
+        stat.updateUnit(this);
+        this.stats.add(stat);
+    }
 }

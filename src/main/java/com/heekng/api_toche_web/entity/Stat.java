@@ -29,8 +29,13 @@ public class Stat extends BaseTimeEntity {
     private Unit unit;
 
     @Builder
-    public Stat(String name, Float statValue) {
+    public Stat(String name, Float statValue, Unit unit) {
         this.name = name;
         this.statValue = statValue;
+        this.unit = unit;
+    }
+
+    public void updateUnit(Unit unit) {
+        this.unit = unit;
     }
 }
