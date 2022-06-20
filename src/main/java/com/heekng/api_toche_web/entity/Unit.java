@@ -46,6 +46,8 @@ public class Unit extends BaseTimeEntity {
     private List<UnitTrait> unitTraits = new ArrayList<>();
     @OneToMany(mappedBy = "unit")
     private List<MatchUnit> matchUnits = new ArrayList<>();
+    @OneToMany(mappedBy = "unit", cascade = ALL)
+    private List<Stat> stats = new ArrayList<>();
 
 
     @Builder
