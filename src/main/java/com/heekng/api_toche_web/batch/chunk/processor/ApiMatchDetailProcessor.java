@@ -56,16 +56,22 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
 
         RestTemplate restTemplate = new RestTemplate();
         MatchDetailDTO matchDetailDTO = null;
+        int apiRequestCount = 0;
 
-        try {
-            matchDetailDTO = restTemplate.getForObject(uri, MatchDetailDTO.class);
-        } catch (HttpClientErrorException e) {
-            String message = e.getMessage();
-            if (message.contains("Rate limit exceeded")) {
-                log.info("wait maximum request");
-                Thread.sleep(120000);
+        while (true) {
+            try {
+                apiRequestCount++;
+                matchDetailDTO = restTemplate.getForObject(uri, MatchDetailDTO.class);
+                break;
+            } catch (HttpClientErrorException e) {
+                String message = e.getMessage();
+                if (apiRequestCount == 15) {
+                    throw new RuntimeException("최대 요청 횟수 초과");
+                } else if (message.contains("Rate limit exceeded")) {
+                    log.info("wait maximum request");
+                    Thread.sleep(120000);
+                }
             }
-            matchDetailDTO = restTemplate.getForObject(uri, MatchDetailDTO.class);
         }
 
         // 게임타입이 standard 가 아닌 경우 저장하지 않는다.
