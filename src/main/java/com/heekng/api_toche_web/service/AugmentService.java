@@ -1,5 +1,6 @@
 package com.heekng.api_toche_web.service;
 
+import com.heekng.api_toche_web.dto.AugmentDTO;
 import com.heekng.api_toche_web.entity.Augment;
 import com.heekng.api_toche_web.entity.Season;
 import com.heekng.api_toche_web.repository.AugmentRepository;
@@ -66,5 +67,9 @@ public class AugmentService {
             }
         }
         return true;
+    }
+
+    public List<Augment> findByArgumentsRequest(AugmentDTO.AugmentsRequest augmentsRequest) {
+        return augmentsRequest.getSeasonId() == null ? augmentRepository.searchByAugmentsRequest(augmentsRequest) : augmentRepository.searchByAugmentsRequestContainsSeasonId(augmentsRequest);
     }
 }
