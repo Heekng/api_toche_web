@@ -24,15 +24,10 @@ public class SeasonDTO {
     @NoArgsConstructor
     public static class SeasonsResponse {
 
-        private Long seasonId;
-        private Integer seasonNum;
-        private String seasonName;
+        private Long id;
+        private Integer num;
+        private String name;
 
-        public SeasonsResponse(Season season) {
-            this.seasonId = season.getId();
-            this.seasonNum = season.getSeasonNum();
-            this.seasonName = season.getSeasonName();
-        }
     }
 
 
