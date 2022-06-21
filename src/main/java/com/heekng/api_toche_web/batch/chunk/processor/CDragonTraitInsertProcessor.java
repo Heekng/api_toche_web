@@ -11,6 +11,7 @@ import com.heekng.api_toche_web.repository.TraitRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CDragonTraitInsertProcessor implements ItemProcessor<CDragonSetDataDTO, List<Trait>> {
 
+    @Value("${cdragon.path.image}")
+    private String CDRAGON_PATH_IMAGE;
     private final SeasonRepository seasonRepository;
     private final TraitRepository traitRepository;
 
@@ -45,7 +48,7 @@ public class CDragonTraitInsertProcessor implements ItemProcessor<CDragonSetData
                             .build()
             );
             String krName = traitDTO.getName();
-            String iconPath = traitDTO.getIcon().toLowerCase().replace(".tex", ".png");
+            String iconPath = CDRAGON_PATH_IMAGE + traitDTO.getIcon().toLowerCase().replace(".tex", ".png");
             String desc = traitDTO.getDesc();
             trait.updateCDragonData(desc, iconPath, krName);
             traitList.add(trait);

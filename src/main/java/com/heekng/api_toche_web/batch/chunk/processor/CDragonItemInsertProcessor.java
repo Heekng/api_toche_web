@@ -6,6 +6,7 @@ import com.heekng.api_toche_web.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -15,6 +16,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CDragonItemInsertProcessor implements ItemProcessor<CDragonItemDTO, Item> {
 
+    @Value("${cdragon.path.image}")
+    private String CDRAGON_PATH_IMAGE;
     private final ItemRepository itemRepository;
 
     @Override
@@ -31,7 +34,7 @@ public class CDragonItemInsertProcessor implements ItemProcessor<CDragonItemDTO,
         String desc = cDragonItemDTO.getDesc();
         String korName = cDragonItemDTO.getName();
         Boolean isUnique = cDragonItemDTO.getUnique();
-        String iconPath = cDragonItemDTO.getIcon().toLowerCase().replace(".dds", ".png");
+        String iconPath = CDRAGON_PATH_IMAGE + cDragonItemDTO.getIcon().toLowerCase().replace(".dds", ".png");
         Integer fromItem1 = null;
         Integer fromItem2 = null;
         if (!cDragonItemDTO.getFrom().isEmpty()) {
