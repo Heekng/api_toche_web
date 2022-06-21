@@ -60,13 +60,13 @@ public class CDragonAllDataPatchJobConfiguration {
     @Bean
     public Job cDragonAllDataPatchJob() {
         return jobBuilderFactory.get("cDragonAllDataPatchJob")
-                .start(cDragonAllDataGetStep())
+                .start(resetStep())
+                .next(cDragonAllDataGetStep())
                 .next(cDragonItemInsertStep())
                 .next(cDragonAugmentInsertStep())
                 .next(cDragonSeasonInsertStep())
                 .next(cDragonTraitInsertStep())
                 .next(cDragonChampionInsertStep())
-                .next(resetStep())
                 .build();
     }
 
