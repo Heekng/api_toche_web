@@ -52,9 +52,12 @@ public class Trait extends BaseTimeEntity {
     private List<TraitSet> traitSets = new ArrayList<>();
 
     @Builder
-    public Trait(String name, Integer tierTotalCount, Season season) {
+    public Trait(String name, Integer tierTotalCount, String desc, String iconPath, String krName, Season season) {
         this.name = name;
         this.tierTotalCount = tierTotalCount;
+        this.desc = desc;
+        this.iconPath = iconPath;
+        this.krName = krName;
         this.season = season;
     }
 
