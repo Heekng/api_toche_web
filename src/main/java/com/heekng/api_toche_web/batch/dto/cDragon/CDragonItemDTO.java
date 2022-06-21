@@ -14,4 +14,6 @@ public class CDragonItemDTO {
     private Integer id;
     private String name;
     private Boolean unique;
+
+    private String nameEn;
 }
