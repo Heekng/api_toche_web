@@ -32,16 +32,22 @@ public class ApiSummonerDetailProcessor implements ItemProcessor<Summoner, Summo
 
         RestTemplate restTemplate = new RestTemplate();
         SummonerDetailDTO summonerDetailDTO = null;
+        int apiRequestCount = 0;
 
-        try {
-            summonerDetailDTO = restTemplate.getForObject(uri, SummonerDetailDTO.class);
-        } catch (HttpClientErrorException e) {
-            String message = e.getMessage();
-            if (message.contains("Rate limit exceeded")) {
-                log.info("wait maximum request");
-                Thread.sleep(120000);
+        while (true) {
+            try {
+                apiRequestCount++;
+                summonerDetailDTO = restTemplate.getForObject(uri, SummonerDetailDTO.class);
+                break;
+            } catch (HttpClientErrorException e) {
+                String message = e.getMessage();
+                if (apiRequestCount == 15) {
+                    throw new RuntimeException("최대 요청 횟수 초과");
+                } else if (message.contains("Rate limit exceeded")) {
+                    log.info("wait maximum request");
+                    Thread.sleep(120000);
+                }
             }
-            summonerDetailDTO = restTemplate.getForObject(uri, SummonerDetailDTO.class);
         }
 
         summoner.updateBySummonerDetailDto(summonerDetailDTO);

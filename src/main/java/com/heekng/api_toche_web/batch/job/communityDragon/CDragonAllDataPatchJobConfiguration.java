@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.EntityManagerFactory;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -59,12 +60,29 @@ public class CDragonAllDataPatchJobConfiguration {
     @Bean
     public Job cDragonAllDataPatchJob() {
         return jobBuilderFactory.get("cDragonAllDataPatchJob")
-                .start(cDragonAllDataGetStep())
+                .start(resetStep())
+                .next(cDragonAllDataGetStep())
                 .next(cDragonItemInsertStep())
                 .next(cDragonAugmentInsertStep())
                 .next(cDragonSeasonInsertStep())
                 .next(cDragonTraitInsertStep())
                 .next(cDragonChampionInsertStep())
+                .build();
+    }
+
+    private Step resetStep() {
+        return stepBuilderFactory.get("indexResetStep")
+                .tasklet((contribution, chunkContext) -> {
+                    itemIndex = 0;
+                    augmentIndex = 0;
+                    seasonIndex = 0;
+                    championIndex = 0;
+                    traitIndex = 0;
+                    cDragonItemDTOFilterItemList = new ArrayList<>();
+                    cDragonItemDTOFilterAugmentList = new ArrayList<>();
+                    cDragonSetDataDTOList = new ArrayList<>();
+                    return RepeatStatus.FINISHED;
+                })
                 .build();
     }
 
