@@ -74,6 +74,21 @@ class AugmentServiceTest {
     }
 
     @Test
+    @DisplayName("enName 으로 검색된 증강체는 name 을 업데이트한다.")
+    void findOrSaveUpdateNameTest() throws Exception {
+        //given
+        Augment testAugment = Augment.builder()
+                .name("test Augment En Name III")
+                .enName("test Augment En Name III")
+                .build();
+        augmentRepository.save(testAugment);
+        //when
+        Augment findAugment = augmentService.findOrSave("testAugmentEnName3");
+        //then
+        assertThat(findAugment.getName()).isEqualTo("testAugmentEnName3");
+    }
+
+    @Test
     @DisplayName("isExistAugments 는 존재하지 않는 증강체 ID일 경우 False를 리턴한다.")
     void isExistAugmentsFalseTest() throws Exception {
         //given
