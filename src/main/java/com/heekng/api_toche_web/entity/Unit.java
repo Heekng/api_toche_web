@@ -38,6 +38,11 @@ public class Unit extends BaseTimeEntity {
     @Column(name = "cost")
     private Integer cost;
 
+    @Column(name = "icon_path")
+    private String iconPath;
+    @Column(name = "kr_name")
+    private String krName;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "season_id", nullable = false)
     private Season season;
@@ -46,18 +51,41 @@ public class Unit extends BaseTimeEntity {
     private List<UnitTrait> unitTraits = new ArrayList<>();
     @OneToMany(mappedBy = "unit")
     private List<MatchUnit> matchUnits = new ArrayList<>();
+    @OneToMany(mappedBy = "unit", cascade = ALL)
+    private List<Stat> stats = new ArrayList<>();
+    @OneToMany(mappedBy = "unit", cascade = ALL)
+    private List<Ability> abilities = new ArrayList<>();
 
 
     @Builder
-    public Unit(Integer rarity, String name, Integer tier, Season season, Integer cost) {
+    public Unit(Integer rarity, String name, Integer tier, Integer cost, String iconPath, String krName, Season season) {
         this.rarity = rarity;
         this.name = name;
         this.tier = tier;
-        this.season = season;
         this.cost = cost;
+        this.iconPath = iconPath;
+        this.krName = krName;
+        this.season = season;
     }
 
-    public void addUnitTraits(List<UnitTrait> unitTraits) {
-        this.unitTraits.addAll(unitTraits);
+    public void addUnitTrait(UnitTrait unitTrait) {
+        unitTrait.updateUnit(this);
+        this.unitTraits.add(unitTrait);
+    }
+
+    public void addStat(Stat stat) {
+        stat.updateUnit(this);
+        this.stats.add(stat);
+    }
+
+    public void addAbility(Ability ability) {
+        ability.updateUnit(this);
+        this.abilities.add(ability);
+    }
+
+    public void updateCDragonData(Integer cost, String iconPath, String krName) {
+        this.cost = cost;
+        this.iconPath = iconPath;
+        this.krName = krName;
     }
 }

@@ -89,4 +89,23 @@ class AugmentRepositoryTest {
         assertThat(augments.get(0)).isEqualTo(augment);
     }
 
+    @Test
+    void findByNumTest() throws Exception {
+        //when
+        Optional<Augment> augmentOptional = augmentRepository.findByNum(augment.getNum());
+        //then
+        assertThat(augmentOptional).isNotEmpty();
+        assertThat(augmentOptional.get()).isEqualTo(augment);
+    }
+
+    @Test
+    void findByNameEndingWithTest() throws Exception {
+        //when
+        Optional<Augment> augmentOptional = augmentRepository.findByNameEndingWith("mentName");
+        //then
+        assertThat(augmentOptional).isNotEmpty();
+        assertThat(augmentOptional.get()).isEqualTo(augment);
+
+    }
+
 }

@@ -42,15 +42,22 @@ public class ApiMatchListProcessor implements ItemProcessor<Summoner, List<TftMa
 
         RestTemplate restTemplate = new RestTemplate();
         List<String> matchList = null;
-        try {
-            matchList = restTemplate.getForObject(uri, List.class);
-        } catch (HttpClientErrorException e) {
-            String message = e.getMessage();
-            if (message.contains("Rate limit exceeded")) {
-                log.info("wait maximum request");
-                Thread.sleep(120000);
+        int apiRequestCount = 0;
+
+        while (true) {
+            try {
+                apiRequestCount++;
+                matchList = restTemplate.getForObject(uri, List.class);
+                break;
+            } catch (HttpClientErrorException e) {
+                String message = e.getMessage();
+                if (apiRequestCount == 15) {
+                    throw new RuntimeException("최대 요청 횟수 초과");
+                } else if (message.contains("Rate limit exceeded")) {
+                    log.info("wait maximum request");
+                    Thread.sleep(120000);
+                }
             }
-            matchList = restTemplate.getForObject(uri, List.class);
         }
 
         List<TftMatch> tftMatchList = new ArrayList<>();

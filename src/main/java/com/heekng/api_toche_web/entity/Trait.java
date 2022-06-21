@@ -33,6 +33,13 @@ public class Trait extends BaseTimeEntity {
     @Column(name = "tier_total_count", nullable = false)
     private Integer tierTotalCount;
 
+    @Column(name = "trait_desc")
+    private String traitDesc;
+    @Column(name = "icon_path")
+    private String iconPath;
+    @Column(name = "kr_name")
+    private String krName;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "season_id", nullable = false)
     private Season season;
@@ -45,13 +52,22 @@ public class Trait extends BaseTimeEntity {
     private List<TraitSet> traitSets = new ArrayList<>();
 
     @Builder
-    public Trait(String name, Integer tierTotalCount, Season season) {
+    public Trait(String name, Integer tierTotalCount, String traitDesc, String iconPath, String krName, Season season) {
         this.name = name;
         this.tierTotalCount = tierTotalCount;
+        this.traitDesc = traitDesc;
+        this.iconPath = iconPath;
+        this.krName = krName;
         this.season = season;
     }
 
     public void addTraitSets(List<TraitSet> traitSets) {
         this.traitSets.addAll(traitSets);
+    }
+
+    public void updateCDragonData(String traitDesc, String iconPath, String krName) {
+        this.traitDesc = traitDesc;
+        this.iconPath = iconPath;
+        this.krName = krName;
     }
 }

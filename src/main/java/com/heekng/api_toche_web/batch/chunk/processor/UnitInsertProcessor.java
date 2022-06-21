@@ -32,7 +32,7 @@ public class UnitInsertProcessor implements ItemProcessor<UnitInsertVO, Unit> {
                                 .trait(trait)
                                 .build()
                 ).collect(Collectors.toList());
-        unit.addUnitTraits(unitTraits);
+        unitTraits.forEach(unit::addUnitTrait);
         return unit;
     }
 }
