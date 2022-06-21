@@ -29,11 +29,8 @@ public class ItemApiController {
     ) {
         List<Item> items = itemRepository.searchByItemsRequest(itemsRequest);
         return items.stream()
-                .map(item -> {
-                    ItemDTO.ItemsResponse itemsResponse = standardMapper.map(item, ItemDTO.ItemsResponse.class);
-                    itemsResponse.setIconPath(CDRAGON_PATH_IMAGE + itemsResponse.getIconPath());
-                    return itemsResponse;
-                })
+                .map(item -> standardMapper.map(item, ItemDTO.ItemsResponse.class))
+                .peek(itemsResponse -> itemsResponse.setIconPath(CDRAGON_PATH_IMAGE + itemsResponse.getIconPath()))
                 .collect(Collectors.toList());
     }
 
@@ -43,6 +40,8 @@ public class ItemApiController {
     ) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Item 입니다."));
-        return standardMapper.map(item, ItemDTO.ItemDetailResponse.class);
+        ItemDTO.ItemDetailResponse itemDetailResponse = standardMapper.map(item, ItemDTO.ItemDetailResponse.class);
+        itemDetailResponse.setIconPath(CDRAGON_PATH_IMAGE + itemDetailResponse.getIconPath());
+        return itemDetailResponse;
     }
 }
