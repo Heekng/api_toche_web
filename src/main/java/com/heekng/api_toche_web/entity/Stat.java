@@ -38,4 +38,9 @@ public class Stat extends BaseTimeEntity {
     public void updateUnit(Unit unit) {
         this.unit = unit;
     }
+
+    public void updateStat(String name, Float statValue) {
+        this.name = name;
+        this.statValue = statValue;
+    }
 }

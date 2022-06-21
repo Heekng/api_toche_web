@@ -44,4 +44,11 @@ public class Ability extends BaseTimeEntity{
     public void updateUnit(Unit unit) {
         this.unit = unit;
     }
+
+    public void updateByCDragonData(String desc, String iconPath, String name, String krName) {
+        this.desc = desc;
+        this.iconPath = iconPath;
+        this.name = name;
+        this.krName = krName;
+    }
 }

@@ -31,4 +31,8 @@ public class UnitTrait {
         this.unit = unit;
         this.trait = trait;
     }
+
+    public void updateUnit(Unit unit) {
+        this.unit = unit;
+    }
 }
