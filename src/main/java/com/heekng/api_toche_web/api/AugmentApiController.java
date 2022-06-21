@@ -3,6 +3,7 @@ package com.heekng.api_toche_web.api;
 import com.heekng.api_toche_web.dto.AugmentDTO;
 import com.heekng.api_toche_web.entity.Augment;
 import com.heekng.api_toche_web.repository.AugmentRepository;
+import com.heekng.api_toche_web.service.AugmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -18,13 +19,14 @@ import java.util.stream.Collectors;
 public class AugmentApiController {
 
     private final AugmentRepository augmentRepository;
+    private final AugmentService augmentService;
     private final ModelMapper standardMapper;
 
     @GetMapping("/augments")
     public List<AugmentDTO.AugmentsResponse> augments(
             @ModelAttribute AugmentDTO.AugmentsRequest augmentsRequest
     ) {
-        List<Augment> augments = augmentRepository.searchByAugmentsRequest(augmentsRequest);
+        List<Augment> augments = augmentService.findByArgumentsRequest(augmentsRequest);
         return augments.stream()
                 .map(augment -> standardMapper.map(augment, AugmentDTO.AugmentsResponse.class))
                 .collect(Collectors.toList());
