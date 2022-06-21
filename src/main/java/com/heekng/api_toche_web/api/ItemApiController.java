@@ -6,6 +6,7 @@ import com.heekng.api_toche_web.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1")
 public class ItemApiController {
 
+    @Value("${cdragon.path.image}")
+    private String CDRAGON_PATH_IMAGE;
     private final ModelMapper standardMapper;
     private final ItemRepository itemRepository;
 
@@ -26,16 +29,20 @@ public class ItemApiController {
     ) {
         List<Item> items = itemRepository.searchByItemsRequest(itemsRequest);
         return items.stream()
-                .map(item -> standardMapper.map(item, ItemDTO.ItemsResponse.class))
+                .map(item -> {
+                    ItemDTO.ItemsResponse itemsResponse = standardMapper.map(item, ItemDTO.ItemsResponse.class);
+                    itemsResponse.setIconPath(CDRAGON_PATH_IMAGE + itemsResponse.getIconPath());
+                    return itemsResponse;
+                })
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/items/{itemId}")
-    public ItemDTO.ItemsResponse itemByItemId(
+    public ItemDTO.ItemDetailResponse itemByItemId(
             @PathVariable(name = "itemId", required = true) Long itemId
     ) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Item 입니다."));
-        return standardMapper.map(item, ItemDTO.ItemsResponse.class);
+        return standardMapper.map(item, ItemDTO.ItemDetailResponse.class);
     }
 }
