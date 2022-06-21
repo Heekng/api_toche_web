@@ -22,7 +22,7 @@ public class SeasonRepositoryImpl implements SeasonRepositoryCustom {
                 .selectFrom(season)
                 .where(
                         seasonNumEq(seasonsRequest.getSeasonNum()),
-                        seasonNameEq(seasonsRequest.getSeasonName())
+                        seasonNameContains(seasonsRequest.getSeasonName())
                 )
                 .orderBy(season.seasonNum.desc(), season.seasonName.desc())
                 .fetch();
@@ -34,5 +34,9 @@ public class SeasonRepositoryImpl implements SeasonRepositoryCustom {
 
     private BooleanExpression seasonNameEq(String seasonName) {
         return hasText(seasonName) ? season.seasonName.eq(seasonName) : null;
+    }
+
+    private BooleanExpression seasonNameContains(String seasonName) {
+        return hasText(seasonName) ? season.seasonName.contains(seasonName) : null;
     }
 }
