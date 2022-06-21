@@ -2,7 +2,6 @@ package com.heekng.api_toche_web.repository;
 
 import com.heekng.api_toche_web.entity.Ability;
 import com.heekng.api_toche_web.entity.Season;
-import com.heekng.api_toche_web.entity.Stat;
 import com.heekng.api_toche_web.entity.Unit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,7 +50,7 @@ class AbilityRepositoryTest {
 
         ability = Ability.builder()
                 .name("testAbility")
-                .desc("testAbilityDesc")
+                .abilityDesc("testAbilityDesc")
                 .krName("테스트 능력")
                 .iconPath("abcd")
                 .unit(unit)

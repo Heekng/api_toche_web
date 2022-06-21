@@ -18,7 +18,7 @@ public class CDragonAbilityDTO {
     public Ability toAbilityEntity() {
         return Ability.builder()
                 .iconPath(this.icon.toLowerCase().replace(".dds", ".png"))
-                .desc(desc)
+                .abilityDesc(desc)
                 .krName(name)
                 .name(enName.equals("") ? null : enName)
                 .build();

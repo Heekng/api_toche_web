@@ -9,8 +9,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.FetchType.LAZY;
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,8 +23,8 @@ public class Augment extends BaseTimeEntity{
 
     @Column(name = "num")
     private Integer num;
-    @Column(name = "desc")
-    private String desc;
+    @Column(name = "augment_desc")
+    private String augmentDesc;
     @Column(name = "kor_name")
     private String korName;
     @Column(name = "en_name")
@@ -40,19 +38,19 @@ public class Augment extends BaseTimeEntity{
     private List<MatchAugment> matchAugments = new ArrayList<>();
 
     @Builder
-    public Augment(String name, Integer num, String desc, String korName, String enName, Boolean isUnique, String iconPath) {
+    public Augment(String name, Integer num, String augmentDesc, String korName, String enName, Boolean isUnique, String iconPath) {
         this.name = name;
         this.num = num;
-        this.desc = desc;
+        this.augmentDesc = augmentDesc;
         this.korName = korName;
         this.enName = enName;
         this.isUnique = isUnique;
         this.iconPath = iconPath;
     }
 
-    public void updateCDragonData(Integer num, String desc, String korName, String enName, Boolean isUnique, String iconPath) {
+    public void updateCDragonData(Integer num, String augmentDesc, String korName, String enName, Boolean isUnique, String iconPath) {
         this.num = num;
-        this.desc = desc;
+        this.augmentDesc = augmentDesc;
         this.korName = korName;
         this.enName = enName;
         this.isUnique = isUnique;

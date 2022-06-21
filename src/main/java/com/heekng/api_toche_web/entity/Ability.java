@@ -19,8 +19,8 @@ public class Ability extends BaseTimeEntity{
     @Column(name = "ability_id")
     private Long id;
 
-    @Column(name = "desc")
-    private String desc;
+    @Column(name = "ability_desc")
+    private String abilityDesc;
     @Column(name = "icon_path")
     private String iconPath;
     @Column(name = "name")
@@ -33,8 +33,8 @@ public class Ability extends BaseTimeEntity{
     private Unit unit;
 
     @Builder
-    public Ability(String desc, String iconPath, String name, String krName, Unit unit) {
-        this.desc = desc;
+    public Ability(String abilityDesc, String iconPath, String name, String krName, Unit unit) {
+        this.abilityDesc = abilityDesc;
         this.iconPath = iconPath;
         this.name = name;
         this.krName = krName;
@@ -45,8 +45,8 @@ public class Ability extends BaseTimeEntity{
         this.unit = unit;
     }
 
-    public void updateByCDragonData(String desc, String iconPath, String name, String krName) {
-        this.desc = desc;
+    public void updateByCDragonData(String abilityDesc, String iconPath, String name, String krName) {
+        this.abilityDesc = abilityDesc;
         this.iconPath = iconPath;
         this.name = name;
         this.krName = krName;

@@ -83,7 +83,7 @@ public class CDragonChampionInsertProcessor implements ItemProcessor<CDragonSetD
             } else {
                 Ability unitAbility = unit.getAbilities().get(0);
                 unitAbility.updateByCDragonData(
-                        ability.getDesc(),
+                        ability.getAbilityDesc(),
                         ability.getIconPath(),
                         ability.getName(),
                         ability.getKrName()
