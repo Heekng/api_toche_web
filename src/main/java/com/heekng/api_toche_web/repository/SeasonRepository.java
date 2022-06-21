@@ -10,4 +10,6 @@ public interface SeasonRepository extends JpaRepository<Season, Long>, SeasonRep
     Optional<Season> findBySeasonNum(Integer seasonNum);
 
     List<Season> findAllByOrderBySeasonNumDescSeasonNameDesc();
+
+    Optional<Season> findBySeasonName(String seasonName);
 }
