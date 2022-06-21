@@ -92,4 +92,13 @@ class SeasonRepositoryTest {
         assertThat(seasons.size()).isEqualTo(2);
         assertThat(seasons.get(0).getSeasonName()).isEqualTo(testSeason2_2.getSeasonName());
     }
+
+    @Test
+    void findBySeasonNameTest() throws Exception {
+        //when
+        Optional<Season> seasonOptional = seasonRepository.findBySeasonName(season.getSeasonName());
+        //then
+        assertThat(seasonOptional).isNotEmpty();
+        assertThat(seasonOptional.get()).isEqualTo(season);
+    }
 }

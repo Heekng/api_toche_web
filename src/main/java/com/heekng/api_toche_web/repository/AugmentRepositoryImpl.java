@@ -4,12 +4,14 @@ import com.heekng.api_toche_web.dto.AugmentDTO;
 import com.heekng.api_toche_web.entity.Augment;
 import com.heekng.api_toche_web.entity.QAugment;
 import com.heekng.api_toche_web.entity.QSeason;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.heekng.api_toche_web.entity.QAugment.*;
 import static com.heekng.api_toche_web.entity.QSeason.*;
@@ -32,6 +34,20 @@ public class AugmentRepositoryImpl implements AugmentRepositoryCustom {
                         augment.name.asc()
                 )
                 .fetch();
+    }
+
+    @Override
+    public Optional<Augment> searchByNameOrEnNameEq(String name, String enName) {
+        return Optional.ofNullable(queryFactory
+                .selectFrom(augment)
+                .where(
+                        augment.name.eq(name)
+                                .or(augment.enName.eq(enName))
+                )
+                .orderBy(
+                        augment.name.asc()
+                )
+                .fetchFirst());
     }
 
     private BooleanExpression augmentNameContains(String augmentName) {

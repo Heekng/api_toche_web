@@ -101,4 +101,12 @@ class ItemRepositoryTest {
         assertThat(items.get(0).getName()).isEqualTo(item.getName());
     }
 
+    @Test
+    void findByNumTest() throws Exception {
+        //when
+        Optional<Item> itemOptional = itemRepository.findByNum(item.getNum());
+        //then
+        assertThat(itemOptional).isNotEmpty();
+        assertThat(itemOptional.get()).isEqualTo(item);
+    }
 }

@@ -3,6 +3,7 @@ package com.heekng.api_toche_web.batch.dto.cDragon;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class CDragonChampionDTO {
@@ -12,6 +13,6 @@ public class CDragonChampionDTO {
     private Integer cost;
     private String icon;
     private String name;
-    private CDragonChampionStatDTO stats;
+    private Map<String, Float> stats;
     private List<String> traits;
 }

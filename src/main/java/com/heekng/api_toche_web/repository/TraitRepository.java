@@ -14,4 +14,6 @@ public interface TraitRepository extends JpaRepository<Trait, Long>, TraitReposi
 
     @EntityGraph(attributePaths = "season")
     Optional<Trait> findWithSeasonById(Long id);
+
+    Optional<Trait> findByKrNameAndSeasonId(String krName, Long seasonId);
 }

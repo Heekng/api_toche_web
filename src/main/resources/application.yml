@@ -37,3 +37,7 @@ riotApi:
     summonerDetail: https://kr.api.riotgames.com/tft/summoner/v1/summoners/
     matches: https://asia.api.riotgames.com/tft/match/v1/matches/by-puuid/
     matcheDetail: https://asia.api.riotgames.com/tft/match/v1/matches/
+cdragon:
+  path:
+    tftLastJson: https://raw.communitydragon.org/latest/cdragon/tft/ko_kr.json
+    tftLastJsonEn: https://raw.communitydragon.org/latest/cdragon/tft/en_us.json

@@ -42,6 +42,7 @@ class TraitRepositoryTest {
         trait = Trait.builder()
                 .season(season)
                 .name("traitName")
+                .krName("테스트 한국어 특성명")
                 .tierTotalCount(5)
                 .build();
         traitRepository.save(trait);
@@ -168,5 +169,15 @@ class TraitRepositoryTest {
         assertThat(traitOptional).isNotEmpty();
         assertThat(traitOptional.get().getName()).isEqualTo(trait.getName());
         assertThat(traitOptional.get().getSeason().getSeasonName()).isEqualTo(season.getSeasonName());
+    }
+
+    @Test
+    void findByKrNameAndSeasonIdTest() throws Exception {
+        //when
+        Optional<Trait> traitOptional = traitRepository.findByKrNameAndSeasonId(trait.getKrName(), trait.getSeason().getId());
+        //then
+        assertThat(traitOptional).isNotEmpty();
+        assertThat(traitOptional.get()).isEqualTo(trait);
+
     }
 }
