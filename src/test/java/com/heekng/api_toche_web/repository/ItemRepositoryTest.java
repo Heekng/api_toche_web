@@ -83,16 +83,16 @@ class ItemRepositoryTest {
     }
 
     @Test
-    @DisplayName("searchByItemsRequest 는 seasonId를 이용할 수 있으며, itemNum 오름차순으로 정렬된다.")
+    @DisplayName("searchByItemsRequest 는 itemNum를 이용할 수 있으며, itemNum 오름차순으로 정렬된다.")
     void searchByItemsRequestTest() throws Exception {
         Item testItem = Item.builder()
                 .name("testItemName")
-                .num(2)
+                .num(1)
                 .build();
         em.persist(testItem);
         //when
         ItemDTO.ItemsRequest itemsRequest = ItemDTO.ItemsRequest.builder()
-                .seasonId(season.getId())
+                .itemNum(testItem.getNum())
                 .build();
         List<Item> items = itemRepository.searchByItemsRequest(itemsRequest);
         //then
