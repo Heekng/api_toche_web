@@ -23,17 +23,13 @@ public class TraitDTO {
     @NoArgsConstructor
     public static class TraitsResponse {
 
-        private Long traitId;
-        private String traitName;
+        private Long id;
+        private String name;
+        private String krName;
         private Integer tierTotalCount;
+        private String desc;
+        private String iconPath;
         private SeasonDTO.SeasonsResponse season;
 
-        @Builder
-        public TraitsResponse(Long traitId, String traitName, Integer tierTotalCount, SeasonDTO.SeasonsResponse season) {
-            this.traitId = traitId;
-            this.traitName = traitName;
-            this.tierTotalCount = tierTotalCount;
-            this.season = season;
-        }
     }
 }
