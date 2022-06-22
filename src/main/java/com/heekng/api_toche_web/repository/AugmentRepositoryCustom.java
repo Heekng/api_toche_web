@@ -11,4 +11,6 @@ public interface AugmentRepositoryCustom {
     List<Augment> searchByAugmentsRequest(AugmentDTO.AugmentsRequest augmentsRequest);
 
     Optional<Augment> searchByNameOrEnNameEq(String name, String enName);
+
+    List<Augment> searchByAugmentsRequestContainsSeasonId(AugmentDTO.AugmentsRequest augmentsRequest);
 }

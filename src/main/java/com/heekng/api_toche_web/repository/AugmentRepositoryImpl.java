@@ -1,9 +1,7 @@
 package com.heekng.api_toche_web.repository;
 
 import com.heekng.api_toche_web.dto.AugmentDTO;
-import com.heekng.api_toche_web.entity.Augment;
-import com.heekng.api_toche_web.entity.QAugment;
-import com.heekng.api_toche_web.entity.QSeason;
+import com.heekng.api_toche_web.entity.*;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -14,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.heekng.api_toche_web.entity.QAugment.*;
+import static com.heekng.api_toche_web.entity.QMatchAugment.*;
+import static com.heekng.api_toche_web.entity.QMatchInfo.*;
 import static com.heekng.api_toche_web.entity.QSeason.*;
 import static org.springframework.util.StringUtils.*;
 
@@ -48,6 +48,25 @@ public class AugmentRepositoryImpl implements AugmentRepositoryCustom {
                         augment.name.asc()
                 )
                 .fetchFirst());
+    }
+
+    @Override
+    public List<Augment> searchByAugmentsRequestContainsSeasonId(AugmentDTO.AugmentsRequest augmentsRequest) {
+        return queryFactory
+                .select(augment)
+                .from(matchInfo)
+                .leftJoin(matchInfo.season, season)
+                .leftJoin(matchInfo.matchAugments, matchAugment)
+                .leftJoin(matchAugment.augment, augment)
+                .where(
+                        seasonIdEq(augmentsRequest.getSeasonId()),
+                        augmentNameContains(augmentsRequest.getAugmentName())
+                )
+                .orderBy(
+                        augment.name.asc()
+                )
+                .distinct()
+                .fetch();
     }
 
     private BooleanExpression augmentNameContains(String augmentName) {

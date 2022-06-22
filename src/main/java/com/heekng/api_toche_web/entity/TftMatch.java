@@ -30,6 +30,8 @@ public class TftMatch extends BaseTimeEntity {
     private Long id;
     @Column(name = "match_id", nullable = false)
     private String matchId;
+    @Column(name = "game_type")
+    private String gameType;
 
     @OneToMany(mappedBy = "tftMatch", fetch = LAZY, cascade = REMOVE)
     private List<MatchInfo> matchInfos;
@@ -39,9 +41,14 @@ public class TftMatch extends BaseTimeEntity {
     private Summoner summoner;
 
     @Builder
-    public TftMatch(Long id, String matchId, Summoner summoner) {
+    public TftMatch(Long id, String matchId, String gameType, Summoner summoner) {
         this.id = id;
         this.matchId = matchId;
+        this.gameType = gameType;
         this.summoner = summoner;
+    }
+
+    public void updateGameType(String gameType) {
+        this.gameType = gameType;
     }
 }

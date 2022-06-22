@@ -17,7 +17,7 @@ public class SeasonService {
 
     @Transactional
     public Season findOrSave(Integer seasonNum, String seasonName) {
-        Optional<Season> seasonOptional = seasonRepository.findBySeasonNum(seasonNum);
+        Optional<Season> seasonOptional = seasonRepository.findBySeasonName(seasonName);
         Season season = null;
         if (seasonOptional.isEmpty()) {
             season = Season.builder()

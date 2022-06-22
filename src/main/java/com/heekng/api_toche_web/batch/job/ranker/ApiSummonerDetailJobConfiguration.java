@@ -50,7 +50,7 @@ public class ApiSummonerDetailJobConfiguration {
                 .name("apiSummonerDetailReader")
                 .entityManagerFactory(emf)
                 .pageSize(10)
-                .queryString("select s from Summoner s")
+                .queryString("select s from Summoner s where s.puuid is null")
                 .build();
     }
 
