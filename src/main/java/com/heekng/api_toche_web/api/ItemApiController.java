@@ -37,8 +37,6 @@ public class ItemApiController {
     public ItemDTO.ItemDetailResponse itemByItemId(
             @PathVariable(name = "itemId", required = true) Long itemId
     ) {
-        Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Item 입니다."));
-        return standardMapper.map(item, ItemDTO.ItemDetailResponse.class);
+        return itemService.findItemDetail(itemId);
     }
 }
