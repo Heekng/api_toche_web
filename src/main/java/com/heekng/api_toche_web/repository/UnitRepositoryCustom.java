@@ -9,4 +9,5 @@ public interface UnitRepositoryCustom {
 
     List<Unit> searchByUnitsRequest(UnitDTO.UnitsRequest unitsRequest);
 
+    List<UnitDTO.ItemRankResponse> searchUnitRankByItemId(Long itemId);
 }
