@@ -63,6 +63,7 @@ public class ItemDTO {
         private ItemsResponse fromItem2;
         private Boolean isUnique;
         private String iconPath;
+        private Long usedCount;
 
         @QueryProjection
         public ItemDetailResponse(Long id, Integer num, String name, String desc, String korName, ItemsResponse fromItem1, ItemsResponse fromItem2, Boolean isUnique, String iconPath) {
