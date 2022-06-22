@@ -11,11 +11,13 @@ public class ItemDTO {
 
         private Integer itemNum;
         private String itemName;
+        private Long seasonId;
 
         @Builder
-        public ItemsRequest(Integer itemNum, String itemName) {
+        public ItemsRequest(Integer itemNum, String itemName, Long seasonId) {
             this.itemNum = itemNum;
             this.itemName = itemName;
+            this.seasonId = seasonId;
         }
     }
 
