@@ -1,5 +1,6 @@
 package com.heekng.api_toche_web.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -46,6 +47,32 @@ public class UnitDTO {
         @Builder
         public GuidRequest(List<Long> unitIds) {
             this.unitIds = unitIds;
+        }
+    }
+
+    @Data
+    @NoArgsConstructor
+    public static class ItemRankResponse {
+
+        private Long id;
+        private String name;
+        private String krName;
+        private Integer rarity;
+        private Integer tier;
+        private Integer cost;
+        private String iconPath;
+        private Long count;
+
+        @QueryProjection
+        public ItemRankResponse(Long id, String name, String krName, Integer rarity, Integer tier, Integer cost, String iconPath, Long count) {
+            this.id = id;
+            this.name = name;
+            this.krName = krName;
+            this.rarity = rarity;
+            this.tier = tier;
+            this.cost = cost;
+            this.iconPath = iconPath;
+            this.count = count;
         }
     }
 
