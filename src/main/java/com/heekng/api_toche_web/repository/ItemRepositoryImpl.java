@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.heekng.api_toche_web.entity.QItem.*;
+import static com.heekng.api_toche_web.entity.QMatchInfo.matchInfo;
+import static com.heekng.api_toche_web.entity.QMatchItem.*;
+import static com.heekng.api_toche_web.entity.QMatchUnit.*;
 import static com.heekng.api_toche_web.entity.QSeason.*;
 import static org.springframework.util.StringUtils.*;
 
@@ -42,6 +45,29 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                 .orderBy(
                         item.num.asc()
                 )
+                .fetch();
+    }
+
+    @Override
+    public List<Item> searchByItemsRequestContainsSeasonId(ItemDTO.ItemsRequest itemsRequest) {
+        return queryFactory
+                .select(item)
+                .from(matchInfo)
+                .leftJoin(matchInfo.season, season)
+                .leftJoin(matchInfo.matchUnits, matchUnit)
+                .leftJoin(matchUnit.matchItems, matchItem)
+                .leftJoin(matchItem.item, item)
+                .where(
+                        item.id.isNotNull(),
+                        seasonIdEq(itemsRequest.getSeasonId()),
+                        itemNameContains(itemsRequest.getItemName()),
+                        itemNumEq(itemsRequest.getItemNum())
+                )
+                .orderBy(
+                        item.num.asc(),
+                        item.name.asc()
+                )
+                .distinct()
                 .fetch();
     }
 
