@@ -2,6 +2,7 @@ package com.heekng.api_toche_web.repository;
 
 import com.heekng.api_toche_web.entity.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -107,6 +108,15 @@ class MatchItemRepositoryTest {
         matchItemRepository.delete(matchItem);
         Optional<MatchItem> afterDeleteObject = matchItemRepository.findById(matchItem.getId());
         assertThat(afterDeleteObject).isEmpty();
+    }
+
+    @Test
+    @DisplayName("countByItemId 는 해당 아이템이 사용된 횟수를 리턴한다.")
+    void countByItemIdTest() throws Exception {
+        //when
+        Long itemCount = matchItemRepository.countByItemId(item.getId());
+        //then
+        assertThat(itemCount).isEqualTo(1);
     }
 
 }
