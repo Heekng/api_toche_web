@@ -6,6 +6,7 @@ import com.heekng.api_toche_web.repository.AugmentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -15,6 +16,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CDragonAugmentInsertProcessor implements ItemProcessor<CDragonItemDTO, Augment> {
 
+    @Value("${cdragon.path.image}")
+    private String CDRAGON_PATH_IMAGE;
     private final AugmentRepository augmentRepository;
 
     @Override
@@ -60,7 +63,7 @@ public class CDragonAugmentInsertProcessor implements ItemProcessor<CDragonItemD
         }
         String korName = cDragonAugmentDTO.getName();
         Boolean isUnique = cDragonAugmentDTO.getUnique();
-        String iconPath = cDragonAugmentDTO.getIcon().toLowerCase().replace(".dds", ".png");
+        String iconPath = CDRAGON_PATH_IMAGE + cDragonAugmentDTO.getIcon().toLowerCase().replace(".dds", ".png");
         augment.updateCDragonData(num, desc, korName, nameEn, isUnique, iconPath);
 
         return augment;

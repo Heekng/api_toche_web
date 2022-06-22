@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -74,13 +75,21 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
             }
         }
 
+        // 이후 다시 조회하지 않기 위해 게임타입 업데이트
+        tftMatch.updateGameType(matchDetailDTO.getInfo().getTft_game_type());
+
         // 게임타입이 standard 가 아닌 경우 저장하지 않는다.
         if (!matchDetailDTO.getInfo().getTft_game_type().equals("standard")) {
+            log.info("matchId: {} is not standard", matchId);
             return null;
         }
 
         Integer tftSetNumber = matchDetailDTO.getInfo().getTft_set_number();
         String tftSetCoreName = matchDetailDTO.getInfo().getTft_set_core_name() != null ? matchDetailDTO.getInfo().getTft_set_core_name() : matchDetailDTO.getInfo().getTft_set_name();
+        log.info("matchId: {}", matchId);
+        if (tftSetCoreName == null) {
+            tftSetCoreName = "TFTSet" + tftSetNumber;
+        }
 
         Season season = seasonService.findOrSave(tftSetNumber, tftSetCoreName);
         LocalDateTime gameDatetime = LocalDateTime.ofInstant(Instant.ofEpochMilli(matchDetailDTO.getInfo().getGame_datetime()), ZoneId.systemDefault());
@@ -99,8 +108,10 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
                     .build();
 
             // augment
-            List<String> augmentStringList = participantDTO.getAugments();
-            List<Augment> augments = augmentStringList.stream().map(augmentName -> augmentService.findOrSave(augmentName)).collect(Collectors.toList());
+            List<String> augmentStringList = participantDTO.getAugments() != null ? participantDTO.getAugments() : new ArrayList<>();
+            List<Augment> augments = augmentStringList.stream()
+                    .map(augmentName -> augmentService.findOrSave(augmentName))
+                    .collect(Collectors.toList());
             for (Augment augment : augments) {
                 MatchAugment matchAugment = MatchAugment.builder()
                         .augment(augment)

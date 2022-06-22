@@ -41,3 +41,4 @@ cdragon:
   path:
     tftLastJson: https://raw.communitydragon.org/latest/cdragon/tft/ko_kr.json
     tftLastJsonEn: https://raw.communitydragon.org/latest/cdragon/tft/en_us.json
+    image: https://raw.communitydragon.org/latest/game/

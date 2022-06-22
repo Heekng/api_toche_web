@@ -60,7 +60,8 @@ public class ApiMatchDetailJobConfiguration {
                 .pageSize(10)
                 .queryString("select tm from TftMatch tm " +
                         "left join MatchInfo mi on tm = mi.tftMatch " +
-                        "where mi.gameDatetime IS NULL")
+                        "where mi.gameDatetime IS NULL " +
+                        "and (tm.gameType = 'standard' or tm.gameType = null)")
                 .build();
     }
 

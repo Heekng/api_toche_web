@@ -9,6 +9,7 @@ import com.heekng.api_toche_web.repository.UnitRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CDragonChampionInsertProcessor implements ItemProcessor<CDragonSetDataDTO, List<Unit>> {
 
+    @Value("${cdragon.path.image}")
+    private String CDRAGON_PATH_IMAGE;
     private final SeasonRepository seasonRepository;
     private final UnitRepository unitRepository;
     private final TraitRepository traitRepository;
@@ -45,7 +48,7 @@ public class CDragonChampionInsertProcessor implements ItemProcessor<CDragonSetD
                             .build()
             );
             log.info("championDTO : {}", championDTO);
-            String iconPath = championDTO.getIcon() != null ? championDTO.getIcon().toLowerCase().replace(".dds", ".png") : null;
+            String iconPath = championDTO.getIcon() != null ? CDRAGON_PATH_IMAGE + championDTO.getIcon().toLowerCase().replace(".dds", ".png") : null;
             String krName = championDTO.getName();
             Integer cost = championDTO.getCost();
             unit.updateCDragonData(cost, iconPath, krName);
@@ -76,7 +79,7 @@ public class CDragonChampionInsertProcessor implements ItemProcessor<CDragonSetD
                 unit.addUnitTrait(unitTrait);
             });
 
-            Ability ability = championDTO.getAbility().toAbilityEntity();
+            Ability ability = championDTO.getAbility().toAbilityEntity(CDRAGON_PATH_IMAGE);
             if (unitOptional.isEmpty() || unit.getAbilities().size() == 0) {
                 // add ability
                 unit.addAbility(ability);

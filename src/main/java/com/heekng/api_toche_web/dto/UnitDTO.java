@@ -26,16 +26,16 @@ public class UnitDTO {
     @Data
     @NoArgsConstructor
     public static class UnitsResponse {
-        private Long unitId;
-        private String unitName;
+        
+        private Long id;
+        private String name;
+        private String krName;
+        private Integer rarity;
+        private Integer tier;
+        private Integer cost;
+        private String iconPath;
         private SeasonDTO.SeasonsResponse season;
 
-        @Builder
-        public UnitsResponse(Long unitId, String unitName, SeasonDTO.SeasonsResponse season) {
-            this.unitId = unitId;
-            this.unitName = unitName;
-            this.season = season;
-        }
     }
 
     @Data

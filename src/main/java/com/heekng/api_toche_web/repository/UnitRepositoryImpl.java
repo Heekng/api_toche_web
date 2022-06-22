@@ -30,6 +30,7 @@ public class UnitRepositoryImpl implements UnitRepositoryCustom {
                         unitNameContain(unitsRequest.getUnitName())
                 )
                 .orderBy(
+                        unit.cost.asc(),
                         season.seasonNum.desc(),
                         season.seasonName.desc(),
                         unit.name.asc()

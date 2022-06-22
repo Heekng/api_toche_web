@@ -5,6 +5,7 @@ import com.heekng.api_toche_web.entity.Season;
 import com.heekng.api_toche_web.repository.SeasonRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class SeasonApiController {
 
     private final SeasonRepository seasonRepository;
+    private final ModelMapper standardMapper;
 
     @GetMapping("/seasons")
     public List<SeasonDTO.SeasonsResponse> seasons(
@@ -24,7 +26,7 @@ public class SeasonApiController {
     ) {
         List<Season> seasons = seasonRepository.searchBySeasonsRequest(seasonsRequest);
         return seasons.stream()
-                .map(SeasonDTO.SeasonsResponse::new)
+                .map(season -> standardMapper.map(season, SeasonDTO.SeasonsResponse.class))
                 .collect(Collectors.toList());
     }
 
@@ -34,6 +36,6 @@ public class SeasonApiController {
     ) {
         Season season = seasonRepository.findById(seasonId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Season 입니다."));
-        return new SeasonDTO.SeasonsResponse(season);
+        return standardMapper.map(season, SeasonDTO.SeasonsResponse.class);
     }
 }
