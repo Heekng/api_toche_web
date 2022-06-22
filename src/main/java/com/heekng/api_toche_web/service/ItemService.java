@@ -34,7 +34,7 @@ public class ItemService {
         return item;
     }
 
-    public List<Item> 성(ItemDTO.ItemsRequest itemsRequest) {
+    public List<Item> findByItemsRequest(ItemDTO.ItemsRequest itemsRequest) {
         return itemsRequest.getSeasonId() == null ? itemRepository.searchByItemsRequest(itemsRequest) : itemRepository.searchByItemsRequestContainsSeasonId(itemsRequest);
     }
 }
