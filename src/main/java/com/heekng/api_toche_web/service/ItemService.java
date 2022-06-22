@@ -1,5 +1,6 @@
 package com.heekng.api_toche_web.service;
 
+import com.heekng.api_toche_web.dto.ItemDTO;
 import com.heekng.api_toche_web.entity.Item;
 import com.heekng.api_toche_web.entity.Season;
 import com.heekng.api_toche_web.repository.ItemRepository;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,5 +32,9 @@ public class ItemService {
             item = itemOptional.get();
         }
         return item;
+    }
+
+    public List<Item> 성(ItemDTO.ItemsRequest itemsRequest) {
+        return itemsRequest.getSeasonId() == null ? itemRepository.searchByItemsRequest(itemsRequest) : itemRepository.searchByItemsRequestContainsSeasonId(itemsRequest);
     }
 }
