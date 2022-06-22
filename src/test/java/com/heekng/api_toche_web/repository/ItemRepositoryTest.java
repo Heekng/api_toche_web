@@ -175,4 +175,36 @@ class ItemRepositoryTest {
         assertThat(findItems).isNotEmpty();
         assertThat(findItems.get(0)).isEqualTo(testItem);
     }
+
+    @Test
+    void searchWithFromItemByItemIdTest() throws Exception {
+        //given
+        Item testItemFrom1 = Item.builder()
+                .num(2)
+                .name("testItemFrom1")
+                .korName("테스트 아이템 1")
+                .iconPath("testItemFrom1.png")
+                .build();
+        itemRepository.save(testItemFrom1);
+        Item testItemFrom2 = Item.builder()
+                .num(3)
+                .name("testItemFrom2")
+                .korName("테스트 아이템 2")
+                .iconPath("testItemFrom2.png")
+                .build();
+        itemRepository.save(testItemFrom2);
+        Item testItemBase = Item.builder()
+                .num(4)
+                .name("testItemBaseName")
+                .korName("테스트 아이템 베이스")
+                .fromItem1(2)
+                .fromItem2(3)
+                .iconPath("testItemBase.png")
+                .build();
+        itemRepository.save(testItemBase);
+        //when
+        Optional<ItemDTO.ItemDetailResponse> itemDetailResponse = itemRepository.searchWithFromItemByItemId(testItemBase.getId());
+        //then
+        System.out.println(itemDetailResponse.toString());
+    }
 }

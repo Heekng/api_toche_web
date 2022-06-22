@@ -1,7 +1,10 @@
 package com.heekng.api_toche_web.repository;
 
 import com.heekng.api_toche_web.dto.ItemDTO;
+import com.heekng.api_toche_web.dto.QItemDTO_ItemDetailResponse;
+import com.heekng.api_toche_web.dto.QItemDTO_ItemsResponse;
 import com.heekng.api_toche_web.entity.Item;
+import com.heekng.api_toche_web.entity.QItem;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -71,6 +74,57 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public Optional<ItemDTO.ItemDetailResponse> searchWithFromItemByItemId(Long itemId) {
+        QItem fromItem1 = new QItem("fromItem1");
+        QItem fromItem2 = new QItem("fromItem2");
+        return Optional.ofNullable(
+                queryFactory
+                        .select(
+                                new QItemDTO_ItemDetailResponse(
+                                        item.id,
+                                        item.num,
+                                        item.name,
+                                        item.itemDesc,
+                                        item.korName,
+                                        new QItemDTO_ItemsResponse(
+                                                fromItem1.id,
+                                                fromItem1.num,
+                                                fromItem1.name,
+                                                fromItem1.itemDesc,
+                                                fromItem1.korName,
+                                                fromItem1.fromItem1,
+                                                fromItem1.fromItem2,
+                                                fromItem1.isUnique,
+                                                fromItem1.iconPath
+                                        ),
+                                        new QItemDTO_ItemsResponse(
+                                                fromItem2.id,
+                                                fromItem2.num,
+                                                fromItem2.name,
+                                                fromItem2.itemDesc,
+                                                fromItem2.korName,
+                                                fromItem2.fromItem1,
+                                                fromItem2.fromItem2,
+                                                fromItem2.isUnique,
+                                                fromItem2.iconPath
+                                        ),
+                                        item.isUnique,
+                                        item.iconPath
+                                )
+                        )
+                        .from(item)
+                        .innerJoin(fromItem1)
+                        .on(item.fromItem1.eq(fromItem1.num))
+                        .innerJoin(fromItem2)
+                        .on(item.fromItem2.eq(fromItem2.num))
+                        .where(
+                                itemIdEq(itemId)
+                        )
+                        .fetchOne()
+        );
+    }
+
     private BooleanExpression seasonIdEq(Long seasonId) {
         return seasonId != null ? season.id.eq(seasonId) : null;
     }
@@ -81,5 +135,9 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
     private BooleanExpression itemNumEq(Integer itemNum) {
         return itemNum != null ? item.num.eq(itemNum) : null;
+    }
+
+    private BooleanExpression itemIdEq(Long itemId) {
+        return itemId != null ? item.id.eq(itemId) : null;
     }
 }
