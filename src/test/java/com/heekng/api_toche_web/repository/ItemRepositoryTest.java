@@ -1,8 +1,7 @@
 package com.heekng.api_toche_web.repository;
 
 import com.heekng.api_toche_web.dto.ItemDTO;
-import com.heekng.api_toche_web.entity.Item;
-import com.heekng.api_toche_web.entity.Season;
+import com.heekng.api_toche_web.entity.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -108,5 +108,103 @@ class ItemRepositoryTest {
         //then
         assertThat(itemOptional).isNotEmpty();
         assertThat(itemOptional.get()).isEqualTo(item);
+    }
+
+    @Test
+    void searchByItemsRequestContainsSeasonIdTest() throws Exception {
+        //given
+        Summoner testSummoner = Summoner.builder()
+                .id("summonerId")
+                .name("summonerName")
+                .puuid("123-123-123")
+                .build();
+        em.persist(testSummoner);
+
+        TftMatch testTftMatch = TftMatch.builder()
+                .matchId("1234567")
+                .summoner(testSummoner)
+                .build();
+        em.persist(testTftMatch);
+
+        Season testSeason = Season.builder()
+                .seasonNum(6)
+                .seasonName("testSeasonName")
+                .build();
+        em.persist(testSeason);
+
+        LocalDateTime gameDatetime = LocalDateTime.of(2022, 6, 4, 15, 22);
+        MatchInfo testMatchInfo = MatchInfo.builder()
+                .gameDatetime(gameDatetime)
+                .tftMatch(testTftMatch)
+                .season(testSeason)
+                .build();
+        em.persist(testMatchInfo);
+
+        Unit testUnit = Unit.builder()
+                .rarity(1)
+                .name("testUnit")
+                .tier(1)
+                .season(testSeason)
+                .cost(5)
+                .build();
+        em.persist(testUnit);
+
+        MatchUnit testMatchUnit = MatchUnit.builder()
+                .unit(testUnit)
+                .matchInfo(testMatchInfo)
+                .build();
+        em.persist(testMatchUnit);
+
+        Item testItem = Item.builder()
+                .name("testItemName")
+                .num(2)
+                .build();
+        em.persist(testItem);
+
+        MatchItem testMatchItem = MatchItem.builder()
+                .item(testItem)
+                .matchUnit(testMatchUnit)
+                .build();
+        em.persist(testMatchItem);
+        //when
+        ItemDTO.ItemsRequest itemsRequest = ItemDTO.ItemsRequest.builder()
+                .seasonId(testSeason.getId())
+                .build();
+        List<Item> findItems = itemRepository.searchByItemsRequestContainsSeasonId(itemsRequest);
+        //then
+        assertThat(findItems).isNotEmpty();
+        assertThat(findItems.get(0)).isEqualTo(testItem);
+    }
+
+    @Test
+    void searchWithFromItemByItemIdTest() throws Exception {
+        //given
+        Item testItemFrom1 = Item.builder()
+                .num(2)
+                .name("testItemFrom1")
+                .korName("테스트 아이템 1")
+                .iconPath("testItemFrom1.png")
+                .build();
+        itemRepository.save(testItemFrom1);
+        Item testItemFrom2 = Item.builder()
+                .num(3)
+                .name("testItemFrom2")
+                .korName("테스트 아이템 2")
+                .iconPath("testItemFrom2.png")
+                .build();
+        itemRepository.save(testItemFrom2);
+        Item testItemBase = Item.builder()
+                .num(4)
+                .name("testItemBaseName")
+                .korName("테스트 아이템 베이스")
+                .fromItem1(2)
+                .fromItem2(3)
+                .iconPath("testItemBase.png")
+                .build();
+        itemRepository.save(testItemBase);
+        //when
+        Optional<ItemDTO.ItemDetailResponse> itemDetailResponse = itemRepository.searchWithFromItemByItemId(testItemBase.getId());
+        //then
+        System.out.println(itemDetailResponse.toString());
     }
 }

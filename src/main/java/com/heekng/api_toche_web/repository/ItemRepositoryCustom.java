@@ -12,4 +12,7 @@ public interface ItemRepositoryCustom {
 
     List<Item> searchByItemsRequest(ItemDTO.ItemsRequest itemsRequest);
 
+    List<Item> searchByItemsRequestContainsSeasonId(ItemDTO.ItemsRequest itemsRequest);
+
+    Optional<ItemDTO.ItemDetailResponse> searchWithFromItemByItemId(Long itemId);
 }
