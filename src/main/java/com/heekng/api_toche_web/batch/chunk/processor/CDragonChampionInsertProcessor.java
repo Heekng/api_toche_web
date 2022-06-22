@@ -48,7 +48,9 @@ public class CDragonChampionInsertProcessor implements ItemProcessor<CDragonSetD
                             .build()
             );
             log.info("championDTO : {}", championDTO);
-            String iconPath = championDTO.getIcon() != null ? CDRAGON_PATH_IMAGE + championDTO.getIcon().toLowerCase().replace(".dds", ".png") : null;
+            String iconPath = championDTO.getIcon() != null ? CDRAGON_PATH_IMAGE + championDTO.getIcon().toLowerCase()
+                    .replace(".dds", ".png")
+                    .replaceFirst("[.]", "_mobile.") : null;
             String krName = championDTO.getName();
             Integer cost = championDTO.getCost();
             unit.updateCDragonData(cost, iconPath, krName);

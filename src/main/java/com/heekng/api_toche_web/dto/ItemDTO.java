@@ -1,5 +1,6 @@
 package com.heekng.api_toche_web.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,11 +12,13 @@ public class ItemDTO {
 
         private Integer itemNum;
         private String itemName;
+        private Long seasonId;
 
         @Builder
-        public ItemsRequest(Integer itemNum, String itemName) {
+        public ItemsRequest(Integer itemNum, String itemName, Long seasonId) {
             this.itemNum = itemNum;
             this.itemName = itemName;
+            this.seasonId = seasonId;
         }
     }
 
@@ -33,7 +36,7 @@ public class ItemDTO {
         private Boolean isUnique;
         private String iconPath;
 
-        @Builder
+        @QueryProjection
         public ItemsResponse(Long id, Integer num, String name, String desc, String korName, Integer fromItem1, Integer fromItem2, Boolean isUnique, String iconPath) {
             this.id = id;
             this.num = num;
@@ -56,13 +59,14 @@ public class ItemDTO {
         private String name;
         private String desc;
         private String korName;
-        private Integer fromItem1;
-        private Integer fromItem2;
+        private ItemsResponse fromItem1;
+        private ItemsResponse fromItem2;
         private Boolean isUnique;
         private String iconPath;
+        private Long usedCount;
 
-        @Builder
-        public ItemDetailResponse(Long id, Integer num, String name, String desc, String korName, Integer fromItem1, Integer fromItem2, Boolean isUnique, String iconPath) {
+        @QueryProjection
+        public ItemDetailResponse(Long id, Integer num, String name, String desc, String korName, ItemsResponse fromItem1, ItemsResponse fromItem2, Boolean isUnique, String iconPath) {
             this.id = id;
             this.num = num;
             this.name = name;
