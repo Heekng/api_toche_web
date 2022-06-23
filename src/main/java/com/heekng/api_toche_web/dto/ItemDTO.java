@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 public class ItemDTO {
 
     @Data
@@ -77,5 +79,14 @@ public class ItemDTO {
             this.isUnique = isUnique;
             this.iconPath = iconPath;
         }
+    }
+
+    @Data
+    @NoArgsConstructor
+    public static class MostUnitRequest {
+
+        @NotNull(message = "seasonId is not null")
+        private Long seasonId;
+
     }
 }
