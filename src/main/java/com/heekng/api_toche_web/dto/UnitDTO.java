@@ -61,10 +61,10 @@ public class UnitDTO {
         private Integer tier;
         private Integer cost;
         private String iconPath;
-        private Long count;
+        private Long itemUsedCount;
 
         @QueryProjection
-        public ItemRankResponse(Long id, String name, String krName, Integer rarity, Integer tier, Integer cost, String iconPath, Long count) {
+        public ItemRankResponse(Long id, String name, String krName, Integer rarity, Integer tier, Integer cost, String iconPath, Long itemUsedCount) {
             this.id = id;
             this.name = name;
             this.krName = krName;
@@ -72,7 +72,7 @@ public class UnitDTO {
             this.tier = tier;
             this.cost = cost;
             this.iconPath = iconPath;
-            this.count = count;
+            this.itemUsedCount = itemUsedCount;
         }
     }
 
