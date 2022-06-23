@@ -1,7 +1,9 @@
 package com.heekng.api_toche_web.api;
 
+import com.heekng.api_toche_web.dto.ItemDTO;
 import com.heekng.api_toche_web.dto.UnitDTO;
 import com.heekng.api_toche_web.entity.Unit;
+import com.heekng.api_toche_web.repository.ItemRepository;
 import com.heekng.api_toche_web.repository.UnitRepository;
 import com.heekng.api_toche_web.service.UnitService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class UnitApiController {
     private final UnitService unitService;
     private final UnitRepository unitRepository;
     private final ModelMapper standardMapper;
+    private final ItemRepository itemRepository;
 
     @GetMapping("/units")
     public List<UnitDTO.UnitsResponse> units(
@@ -38,6 +41,13 @@ public class UnitApiController {
     ) {
         Unit unit = unitService.findDetailByUnitId(unitId);
         return new UnitDTO.UnitDetailResponse(unit);
+    }
+
+    @GetMapping("/units/{unitId}/mostItems")
+    public List<ItemDTO.UnitRankResponse> mostItemsByUnitId(
+            @PathVariable("unitId") Long unitId
+    ) {
+        return itemRepository.searchItemRankByUnitId(unitId);
     }
 
 }
