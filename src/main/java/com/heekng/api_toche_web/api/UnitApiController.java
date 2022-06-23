@@ -33,12 +33,11 @@ public class UnitApiController {
     }
 
     @GetMapping("/units/{unitId}")
-    public UnitDTO.UnitsResponse unitByUnitId(
+    public UnitDTO.UnitDetailResponse unitByUnitId(
             @PathVariable("unitId") Long unitId
     ) {
-        Unit unit = unitRepository.findWithSeasonById(unitId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Unit 입니다."));
-        return standardMapper.map(unit, UnitDTO.UnitsResponse.class);
+        Unit unit = unitService.findDetailByUnitId(unitId);
+        return new UnitDTO.UnitDetailResponse(unit);
     }
 
 }
