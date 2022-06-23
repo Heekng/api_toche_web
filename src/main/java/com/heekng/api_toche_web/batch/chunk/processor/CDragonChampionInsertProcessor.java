@@ -6,6 +6,7 @@ import com.heekng.api_toche_web.entity.*;
 import com.heekng.api_toche_web.repository.SeasonRepository;
 import com.heekng.api_toche_web.repository.TraitRepository;
 import com.heekng.api_toche_web.repository.UnitRepository;
+import com.heekng.api_toche_web.repository.UnitTraitRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
@@ -28,6 +29,7 @@ public class CDragonChampionInsertProcessor implements ItemProcessor<CDragonSetD
     private final SeasonRepository seasonRepository;
     private final UnitRepository unitRepository;
     private final TraitRepository traitRepository;
+    private final UnitTraitRepository unitTraitRepository;
 
     @Override
     public List<Unit> process(CDragonSetDataDTO cDragonSetDataDTO) throws Exception {
@@ -75,10 +77,13 @@ public class CDragonChampionInsertProcessor implements ItemProcessor<CDragonSetD
             championDTO.getTraits().forEach(traitName -> {
                 Trait trait = traitRepository.findByKrNameAndSeasonId(traitName, season.getId())
                         .orElseThrow(() -> new IllegalStateException(traitName + " / " + season.getId() + " / 특성이 존재하지 않습니다."));
-                UnitTrait unitTrait = UnitTrait.builder()
-                        .trait(trait)
-                        .build();
-                unit.addUnitTrait(unitTrait);
+                Optional<UnitTrait> unitTraitOptional = unitTraitRepository.findByUnitIdAndTraitId(unit.getId(), trait.getId());
+                if (unitTraitOptional.isEmpty()) {
+                    UnitTrait unitTrait = UnitTrait.builder()
+                            .trait(trait)
+                            .build();
+                    unit.addUnitTrait(unitTrait);
+                }
             });
 
             Ability ability = championDTO.getAbility().toAbilityEntity(CDRAGON_PATH_IMAGE);

@@ -77,4 +77,13 @@ class UnitTraitRepositoryTest {
         Optional<UnitTrait> afterDeleteObject = unitTraitRepository.findById(unitTrait.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
+
+    @Test
+    void findByUnitIdAndTraitIdTest() throws Exception {
+        //when
+        Optional<UnitTrait> unitTraitOptional = unitTraitRepository.findByUnitIdAndTraitId(unit.getId(), trait.getId());
+        //then
+        assertThat(unitTraitOptional).isNotEmpty();
+        assertThat(unitTraitOptional.get()).isEqualTo(unitTrait);
+    }
 }

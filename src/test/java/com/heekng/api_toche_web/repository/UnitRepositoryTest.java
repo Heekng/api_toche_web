@@ -203,7 +203,7 @@ class UnitRepositoryTest {
         testMatchUnit2.addMatchItem(matchItem2);
         em.persist(testMatchUnit2);
         //when
-        List<UnitDTO.ItemRankResponse> itemRankResponses = unitRepository.searchUnitRankByItemId(testItem.getId());
+        List<UnitDTO.ItemRankResponse> itemRankResponses = unitRepository.searchUnitRankByItemId(testItem.getId(), testSeason.getId());
         //then
         assertThat(itemRankResponses).isNotEmpty();
         assertThat(itemRankResponses.size()).isEqualTo(2);

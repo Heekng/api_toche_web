@@ -5,6 +5,7 @@ import com.heekng.api_toche_web.entity.Season;
 import com.heekng.api_toche_web.entity.Unit;
 import com.heekng.api_toche_web.repository.UnitRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,5 +47,18 @@ public class UnitService {
             }
         }
         return true;
+    }
+
+    public Unit findDetailByUnitId(Long unitId) {
+        Unit unit = unitRepository.findWithSeasonById(unitId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Unit 입니다."));
+        unit.getAbilities().forEach(Hibernate::initialize);
+        unit.getStats().forEach(Hibernate::initialize);
+        unit.getUnitTraits().forEach(
+                unitTrait -> {
+                    Hibernate.initialize(unitTrait.getTrait());
+                }
+        );
+        return unit;
     }
 }

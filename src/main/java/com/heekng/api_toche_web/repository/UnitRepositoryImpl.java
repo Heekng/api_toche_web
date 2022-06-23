@@ -10,9 +10,11 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import static com.heekng.api_toche_web.entity.QItem.*;
+import static com.heekng.api_toche_web.entity.QMatchInfo.*;
 import static com.heekng.api_toche_web.entity.QMatchItem.*;
 import static com.heekng.api_toche_web.entity.QMatchUnit.*;
 import static com.heekng.api_toche_web.entity.QSeason.*;
+import static com.heekng.api_toche_web.entity.QTftMatch.*;
 import static com.heekng.api_toche_web.entity.QUnit.*;
 import static org.springframework.util.StringUtils.*;
 
@@ -41,7 +43,7 @@ public class UnitRepositoryImpl implements UnitRepositoryCustom {
     }
 
     @Override
-    public List<UnitDTO.ItemRankResponse> searchUnitRankByItemId(Long itemId) {
+    public List<UnitDTO.ItemRankResponse> searchUnitRankByItemId(Long itemId, Long seasonId) {
         return queryFactory
                 .select(
                         new QUnitDTO_ItemRankResponse(
@@ -55,7 +57,9 @@ public class UnitRepositoryImpl implements UnitRepositoryCustom {
                                 unit.count()
                         )
                 )
-                .from(matchUnit)
+                .from(matchInfo)
+                .leftJoin(matchInfo.matchUnits, matchUnit)
+                .on(matchInfoSeasonIdEq(seasonId))
                 .innerJoin(matchUnit.unit, unit)
                 .leftJoin(matchUnit.matchItems, matchItem)
                 .innerJoin(matchItem.item, item)
@@ -78,5 +82,9 @@ public class UnitRepositoryImpl implements UnitRepositoryCustom {
 
     private BooleanExpression itemIdEq(Long itemId) {
         return itemId != null ? item.id.eq(itemId) : null;
+    }
+
+    private BooleanExpression matchInfoSeasonIdEq(Long seasonId) {
+        return seasonId != null ? matchInfo.season.id.eq(seasonId) : null;
     }
 }

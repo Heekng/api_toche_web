@@ -207,4 +207,100 @@ class ItemRepositoryTest {
         //then
         System.out.println(itemDetailResponse.toString());
     }
+
+    @Test
+    void searchItemRankByUnitIdTest() throws Exception {
+        //given
+        Summoner testSummoner = Summoner.builder()
+                .id("summonerId")
+                .name("summonerName")
+                .puuid("123-123-123")
+                .build();
+        em.persist(testSummoner);
+
+        TftMatch testTftMatch = TftMatch.builder()
+                .matchId("1234567")
+                .summoner(testSummoner)
+                .build();
+        em.persist(testTftMatch);
+
+        Season testSeason = Season.builder()
+                .seasonNum(6)
+                .seasonName("testSeason")
+                .build();
+        em.persist(testSeason);
+
+        LocalDateTime gameDatetime = LocalDateTime.of(2022, 6, 4, 15, 22);
+        MatchInfo testMatchInfo = MatchInfo.builder()
+                .gameDatetime(gameDatetime)
+                .tftMatch(testTftMatch)
+                .season(testSeason)
+                .build();
+        em.persist(testMatchInfo);
+
+        Item testItem = Item.builder()
+                .name("testItemName")
+                .korName("테스트 아이템 이름")
+                .num(1)
+                .build();
+        em.persist(testItem);
+
+        Item testItem2 = Item.builder()
+                .name("testItemName2")
+                .korName("테스트 아이템 이름2")
+                .num(2)
+                .build();
+        em.persist(testItem2);
+
+        MatchItem matchItem1 = MatchItem.builder()
+                .item(testItem)
+                .build();
+
+        MatchItem matchItem2 = MatchItem.builder()
+                .item(testItem)
+                .build();
+
+        MatchItem matchItem3 = MatchItem.builder()
+                .item(testItem2)
+                .build();
+
+        Unit testUnit1 = Unit.builder()
+                .rarity(1)
+                .name("testUnit1")
+                .tier(1)
+                .season(testSeason)
+                .cost(5)
+                .build();
+        em.persist(testUnit1);
+
+        Unit testUnit2 = Unit.builder()
+                .rarity(1)
+                .name("testUnit2")
+                .tier(1)
+                .season(testSeason)
+                .cost(5)
+                .build();
+        em.persist(testUnit2);
+
+        MatchUnit testMatchUnit1 = MatchUnit.builder()
+                .unit(testUnit1)
+                .matchInfo(testMatchInfo)
+                .build();
+        testMatchUnit1.addMatchItem(matchItem1);
+        testMatchUnit1.addMatchItem(matchItem3);
+        em.persist(testMatchUnit1);
+
+        MatchUnit testMatchUnit2 = MatchUnit.builder()
+                .unit(testUnit2)
+                .matchInfo(testMatchInfo)
+                .build();
+        testMatchUnit2.addMatchItem(matchItem2);
+        em.persist(testMatchUnit2);
+        //when
+        List<ItemDTO.UnitRankResponse> unitRankResponses = itemRepository.searchItemRankByUnitId(testUnit1.getId());
+        //then
+        assertThat(unitRankResponses).isNotEmpty();
+        assertThat(unitRankResponses.size()).isEqualTo(2);
+        assertThat(unitRankResponses.get(0).getChampionUsedCount()).isEqualTo(1);
+    }
 }

@@ -28,6 +28,11 @@ public class SeasonDTO {
         private Integer num;
         private String name;
 
+        public SeasonsResponse(Season season) {
+            this.id = season.getId();
+            this.num = season.getSeasonNum();
+            this.name = season.getSeasonName();
+        }
     }
 
 
