@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,6 +96,7 @@ public class UnitDTO {
         private SeasonDTO.SeasonsResponse season;
         private AbilityDTO.AbilityResponse ability;
         private Map<String, Float> stats = new HashMap<>();
+        private List<TraitDTO.UnitTraitResponse> traits = new ArrayList<>();
 
         public UnitDetailResponse(Unit unit) {
             this.id = unit.getId();
@@ -111,6 +113,11 @@ public class UnitDTO {
             if (!unit.getStats().isEmpty()) {
                 this.stats = unit.getStats().stream()
                         .collect(Collectors.toMap(Stat::getName, Stat::getStatValue));
+            }
+            if (!unit.getUnitTraits().isEmpty()) {
+                unit.getUnitTraits().forEach(unitTrait -> {
+                    this.traits.add(new TraitDTO.UnitTraitResponse(unitTrait.getTrait()));
+                });
             }
         }
     }

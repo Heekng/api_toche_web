@@ -54,6 +54,11 @@ public class UnitService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Unit 입니다."));
         unit.getAbilities().forEach(Hibernate::initialize);
         unit.getStats().forEach(Hibernate::initialize);
+        unit.getUnitTraits().forEach(
+                unitTrait -> {
+                    Hibernate.initialize(unitTrait.getTrait());
+                }
+        );
         return unit;
     }
 }
