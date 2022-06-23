@@ -1,12 +1,17 @@
 package com.heekng.api_toche_web.dto;
 
+import com.heekng.api_toche_web.entity.Stat;
+import com.heekng.api_toche_web.entity.Unit;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class UnitDTO {
 
@@ -73,6 +78,40 @@ public class UnitDTO {
             this.cost = cost;
             this.iconPath = iconPath;
             this.itemUsedCount = itemUsedCount;
+        }
+    }
+
+    @Data
+    @NoArgsConstructor
+    public static class UnitDetailResponse {
+
+        private Long id;
+        private String name;
+        private String krName;
+        private Integer rarity;
+        private Integer tier;
+        private Integer cost;
+        private String iconPath;
+        private SeasonDTO.SeasonsResponse season;
+        private AbilityDTO.AbilityResponse ability;
+        private Map<String, Float> stats = new HashMap<>();
+
+        public UnitDetailResponse(Unit unit) {
+            this.id = unit.getId();
+            this.name = unit.getName();
+            this.krName = unit.getKrName();
+            this.rarity = unit.getRarity();
+            this.tier = unit.getTier();
+            this.cost = unit.getCost();
+            this.iconPath = unit.getIconPath();
+            this.season = new SeasonDTO.SeasonsResponse(unit.getSeason());
+            if (!unit.getAbilities().isEmpty()) {
+                this.ability = new AbilityDTO.AbilityResponse(unit.getAbilities().get(0));
+            }
+            if (!unit.getStats().isEmpty()) {
+                this.stats = unit.getStats().stream()
+                        .collect(Collectors.toMap(Stat::getName, Stat::getStatValue));
+            }
         }
     }
 
