@@ -1,8 +1,6 @@
 package com.heekng.api_toche_web.service;
 
-import com.heekng.api_toche_web.entity.Augment;
-import com.heekng.api_toche_web.entity.Season;
-import com.heekng.api_toche_web.entity.Unit;
+import com.heekng.api_toche_web.entity.*;
 import com.heekng.api_toche_web.repository.SeasonRepository;
 import com.heekng.api_toche_web.repository.UnitRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -128,6 +127,100 @@ class UnitServiceTest {
         assertThat(existUnits).isTrue();
     }
 
+    @Test
+    @DisplayName("findDetailByUnitId 는 unit 의 능력치, 스킬정보도 함께 조회한다.")
+    void findDetailByUnitIdTest() throws Exception {
+        //given
+        Unit testUnit = Unit.builder()
+                .name("newTestUnit")
+                .krName("새로운 테스트 유닛")
+                .rarity(0)
+                .tier(null)
+                .cost(1)
+                .iconPath("aaaa")
+                .season(season)
+                .build();
+        Ability testAbility = Ability.builder()
+                .name("test skill")
+                .krName("테스트 스킬")
+                .abilityDesc("테스트 스킬 설명")
+                .iconPath("bbbb")
+                .build();
+        testUnit.addAbility(testAbility);
+        Stat testStat1 = Stat.builder()
+                .name("testStat1")
+                .statValue(1.1F)
+                .build();
+        testUnit.addStat(testStat1);
+        Stat testStat2 = Stat.builder()
+                .name("testStat2")
+                .statValue(1.2F)
+                .build();
+        testUnit.addStat(testStat2);
+        Stat testStat3 = Stat.builder()
+                .name("testStat3")
+                .statValue(1.3F)
+                .build();
+        testUnit.addStat(testStat3);
+        unitRepository.save(testUnit);
+        em.flush();
+        em.clear();
+        //when
+        Unit findUnit = unitService.findDetailByUnitId(testUnit.getId());
+        em.flush();
+        em.clear();
+        //then
+        assertThat(findUnit).isNotNull();
+        assertThat(findUnit.getAbilities().size()).isEqualTo(1);
+        assertThat(findUnit.getAbilities().get(0).getName()).isEqualTo(testAbility.getName());
+        assertThat(findUnit.getStats().size()).isEqualTo(3);
+        assertThat(findUnit.getStats().get(0).getName()).isEqualTo(testStat1.getName());
+        assertThat(findUnit.getStats().get(0).getStatValue()).isEqualTo(testStat1.getStatValue());
+    }
 
+    @Test
+    @DisplayName("findDetailByUnitId 는 존재하지 않는 Unit 을 조회시 예외를 발생시킨다.")
+    void findDetailByUnitIdExceptionTest() throws Exception {
+        //given
+        Unit testUnit = Unit.builder()
+                .name("newTestUnit")
+                .krName("새로운 테스트 유닛")
+                .rarity(0)
+                .tier(null)
+                .cost(1)
+                .iconPath("aaaa")
+                .season(season)
+                .build();
+        Ability testAbility = Ability.builder()
+                .name("test skill")
+                .krName("테스트 스킬")
+                .abilityDesc("테스트 스킬 설명")
+                .iconPath("bbbb")
+                .build();
+        testUnit.addAbility(testAbility);
+        Stat testStat1 = Stat.builder()
+                .name("testStat1")
+                .statValue(1.1F)
+                .build();
+        testUnit.addStat(testStat1);
+        Stat testStat2 = Stat.builder()
+                .name("testStat2")
+                .statValue(1.2F)
+                .build();
+        testUnit.addStat(testStat2);
+        Stat testStat3 = Stat.builder()
+                .name("testStat3")
+                .statValue(1.3F)
+                .build();
+        testUnit.addStat(testStat3);
+        unitRepository.save(testUnit);
+        em.flush();
+        em.clear();
+        //when
+        assertThatThrownBy(() -> unitService.findDetailByUnitId(1234L))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("존재하지 않는 Unit 입니다.");
+
+    }
 
 }

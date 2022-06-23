@@ -1,8 +1,6 @@
 package com.heekng.api_toche_web.repository;
 
-import com.heekng.api_toche_web.dto.ItemDTO;
-import com.heekng.api_toche_web.dto.QItemDTO_ItemDetailResponse;
-import com.heekng.api_toche_web.dto.QItemDTO_ItemsResponse;
+import com.heekng.api_toche_web.dto.*;
 import com.heekng.api_toche_web.entity.Item;
 import com.heekng.api_toche_web.entity.QItem;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -17,6 +15,7 @@ import static com.heekng.api_toche_web.entity.QMatchInfo.matchInfo;
 import static com.heekng.api_toche_web.entity.QMatchItem.*;
 import static com.heekng.api_toche_web.entity.QMatchUnit.*;
 import static com.heekng.api_toche_web.entity.QSeason.*;
+import static com.heekng.api_toche_web.entity.QUnit.unit;
 import static org.springframework.util.StringUtils.*;
 
 @RequiredArgsConstructor
@@ -125,6 +124,36 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
         );
     }
 
+    @Override
+    public List<ItemDTO.UnitRankResponse> searchItemRankByUnitId(Long unitId) {
+        return queryFactory
+                .select(
+                        new QItemDTO_UnitRankResponse(
+                                item.id,
+                                item.num,
+                                item.name,
+                                item.itemDesc,
+                                item.korName,
+                                item.fromItem1,
+                                item.fromItem2,
+                                item.isUnique,
+                                item.iconPath,
+                                item.count()
+                        )
+                )
+                .from(matchUnit)
+                .innerJoin(matchUnit.unit, unit)
+                .on(
+                        unitIdEq(unitId)
+                )
+                .leftJoin(matchUnit.matchItems, matchItem)
+                .innerJoin(matchItem.item, item)
+                .groupBy(item)
+                .orderBy(item.count().desc())
+                .limit(5)
+                .fetch();
+    }
+
     private BooleanExpression seasonIdEq(Long seasonId) {
         return seasonId != null ? season.id.eq(seasonId) : null;
     }
@@ -139,5 +168,9 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
     private BooleanExpression itemIdEq(Long itemId) {
         return itemId != null ? item.id.eq(itemId) : null;
+    }
+
+    private BooleanExpression unitIdEq(Long unitId) {
+        return unitId != null ? unit.id.eq(unitId) : null;
     }
 }
