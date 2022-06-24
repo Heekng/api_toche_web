@@ -66,4 +66,8 @@ public class Item extends BaseTimeEntity {
         this.fromItem1 = fromItem1;
         this.fromItem2 = fromItem2;
     }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
 }
