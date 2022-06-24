@@ -26,7 +26,7 @@ public class ItemService {
 
     @Transactional
     public Item findOrSave(String name, Integer num, Season season) {
-        Optional<Item> itemOptional = itemRepository.findByName(name);
+        Optional<Item> itemOptional = itemRepository.findByNum(num);
         Item item = null;
         if (itemOptional.isEmpty()) {
             item = Item.builder()
@@ -36,6 +36,9 @@ public class ItemService {
             itemRepository.save(item);
         } else {
             item = itemOptional.get();
+            if (!item.getName().equals(name)) {
+                item.updateName(name);
+            }
         }
         return item;
     }
