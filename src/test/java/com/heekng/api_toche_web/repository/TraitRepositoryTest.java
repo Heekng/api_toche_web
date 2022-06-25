@@ -178,6 +178,37 @@ class TraitRepositoryTest {
         //then
         assertThat(traitOptional).isNotEmpty();
         assertThat(traitOptional.get()).isEqualTo(trait);
+    }
 
+    @Test
+    void searchByNamesAndSeasonIdTest() throws Exception {
+        //given
+        Trait testTrait1 = Trait.builder()
+                .season(season)
+                .name("testTrait1")
+                .krName("테스트 한국어 특성명1")
+                .tierTotalCount(5)
+                .build();
+        traitRepository.save(testTrait1);
+        Trait testTrait2 = Trait.builder()
+                .season(season)
+                .name("testTrait2")
+                .krName("테스트 한국어 특성명2")
+                .tierTotalCount(5)
+                .build();
+        traitRepository.save(testTrait2);
+        Trait testTrait3 = Trait.builder()
+                .season(season)
+                .name("testTrait3")
+                .krName("테스트 한국어 특성명3")
+                .tierTotalCount(5)
+                .build();
+        traitRepository.save(testTrait3);
+        //when
+        List<String> traitNames = List.of(testTrait1.getName(), testTrait2.getName(), "abcd");
+        List<Trait> traits = traitRepository.searchByNamesAndSeasonId(traitNames, season.getId());
+        //then
+        assertThat(traits).isNotEmpty();
+        assertThat(traits.size()).isEqualTo(2);
     }
 }
