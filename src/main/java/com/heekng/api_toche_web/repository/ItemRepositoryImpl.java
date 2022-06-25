@@ -3,6 +3,7 @@ package com.heekng.api_toche_web.repository;
 import com.heekng.api_toche_web.dto.*;
 import com.heekng.api_toche_web.entity.Item;
 import com.heekng.api_toche_web.entity.QItem;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -154,6 +155,16 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public List<Item> searchByNums(List<Integer> nums) {
+        return queryFactory
+                .selectFrom(item)
+                .where(
+                        itemNumsEq(nums)
+                )
+                .fetch();
+    }
+
     private BooleanExpression seasonIdEq(Long seasonId) {
         return seasonId != null ? season.id.eq(seasonId) : null;
     }
@@ -172,5 +183,13 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
     private BooleanExpression unitIdEq(Long unitId) {
         return unitId != null ? unit.id.eq(unitId) : null;
+    }
+
+    private BooleanBuilder itemNumsEq(List<Integer> itemNums) {
+        BooleanBuilder builder = new BooleanBuilder();
+        itemNums.forEach(itemNum -> {
+            builder.or(itemNumEq(itemNum));
+        });
+        return builder;
     }
 }

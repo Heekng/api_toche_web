@@ -6,7 +6,8 @@ import com.heekng.api_toche_web.batch.dto.TraitDTO;
 import com.heekng.api_toche_web.batch.dto.UnitDTO;
 import com.heekng.api_toche_web.entity.*;
 import com.heekng.api_toche_web.repository.ItemRepository;
-import com.heekng.api_toche_web.repository.SeasonRepository;
+import com.heekng.api_toche_web.repository.TraitRepository;
+import com.heekng.api_toche_web.repository.UnitRepository;
 import com.heekng.api_toche_web.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -34,13 +33,11 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
     @Value("${riotApi.path.matcheDetail}")
     private String RIOTAPI_PATH_MATCHDETAIL;
 
-    private final SeasonRepository seasonRepository;
+    private final TraitRepository traitRepository;
     private final SeasonService seasonService;
     private final AugmentService augmentService;
-    private final UnitService unitService;
-    private final ItemService itemService;
-    private final TraitService traitService;
     private final ItemRepository itemRepository;
+    private final UnitRepository unitRepository;
 
     @Override
     public List<MatchInfo> process(TftMatch tftMatch) throws Exception {
@@ -120,24 +117,28 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
 
             // unit & item
             List<UnitDTO> unitDTOS = participantDTO.getUnits();
+            Map<String, Unit> unitMap = getExistUnitMap(season, unitDTOS);
             for (UnitDTO unitDTO : unitDTOS) {
                 log.info(unitDTO.toString());
-                Unit unit = unitService.findOrSave(unitDTO.getCharacter_id(), unitDTO.getRarity(), season);
+                Unit unit = unitMap.get(unitDTO.getCharacter_id());
+                if (unit == null) {
+                    unit = makeUnitAndSave(season, unitDTO);
+                }
                 List<Item> items = new ArrayList<>();
-                for (int j = 0; j < unitDTO.getItems().size(); j++) {
-                    Integer itemNum = unitDTO.getItems().get(j);
-                    String itemName = "";
-                    // 시즌 7부터 itemName이 제공되기 때문에 itemName이 없을 경우 처리
-                    if (unitDTO.getItemNames() == null) {
-                        Optional<Item> itemOptional = itemRepository.searchItemByRiotItemId(itemNum);
-                        if (itemOptional.isPresent()) {
-                            itemName = itemOptional.get().getName();
+                if (!unitDTO.getItems().isEmpty()) {
+                    Map<Integer, Item> itemMap = getExistItemMap(unitDTO.getItems());
+                    for (int j = 0; j < unitDTO.getItems().size(); j++) {
+                        Integer itemNum = unitDTO.getItems().get(j);
+                        String itemName = unitDTO.getItemNames() != null ? unitDTO.getItemNames().get(j) : "";
+                        Item item = itemMap.get(itemNum);
+                        if (item == null) {
+                            item = makeItemAndSave(itemNum, itemName);
                         }
-                    } else {
-                        itemName = unitDTO.getItemNames().get(j);
+                        if (!itemName.equals("") && !item.getName().equals(itemName)) {
+                            item.updateName(itemName);
+                        }
+                        items.add(item);
                     }
-                    Item item = itemService.findOrSave(itemName, itemNum, season);
-                    items.add(item);
                 }
                 MatchUnit matchUnit = MatchUnit.builder()
                         .unit(unit)
@@ -153,8 +154,12 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
 
             // trait
             List<TraitDTO> traitDTOS = participantDTO.getTraits();
+            Map<String, Trait> traitMap = getExistTraitMap(season, traitDTOS);
             for (TraitDTO traitDTO : traitDTOS) {
-                Trait trait = traitService.findOrSave(traitDTO.getName(), traitDTO.getTier_total(), season);
+                Trait trait = traitMap.get(traitDTO.getName());
+                if (trait == null) {
+                    trait = makeTraitAndSave(season, traitDTO);
+                }
                 MatchTrait matchTrait = MatchTrait.builder()
                         .unitCount(traitDTO.getNum_units())
                         .tierAppliedCount(traitDTO.getTier_current())
@@ -163,10 +168,66 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
                         .build();
                 matchInfo.addMatchTrait(matchTrait);
             }
-
             matchInfos.add(matchInfo);
         }
         return matchInfos;
+    }
+
+    private Trait makeTraitAndSave(Season season, TraitDTO traitDTO) {
+        Trait trait;
+        trait = Trait.builder()
+                .name(traitDTO.getName())
+                .tierTotalCount(traitDTO.getTier_total())
+                .season(season)
+                .build();
+        traitRepository.save(trait);
+        return trait;
+    }
+
+    private Item makeItemAndSave(Integer itemNum, String itemName) {
+        Item item;
+        item = Item.builder()
+                .name(itemName)
+                .num(itemNum)
+                .build();
+        itemRepository.save(item);
+        return item;
+    }
+
+    private Unit makeUnitAndSave(Season season, UnitDTO unitDTO) {
+        Unit unit = Unit.builder()
+                .name(unitDTO.getCharacter_id())
+                .rarity(unitDTO.getRarity())
+                .season(season)
+                .build();
+        unitRepository.save(unit);
+        return unit;
+    }
+
+    private Map<Integer, Item> getExistItemMap(List<Integer> itemNums) {
+        List<Item> itemList = itemRepository.searchByNums(itemNums);
+        if (itemList.isEmpty()) {
+            return new HashMap<>();
+        }
+        return itemList.stream().collect(Collectors.toMap(Item::getNum, item -> item));
+    }
+
+    private Map<String, Unit> getExistUnitMap(Season season, List<UnitDTO> unitDTOS) {
+        List<String> characterIds = unitDTOS.stream().map(UnitDTO::getCharacter_id).collect(Collectors.toList());
+        List<Unit> units = unitRepository.searchByNamesAndSeasonId(characterIds, season.getId());
+        if (units.isEmpty()) {
+            return new HashMap<>();
+        }
+        return units.stream().collect(Collectors.toMap(Unit::getName, unit -> unit));
+    }
+
+    private Map<String, Trait> getExistTraitMap(Season season, List<TraitDTO> traitDTOS) {
+        List<String> traitNames = traitDTOS.stream().map(TraitDTO::getName).collect(Collectors.toList());
+        List<Trait> traits = traitRepository.searchByNamesAndSeasonId(traitNames, season.getId());
+        if (traits.isEmpty()) {
+            return new HashMap<>();
+        }
+        return traits.stream().collect(Collectors.toMap(Trait::getName, trait -> trait));
     }
 
     private String makeAugmentOriginName(String name) {

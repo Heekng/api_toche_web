@@ -8,5 +8,6 @@ import java.util.List;
 public interface TraitRepositoryCustom {
 
     List<Trait> searchByTraitsRequest(TraitDTO.TraitsRequest traitsRequest);
-    
+
+    List<Trait> searchByNamesAndSeasonId(List<String> names, Long seasonId);
 }

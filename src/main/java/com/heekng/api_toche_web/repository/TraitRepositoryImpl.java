@@ -4,6 +4,7 @@ import com.heekng.api_toche_web.dto.TraitDTO;
 import com.heekng.api_toche_web.entity.QSeason;
 import com.heekng.api_toche_web.entity.QTrait;
 import com.heekng.api_toche_web.entity.Trait;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -38,11 +39,33 @@ public class TraitRepositoryImpl implements TraitRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public List<Trait> searchByNamesAndSeasonId(List<String> names, Long seasonId) {
+        return queryFactory
+                .selectFrom(trait)
+                .leftJoin(trait.season, season)
+                .where(
+                        seasonIdEq(seasonId)
+                                .and(traitNamesEq(names))
+                )
+                .fetch();
+    }
+
     private BooleanExpression traitNameContains(String traitName) {
         return hasText(traitName) ? trait.name.contains(traitName) : null;
     }
 
     private BooleanExpression seasonIdEq(Long seasonId) {
         return seasonId != null ? season.id.eq(seasonId) : null;
+    }
+
+    private BooleanExpression traitNameEq(String traitName) {
+        return hasText(traitName) ? trait.name.eq(traitName) : null;
+    }
+
+    private BooleanBuilder traitNamesEq(List<String> traitNames) {
+        BooleanBuilder builder = new BooleanBuilder();
+        traitNames.forEach(traitName -> builder.or(traitNameEq(traitName)));
+        return builder;
     }
 }

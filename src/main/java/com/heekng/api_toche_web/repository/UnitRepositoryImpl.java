@@ -3,9 +3,11 @@ package com.heekng.api_toche_web.repository;
 import com.heekng.api_toche_web.dto.QUnitDTO_ItemRankResponse;
 import com.heekng.api_toche_web.dto.UnitDTO;
 import com.heekng.api_toche_web.entity.*;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -72,6 +74,19 @@ public class UnitRepositoryImpl implements UnitRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public List<Unit> searchByNamesAndSeasonId(List<String> names, Long seasonId) {
+        return queryFactory
+                .selectFrom(unit)
+                .leftJoin(unit.season, season)
+                .where(
+                        seasonIdEq(seasonId).and(
+                                unitNameEqs(names)
+                        )
+                )
+                .fetch();
+    }
+
     private BooleanExpression seasonIdEq(Long seasonId) {
         return seasonId != null ? season.id.eq(seasonId) : null;
     }
@@ -86,5 +101,18 @@ public class UnitRepositoryImpl implements UnitRepositoryCustom {
 
     private BooleanExpression matchInfoSeasonIdEq(Long seasonId) {
         return seasonId != null ? matchInfo.season.id.eq(seasonId) : null;
+    }
+
+    private BooleanExpression unitNameEq(String name) {
+        return StringUtils.hasText(name) ? unit.name.eq(name) : null;
+    }
+
+    private BooleanBuilder unitNameEqs(List<String> names) {
+        System.out.println("names.size() = " + names.size());
+        BooleanBuilder builder = new BooleanBuilder();
+        names.forEach(name -> {
+            builder.or(unitNameEq(name));
+        });
+        return builder;
     }
 }
