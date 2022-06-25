@@ -159,7 +159,7 @@ class UnitRepositoryTest {
 
         Item testItem = Item.builder()
                 .name("testItemName")
-                .korName("테스트 아이템 이름")
+                .krName("테스트 아이템 이름")
                 .num(1)
                 .build();
         em.persist(testItem);

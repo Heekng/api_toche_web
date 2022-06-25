@@ -32,7 +32,7 @@ public class CDragonItemInsertProcessor implements ItemProcessor<CDragonItemDTO,
         );
 
         String desc = cDragonItemDTO.getDesc();
-        String korName = cDragonItemDTO.getName();
+        String krName = cDragonItemDTO.getName();
         Boolean isUnique = cDragonItemDTO.getUnique();
         String iconPath = CDRAGON_PATH_IMAGE + cDragonItemDTO.getIcon().toLowerCase().replace(".dds", ".png");
         Integer fromItem1 = null;
@@ -45,7 +45,7 @@ public class CDragonItemInsertProcessor implements ItemProcessor<CDragonItemDTO,
             desc = desc.replace("@" + key + "@", String.valueOf(cDragonItemDTO.getEffects().get(key)));
         }
         log.info("desc: {}", desc);
-        item.updateCDragonData(desc, korName, isUnique, iconPath, fromItem1, fromItem2);
+        item.updateCDragonData(desc, krName, isUnique, iconPath, fromItem1, fromItem2);
 
         return item;
     }

@@ -32,8 +32,8 @@ public class Item extends BaseTimeEntity {
 
     @Column(name = "item_desc")
     private String itemDesc;
-    @Column(name = "kor_name")
-    private String korName;
+    @Column(name = "kr_name")
+    private String krName;
     @Column(name = "from_item_1")
     private Integer fromItem1;
     @Column(name = "from_item_2")
@@ -47,20 +47,20 @@ public class Item extends BaseTimeEntity {
     private List<MatchItem> matchItems = new ArrayList<>();
 
     @Builder
-    public Item(Integer num, String name, String itemDesc, String korName, Integer fromItem1, Integer fromItem2, Boolean isUnique, String iconPath) {
+    public Item(Integer num, String name, String itemDesc, String krName, Integer fromItem1, Integer fromItem2, Boolean isUnique, String iconPath) {
         this.num = num;
         this.name = name;
         this.itemDesc = itemDesc;
-        this.korName = korName;
+        this.krName = krName;
         this.fromItem1 = fromItem1;
         this.fromItem2 = fromItem2;
         this.isUnique = isUnique;
         this.iconPath = iconPath;
     }
 
-    public void updateCDragonData(String itemDesc, String korName, Boolean isUnique, String iconPath, Integer fromItem1, Integer fromItem2) {
+    public void updateCDragonData(String itemDesc, String krName, Boolean isUnique, String iconPath, Integer fromItem1, Integer fromItem2) {
         this.itemDesc = itemDesc;
-        this.korName = korName;
+        this.krName = krName;
         this.isUnique = isUnique;
         this.iconPath = iconPath;
         this.fromItem1 = fromItem1;
