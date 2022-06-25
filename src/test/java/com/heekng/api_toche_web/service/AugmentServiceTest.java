@@ -46,6 +46,7 @@ class AugmentServiceTest {
 
         augment = Augment.builder()
                 .name("augmentName")
+                .enName("enAugmentName")
                 .build();
         augmentRepository.save(augment);
     }
@@ -54,7 +55,7 @@ class AugmentServiceTest {
     @DisplayName("이미 존재하는 특성은 저장하지 않는다.")
     void findOrSaveFindTest() throws Exception {
         //when
-        Augment findAugment = augmentService.findOrSave(augment.getName());
+        Augment findAugment = augmentService.findOrSave(augment.getName(), augment.getEnName());
         //then
         assertThat(findAugment.getId()).isEqualTo(augment.getId());
     }
@@ -63,7 +64,7 @@ class AugmentServiceTest {
     @DisplayName("존재하지 않는 특성은 새로 저장한다.")
     void findOrSaveSaveTest() throws Exception {
         //when
-        Augment findAugment = augmentService.findOrSave("testAugmentName");
+        Augment findAugment = augmentService.findOrSave("testAugmentName", "enTestAugmentName");
         em.flush();
         em.clear();
         Optional<Augment> optionalAugment = augmentRepository.findById(findAugment.getId());
@@ -83,7 +84,7 @@ class AugmentServiceTest {
                 .build();
         augmentRepository.save(testAugment);
         //when
-        Augment findAugment = augmentService.findOrSave("testAugmentEnName3");
+        Augment findAugment = augmentService.findOrSave("testAugmentEnName3", testAugment.getEnName());
         //then
         assertThat(findAugment.getName()).isEqualTo("testAugmentEnName3");
     }

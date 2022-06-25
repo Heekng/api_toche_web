@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -302,5 +303,32 @@ class ItemRepositoryTest {
         assertThat(unitRankResponses).isNotEmpty();
         assertThat(unitRankResponses.size()).isEqualTo(2);
         assertThat(unitRankResponses.get(0).getChampionUsedCount()).isEqualTo(1);
+    }
+
+    @Test
+    void searchByNumsTest() throws Exception {
+        //given
+        Item testItem1 = Item.builder()
+                .name("testItem1")
+                .num(2)
+                .build();
+        itemRepository.save(testItem1);
+        Item testItem2 = Item.builder()
+                .name("testItem2")
+                .num(3)
+                .build();
+        itemRepository.save(testItem2);
+        Item testItem3 = Item.builder()
+                .name("testItem3")
+                .num(4)
+                .build();
+        itemRepository.save(testItem3);
+        //when
+        List<Integer> itemNums = List.of(2, 3, 5);
+        List<Item> items = itemRepository.searchByNums(itemNums);
+        //then
+        assertThat(items).isNotEmpty();
+        assertThat(items.size()).isEqualTo(2);
+
     }
 }

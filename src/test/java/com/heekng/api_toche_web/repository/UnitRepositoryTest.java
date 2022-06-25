@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -207,5 +208,40 @@ class UnitRepositoryTest {
         //then
         assertThat(itemRankResponses).isNotEmpty();
         assertThat(itemRankResponses.size()).isEqualTo(2);
+    }
+
+    @Test
+    void searchByNamesAndSeasonIdTest() throws Exception {
+        //given
+        Unit unit1 = Unit.builder()
+                .rarity(1)
+                .name("testUnit1")
+                .tier(1)
+                .season(season)
+                .cost(5)
+                .build();
+        unitRepository.save(unit1);
+        Unit unit2 = Unit.builder()
+                .rarity(1)
+                .name("testUnit2")
+                .tier(1)
+                .season(season)
+                .cost(5)
+                .build();
+        unitRepository.save(unit2);
+        Unit unit3 = Unit.builder()
+                .rarity(1)
+                .name("testUnit3")
+                .tier(1)
+                .season(season)
+                .cost(5)
+                .build();
+        unitRepository.save(unit3);
+        //when
+        List<String> unitNames = List.of("testUnit1", "testUnit2");
+        List<Unit> units = unitRepository.searchByNamesAndSeasonId(unitNames, season.getId());
+        //then
+        assertThat(units).isNotEmpty();
+        assertThat(units.size()).isEqualTo(2);
     }
 }

@@ -10,4 +10,6 @@ public interface UnitRepositoryCustom {
     List<Unit> searchByUnitsRequest(UnitDTO.UnitsRequest unitsRequest);
 
     List<UnitDTO.ItemRankResponse> searchUnitRankByItemId(Long itemId, Long seasonId);
+
+    List<Unit> searchByNamesAndSeasonId(List<String> names, Long seasonId);
 }
