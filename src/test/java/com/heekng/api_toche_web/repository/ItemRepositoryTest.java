@@ -324,8 +324,7 @@ class ItemRepositoryTest {
                 .build();
         itemRepository.save(testItem3);
         //when
-//        List<Integer> itemNums = List.of(2, 3, 5);
-        List<Integer> itemNums = new ArrayList<>();
+        List<Integer> itemNums = List.of(2, 3, 5);
         List<Item> items = itemRepository.searchByNums(itemNums);
         //then
         assertThat(items).isNotEmpty();
