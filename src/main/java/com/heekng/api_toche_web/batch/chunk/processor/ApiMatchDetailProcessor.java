@@ -122,12 +122,7 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
                 log.info(unitDTO.toString());
                 Unit unit = unitMap.get(unitDTO.getCharacter_id());
                 if (unit == null) {
-                    unit = Unit.builder()
-                            .name(unitDTO.getCharacter_id())
-                            .rarity(unitDTO.getRarity())
-                            .season(season)
-                            .build();
-                    unitRepository.save(unit);
+                    unit = makeUnitAndSave(season, unitDTO);
                 }
                 List<Item> items = new ArrayList<>();
                 if (!unitDTO.getItems().isEmpty()) {
@@ -137,11 +132,7 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
                         String itemName = unitDTO.getItemNames() != null ? unitDTO.getItemNames().get(j) : "";
                         Item item = itemMap.get(itemNum);
                         if (item == null) {
-                            item = Item.builder()
-                                    .name(itemName)
-                                    .num(itemNum)
-                                    .build();
-                            itemRepository.save(item);
+                            item = makeItemAndSave(itemNum, itemName);
                         }
                         if (!itemName.equals("") && !item.getName().equals(itemName)) {
                             item.updateName(itemName);
@@ -167,12 +158,7 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
             for (TraitDTO traitDTO : traitDTOS) {
                 Trait trait = traitMap.get(traitDTO.getName());
                 if (trait == null) {
-                    trait = Trait.builder()
-                            .name(traitDTO.getName())
-                            .tierTotalCount(traitDTO.getTier_total())
-                            .season(season)
-                            .build();
-                    traitRepository.save(trait);
+                    trait = makeTraitAndSave(season, traitDTO);
                 }
                 MatchTrait matchTrait = MatchTrait.builder()
                         .unitCount(traitDTO.getNum_units())
@@ -185,6 +171,37 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
             matchInfos.add(matchInfo);
         }
         return matchInfos;
+    }
+
+    private Trait makeTraitAndSave(Season season, TraitDTO traitDTO) {
+        Trait trait;
+        trait = Trait.builder()
+                .name(traitDTO.getName())
+                .tierTotalCount(traitDTO.getTier_total())
+                .season(season)
+                .build();
+        traitRepository.save(trait);
+        return trait;
+    }
+
+    private Item makeItemAndSave(Integer itemNum, String itemName) {
+        Item item;
+        item = Item.builder()
+                .name(itemName)
+                .num(itemNum)
+                .build();
+        itemRepository.save(item);
+        return item;
+    }
+
+    private Unit makeUnitAndSave(Season season, UnitDTO unitDTO) {
+        Unit unit = Unit.builder()
+                .name(unitDTO.getCharacter_id())
+                .rarity(unitDTO.getRarity())
+                .season(season)
+                .build();
+        unitRepository.save(unit);
+        return unit;
     }
 
     private Map<Integer, Item> getExistItemMap(List<Integer> itemNums) {
