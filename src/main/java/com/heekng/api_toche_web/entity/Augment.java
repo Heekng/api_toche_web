@@ -25,8 +25,8 @@ public class Augment extends BaseTimeEntity{
     private Integer num;
     @Column(name = "augment_desc")
     private String augmentDesc;
-    @Column(name = "kor_name")
-    private String korName;
+    @Column(name = "kr_name")
+    private String krName;
     @Column(name = "en_name")
     private String enName;
     @Column(name = "is_unique")
@@ -38,20 +38,20 @@ public class Augment extends BaseTimeEntity{
     private List<MatchAugment> matchAugments = new ArrayList<>();
 
     @Builder
-    public Augment(String name, Integer num, String augmentDesc, String korName, String enName, Boolean isUnique, String iconPath) {
+    public Augment(String name, Integer num, String augmentDesc, String krName, String enName, Boolean isUnique, String iconPath) {
         this.name = name;
         this.num = num;
         this.augmentDesc = augmentDesc;
-        this.korName = korName;
+        this.krName = krName;
         this.enName = enName;
         this.isUnique = isUnique;
         this.iconPath = iconPath;
     }
 
-    public void updateCDragonData(Integer num, String augmentDesc, String korName, String enName, Boolean isUnique, String iconPath) {
+    public void updateCDragonData(Integer num, String augmentDesc, String krName, String enName, Boolean isUnique, String iconPath) {
         this.num = num;
         this.augmentDesc = augmentDesc;
-        this.korName = korName;
+        this.krName = krName;
         this.enName = enName;
         this.isUnique = isUnique;
         this.iconPath = iconPath;

@@ -1,12 +1,9 @@
 package com.heekng.api_toche_web.dto;
 
-import com.heekng.api_toche_web.entity.Unit;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -34,7 +31,7 @@ public class AugmentDTO {
         private String name;
         private Integer num;
         private String desc;
-        private String korName;
+        private String krName;
         private String enName;
         private Boolean isUnique;
         private String iconPath;
