@@ -20,27 +20,7 @@ public class AugmentService {
     private final AugmentRepository augmentRepository;
 
     @Transactional
-    public Augment findOrSave(String name) {
-        String[] nameSplit = name.split("_");
-        char[] argumentOriginNameCharArray = nameSplit[nameSplit.length - 1].toCharArray();
-        StringBuilder argumentNameBuilder = new StringBuilder();
-        for (int i = 0; i < argumentOriginNameCharArray.length; i++) {
-            char argumentOriginNameChar = argumentOriginNameCharArray[i];
-            if (i != 0 && Character.isUpperCase(argumentOriginNameChar)) {
-                argumentNameBuilder.append(" ");
-                argumentNameBuilder.append(argumentOriginNameChar);
-            } else if (i == argumentOriginNameCharArray.length - 1 && Character.isDigit(argumentOriginNameChar)) {
-                argumentNameBuilder.append(" ");
-                for (int j = 0; j < Integer.parseInt(String.valueOf(argumentOriginNameChar)); j++) {
-                    argumentNameBuilder.append("I");
-                }
-                argumentNameBuilder.append(argumentOriginNameChar);
-            } else {
-                argumentNameBuilder.append(argumentOriginNameChar);
-            }
-        }
-        String argumentOriginName = argumentNameBuilder.toString();
-
+    public Augment findOrSave(String name, String argumentOriginName) {
         Optional<Augment> augmentOptional = augmentRepository.searchByNameOrEnNameEq(name, argumentOriginName);
         Augment augment = null;
         if (augmentOptional.isEmpty()) {

@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -110,7 +109,7 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
             // augment
             List<String> augmentStringList = participantDTO.getAugments() != null ? participantDTO.getAugments() : new ArrayList<>();
             List<Augment> augments = augmentStringList.stream()
-                    .map(augmentName -> augmentService.findOrSave(augmentName))
+                    .map(augmentName -> augmentService.findOrSave(augmentName, makeAugmentOriginName(augmentName)))
                     .collect(Collectors.toList());
             for (Augment augment : augments) {
                 MatchAugment matchAugment = MatchAugment.builder()
@@ -168,5 +167,27 @@ public class ApiMatchDetailProcessor implements ItemProcessor<TftMatch, List<Mat
             matchInfos.add(matchInfo);
         }
         return matchInfos;
+    }
+
+    private String makeAugmentOriginName(String name) {
+        String[] nameSplit = name.split("_");
+        char[] argumentOriginNameCharArray = nameSplit[nameSplit.length - 1].toCharArray();
+        StringBuilder argumentNameBuilder = new StringBuilder();
+        for (int i = 0; i < argumentOriginNameCharArray.length; i++) {
+            char argumentOriginNameChar = argumentOriginNameCharArray[i];
+            if (i != 0 && Character.isUpperCase(argumentOriginNameChar)) {
+                argumentNameBuilder.append(" ");
+                argumentNameBuilder.append(argumentOriginNameChar);
+            } else if (i == argumentOriginNameCharArray.length - 1 && Character.isDigit(argumentOriginNameChar)) {
+                argumentNameBuilder.append(" ");
+                for (int j = 0; j < Integer.parseInt(String.valueOf(argumentOriginNameChar)); j++) {
+                    argumentNameBuilder.append("I");
+                }
+                argumentNameBuilder.append(argumentOriginNameChar);
+            } else {
+                argumentNameBuilder.append(argumentOriginNameChar);
+            }
+        }
+        return argumentNameBuilder.toString();
     }
 }
