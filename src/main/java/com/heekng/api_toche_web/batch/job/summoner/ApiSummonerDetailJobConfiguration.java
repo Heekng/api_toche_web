@@ -1,4 +1,4 @@
-package com.heekng.api_toche_web.batch.job.ranker;
+package com.heekng.api_toche_web.batch.job.summoner;
 
 import com.heekng.api_toche_web.batch.chunk.processor.ApiSummonerDetailProcessor;
 import com.heekng.api_toche_web.entity.Summoner;
@@ -8,7 +8,6 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.builder.JpaItemWriterBuilder;
