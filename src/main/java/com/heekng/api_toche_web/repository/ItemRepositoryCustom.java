@@ -17,4 +17,6 @@ public interface ItemRepositoryCustom {
     Optional<ItemDTO.ItemDetailResponse> searchWithFromItemByItemId(Long itemId);
 
     List<ItemDTO.UnitRankResponse> searchItemRankByUnitId(Long unitId);
+
+    List<Item> searchByNums(List<Integer> nums);
 }
