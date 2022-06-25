@@ -32,19 +32,19 @@ public class ItemDTO {
         private Integer num;
         private String name;
         private String desc;
-        private String korName;
+        private String krName;
         private Integer fromItem1;
         private Integer fromItem2;
         private Boolean isUnique;
         private String iconPath;
 
         @QueryProjection
-        public ItemsResponse(Long id, Integer num, String name, String desc, String korName, Integer fromItem1, Integer fromItem2, Boolean isUnique, String iconPath) {
+        public ItemsResponse(Long id, Integer num, String name, String desc, String krName, Integer fromItem1, Integer fromItem2, Boolean isUnique, String iconPath) {
             this.id = id;
             this.num = num;
             this.name = name;
             this.desc = desc;
-            this.korName = korName;
+            this.krName = krName;
             this.fromItem1 = fromItem1;
             this.fromItem2 = fromItem2;
             this.isUnique = isUnique;
@@ -60,7 +60,7 @@ public class ItemDTO {
         private Integer num;
         private String name;
         private String desc;
-        private String korName;
+        private String krName;
         private ItemsResponse fromItem1;
         private ItemsResponse fromItem2;
         private Boolean isUnique;
@@ -68,12 +68,12 @@ public class ItemDTO {
         private Long usedCount;
 
         @QueryProjection
-        public ItemDetailResponse(Long id, Integer num, String name, String desc, String korName, ItemsResponse fromItem1, ItemsResponse fromItem2, Boolean isUnique, String iconPath) {
+        public ItemDetailResponse(Long id, Integer num, String name, String desc, String krName, ItemsResponse fromItem1, ItemsResponse fromItem2, Boolean isUnique, String iconPath) {
             this.id = id;
             this.num = num;
             this.name = name;
             this.desc = desc;
-            this.korName = korName;
+            this.krName = krName;
             this.fromItem1 = fromItem1;
             this.fromItem2 = fromItem2;
             this.isUnique = isUnique;
@@ -98,7 +98,7 @@ public class ItemDTO {
         private Integer num;
         private String name;
         private String desc;
-        private String korName;
+        private String krName;
         private Integer fromItem1;
         private Integer fromItem2;
         private Boolean isUnique;
@@ -106,12 +106,12 @@ public class ItemDTO {
         private Long championUsedCount;
 
         @QueryProjection
-        public UnitRankResponse(Long id, Integer num, String name, String desc, String korName, Integer fromItem1, Integer fromItem2, Boolean isUnique, String iconPath, Long championUsedCount) {
+        public UnitRankResponse(Long id, Integer num, String name, String desc, String krName, Integer fromItem1, Integer fromItem2, Boolean isUnique, String iconPath, Long championUsedCount) {
             this.id = id;
             this.num = num;
             this.name = name;
             this.desc = desc;
-            this.korName = korName;
+            this.krName = krName;
             this.fromItem1 = fromItem1;
             this.fromItem2 = fromItem2;
             this.isUnique = isUnique;
