@@ -1,8 +1,10 @@
 package com.heekng.api_toche_web.batch.job.season;
 
-import com.heekng.api_toche_web.batch.chunk.processor.SeasonItemProcessor;
+import com.heekng.api_toche_web.batch.chunk.processor.SeasonAugmentProcessor;
 import com.heekng.api_toche_web.batch.chunk.writer.JpaItemListWriter;
-import com.heekng.api_toche_web.entity.*;
+import com.heekng.api_toche_web.entity.Season;
+import com.heekng.api_toche_web.entity.SeasonAugment;
+import com.heekng.api_toche_web.entity.SeasonItem;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -22,31 +24,30 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
-public class SeasonItemJobConfiguration {
+public class SeasonAugmentJobConfiguration {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory emf;
-    private final SeasonItemProcessor seasonItemProcessor;
+    private final SeasonAugmentProcessor seasonAugmentProcessor;
 
     @Bean
-    public Job seasonItemJob() {
-        return jobBuilderFactory.get("seasonItemJob")
-                .start(seasonItemStep())
+    public Job seasonAugmentJob() {
+        return jobBuilderFactory.get("seasonAugmentJob")
+                .start(seasonAugmentStep())
                 .build();
     }
 
-    public Step seasonItemStep() {
-        return stepBuilderFactory.get("seasonItemStep")
-                .<Season, List<SeasonItem>>chunk(10)
-                .reader(seasonItemReader())
-                .processor(seasonItemProcessor)
-                .writer(seasonItemWriter())
+    private Step seasonAugmentStep() {
+        return stepBuilderFactory.get("seasonAugmentStep")
+                .<Season, List<SeasonAugment>>chunk(10)
+                .reader(seasonAugmentReader())
+                .processor(seasonAugmentProcessor)
+                .writer(seasonAugmentWriter())
                 .build();
     }
 
-
-    private ItemReader<Season> seasonItemReader() {
+    private ItemReader<Season> seasonAugmentReader() {
         return new JpaPagingItemReaderBuilder<Season>()
                 .name("seasonItemReader")
                 .entityManagerFactory(emf)
@@ -55,12 +56,11 @@ public class SeasonItemJobConfiguration {
                 .build();
     }
 
-    private ItemWriter<List<SeasonItem>> seasonItemWriter() {
-        JpaItemWriter<SeasonItem> writer = new JpaItemWriter<>();
+    private ItemWriter<List<SeasonAugment>> seasonAugmentWriter() {
+        JpaItemWriter<SeasonAugment> writer = new JpaItemWriter<>();
         writer.setEntityManagerFactory(emf);
         writer.setUsePersist(false);
 
         return new JpaItemListWriter<>(writer);
     }
-
 }

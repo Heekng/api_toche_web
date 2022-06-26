@@ -13,6 +13,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -29,6 +30,7 @@ public class SeasonItemProcessor implements ItemProcessor<Season, List<SeasonIte
         List<Item> items = itemRepository.searchSeasonUsedItemBySeasonId(season.getId());
 
         return items.stream()
+                .filter(Objects::nonNull)
                 .filter(item -> !seasonItemRepository.existsBySeasonIdAndItemId(season.getId(), item.getId()))
                 .map(item -> SeasonItem.builder()
                         .item(item)
