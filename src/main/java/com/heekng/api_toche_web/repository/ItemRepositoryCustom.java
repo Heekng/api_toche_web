@@ -14,6 +14,8 @@ public interface ItemRepositoryCustom {
 
     List<Item> searchByItemsRequestContainsSeasonId(ItemDTO.ItemsRequest itemsRequest);
 
+    List<Item> searchSeasonUsedItemBySeasonId(Long seasonId);
+
     Optional<ItemDTO.ItemDetailResponse> searchWithFromItemByItemId(Long itemId);
 
     List<ItemDTO.UnitRankResponse> searchItemRankByUnitId(Long unitId);

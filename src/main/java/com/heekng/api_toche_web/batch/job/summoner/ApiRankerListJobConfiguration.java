@@ -1,4 +1,4 @@
-package com.heekng.api_toche_web.batch.job.ranker;
+package com.heekng.api_toche_web.batch.job.summoner;
 
 import com.heekng.api_toche_web.batch.chunk.processor.ApiRankerListProcessor;
 import com.heekng.api_toche_web.batch.dto.LeagueListDTO;

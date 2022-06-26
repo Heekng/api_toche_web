@@ -3,6 +3,7 @@ package com.heekng.api_toche_web.repository;
 import com.heekng.api_toche_web.dto.*;
 import com.heekng.api_toche_web.entity.Item;
 import com.heekng.api_toche_web.entity.QItem;
+import com.heekng.api_toche_web.entity.QSeasonItem;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -16,6 +17,7 @@ import static com.heekng.api_toche_web.entity.QMatchInfo.matchInfo;
 import static com.heekng.api_toche_web.entity.QMatchItem.*;
 import static com.heekng.api_toche_web.entity.QMatchUnit.*;
 import static com.heekng.api_toche_web.entity.QSeason.*;
+import static com.heekng.api_toche_web.entity.QSeasonItem.*;
 import static com.heekng.api_toche_web.entity.QUnit.unit;
 import static org.springframework.util.StringUtils.*;
 
@@ -55,16 +57,35 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
     public List<Item> searchByItemsRequestContainsSeasonId(ItemDTO.ItemsRequest itemsRequest) {
         return queryFactory
                 .select(item)
-                .from(matchInfo)
-                .leftJoin(matchInfo.season, season)
-                .leftJoin(matchInfo.matchUnits, matchUnit)
-                .leftJoin(matchUnit.matchItems, matchItem)
-                .leftJoin(matchItem.item, item)
+                .from(seasonItem)
+                .innerJoin(seasonItem.season, season)
+                .on(
+                        seasonIdEq(itemsRequest.getSeasonId())
+                )
+                .innerJoin(seasonItem.item, item)
                 .where(
-                        item.id.isNotNull(),
-                        seasonIdEq(itemsRequest.getSeasonId()),
                         itemNameContains(itemsRequest.getItemName()),
                         itemNumEq(itemsRequest.getItemNum())
+                )
+                .orderBy(
+                        item.num.asc(),
+                        item.name.asc()
+                )
+                .fetch();
+    }
+
+    @Override
+    public List<Item> searchSeasonUsedItemBySeasonId(Long seasonId) {
+        return queryFactory
+                .select(item)
+                .from(matchInfo)
+                .innerJoin(matchInfo.season, season)
+                .leftJoin(matchInfo.matchUnits, matchUnit)
+                .leftJoin(matchUnit.matchItems, matchItem)
+                .innerJoin(matchItem.item, item)
+                .on(item.id.isNotNull())
+                .where(
+                        seasonIdEq(seasonId)
                 )
                 .orderBy(
                         item.num.asc(),
