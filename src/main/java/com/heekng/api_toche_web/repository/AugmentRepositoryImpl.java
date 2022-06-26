@@ -15,6 +15,7 @@ import static com.heekng.api_toche_web.entity.QAugment.*;
 import static com.heekng.api_toche_web.entity.QMatchAugment.*;
 import static com.heekng.api_toche_web.entity.QMatchInfo.*;
 import static com.heekng.api_toche_web.entity.QSeason.*;
+import static com.heekng.api_toche_web.entity.QSeasonAugment.*;
 import static org.springframework.util.StringUtils.*;
 
 @RequiredArgsConstructor
@@ -54,18 +55,18 @@ public class AugmentRepositoryImpl implements AugmentRepositoryCustom {
     public List<Augment> searchByAugmentsRequestContainsSeasonId(AugmentDTO.AugmentsRequest augmentsRequest) {
         return queryFactory
                 .select(augment)
-                .from(matchInfo)
-                .leftJoin(matchInfo.season, season)
-                .leftJoin(matchInfo.matchAugments, matchAugment)
-                .leftJoin(matchAugment.augment, augment)
+                .from(seasonAugment)
+                .innerJoin(seasonAugment.season, season)
+                .on(
+                        seasonIdEq(augmentsRequest.getSeasonId())
+                )
+                .innerJoin(seasonAugment.augment, augment)
                 .where(
-                        seasonIdEq(augmentsRequest.getSeasonId()),
                         augmentNameContains(augmentsRequest.getAugmentName())
                 )
                 .orderBy(
                         augment.name.asc()
                 )
-                .distinct()
                 .fetch();
     }
 

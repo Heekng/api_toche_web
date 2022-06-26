@@ -1,6 +1,7 @@
 package com.heekng.api_toche_web.repository;
 
 import com.heekng.api_toche_web.dto.AugmentDTO;
+import com.heekng.api_toche_web.dto.ItemDTO;
 import com.heekng.api_toche_web.entity.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -159,6 +160,69 @@ class AugmentRepositoryTest {
         assertThat(augments).isNotEmpty();
         assertThat(augments.size()).isEqualTo(2);
         assertThat(augments).contains(testAugment1, testAugment2);
+    }
+
+    @Test
+    void searchByAugmentsRequestContainsSeasonIdTest() throws Exception {
+        //given
+        Season testSeason1 = Season.builder()
+                .seasonNum(1)
+                .seasonName("testSeason1")
+                .build();
+        em.persist(testSeason1);
+        Season testSeason2 = Season.builder()
+                .seasonNum(2)
+                .seasonName("testSeason2")
+                .build();
+        em.persist(testSeason2);
+
+        Augment testAugment1 = Augment.builder()
+                .name("testAugment1")
+                .build();
+        em.persist(testAugment1);
+        Augment testAugment2 = Augment.builder()
+                .name("testAugment2")
+                .build();
+        em.persist(testAugment2);
+        Augment testAugment3 = Augment.builder()
+                .name("testAugment3")
+                .build();
+        em.persist(testAugment3);
+        Augment testAugment4 = Augment.builder()
+                .name("testAugment4")
+                .build();
+        em.persist(testAugment4);
+
+        SeasonAugment testSeasonAugment1 = SeasonAugment.builder()
+                .season(testSeason1)
+                .augment(testAugment1)
+                .build();
+        em.persist(testSeasonAugment1);
+        SeasonAugment testSeasonAugment2 = SeasonAugment.builder()
+                .season(testSeason1)
+                .augment(testAugment2)
+                .build();
+        em.persist(testSeasonAugment2);
+        SeasonAugment testSeasonAugment3 = SeasonAugment.builder()
+                .season(testSeason1)
+                .augment(testAugment3)
+                .build();
+        em.persist(testSeasonAugment3);
+        SeasonAugment testSeasonAugment4 = SeasonAugment.builder()
+                .season(testSeason2)
+                .augment(testAugment4)
+                .build();
+        em.persist(testSeasonAugment4);
+        //when
+        AugmentDTO.AugmentsRequest augmentsRequest = AugmentDTO.AugmentsRequest.builder()
+                .seasonId(testSeason1.getId())
+                .augmentName("testAugment")
+                .build();
+        List<Augment> findAugments = augmentRepository.searchByAugmentsRequestContainsSeasonId(augmentsRequest);
+        //then
+        assertThat(findAugments).isNotEmpty();
+        assertThat(findAugments.size()).isEqualTo(3);
+        assertThat(findAugments).contains(testAugment1, testAugment2, testAugment3);
     }
 
 }
