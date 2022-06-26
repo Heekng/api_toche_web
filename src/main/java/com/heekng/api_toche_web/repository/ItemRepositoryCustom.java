@@ -21,6 +21,4 @@ public interface ItemRepositoryCustom {
     List<ItemDTO.UnitRankResponse> searchItemRankByUnitId(Long unitId);
 
     List<Item> searchByNums(List<Integer> nums);
-
-    List<Item> searchBySeasonId(Long seasonId);
 }

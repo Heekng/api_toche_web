@@ -57,14 +57,13 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
     public List<Item> searchByItemsRequestContainsSeasonId(ItemDTO.ItemsRequest itemsRequest) {
         return queryFactory
                 .select(item)
-                .from(matchInfo)
-                .leftJoin(matchInfo.season, season)
-                .leftJoin(matchInfo.matchUnits, matchUnit)
-                .leftJoin(matchUnit.matchItems, matchItem)
-                .leftJoin(matchItem.item, item)
+                .from(seasonItem)
+                .innerJoin(seasonItem.season, season)
+                .on(
+                        seasonIdEq(itemsRequest.getSeasonId())
+                )
+                .innerJoin(seasonItem.item, item)
                 .where(
-                        item.id.isNotNull(),
-                        seasonIdEq(itemsRequest.getSeasonId()),
                         itemNameContains(itemsRequest.getItemName()),
                         itemNumEq(itemsRequest.getItemNum())
                 )
@@ -72,7 +71,6 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                         item.num.asc(),
                         item.name.asc()
                 )
-                .distinct()
                 .fetch();
     }
 
@@ -186,20 +184,6 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                         itemNumsEq(nums)
                 )
                 .fetch();
-    }
-
-    @Override
-    public List<Item> searchBySeasonId(Long seasonId) {
-        return queryFactory
-                .select(item)
-                .from(seasonItem)
-                .innerJoin(seasonItem.season, season)
-                .on(
-                        seasonIdEq(seasonId)
-                )
-                .innerJoin(seasonItem.item, item)
-                .fetch();
-
     }
 
     private BooleanExpression seasonIdEq(Long seasonId) {

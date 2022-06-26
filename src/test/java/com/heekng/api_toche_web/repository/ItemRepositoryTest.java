@@ -114,67 +114,68 @@ class ItemRepositoryTest {
     @Test
     void searchByItemsRequestContainsSeasonIdTest() throws Exception {
         //given
-        Summoner testSummoner = Summoner.builder()
-                .id("summonerId")
-                .name("summonerName")
-                .puuid("123-123-123")
+        Season testSeason1 = Season.builder()
+                .seasonNum(1)
+                .seasonName("testSeason1")
                 .build();
-        em.persist(testSummoner);
-
-        TftMatch testTftMatch = TftMatch.builder()
-                .matchId("1234567")
-                .summoner(testSummoner)
+        em.persist(testSeason1);
+        Season testSeason2 = Season.builder()
+                .seasonNum(2)
+                .seasonName("testSeason2")
                 .build();
-        em.persist(testTftMatch);
+        em.persist(testSeason2);
 
-        Season testSeason = Season.builder()
-                .seasonNum(6)
-                .seasonName("testSeasonName")
-                .build();
-        em.persist(testSeason);
-
-        LocalDateTime gameDatetime = LocalDateTime.of(2022, 6, 4, 15, 22);
-        MatchInfo testMatchInfo = MatchInfo.builder()
-                .gameDatetime(gameDatetime)
-                .tftMatch(testTftMatch)
-                .season(testSeason)
-                .build();
-        em.persist(testMatchInfo);
-
-        Unit testUnit = Unit.builder()
-                .rarity(1)
-                .name("testUnit")
-                .tier(1)
-                .season(testSeason)
-                .cost(5)
-                .build();
-        em.persist(testUnit);
-
-        MatchUnit testMatchUnit = MatchUnit.builder()
-                .unit(testUnit)
-                .matchInfo(testMatchInfo)
-                .build();
-        em.persist(testMatchUnit);
-
-        Item testItem = Item.builder()
-                .name("testItemName")
+        Item testItem1 = Item.builder()
                 .num(2)
+                .name("testItem1")
                 .build();
-        em.persist(testItem);
+        em.persist(testItem1);
+        Item testItem2 = Item.builder()
+                .num(3)
+                .name("testItem2")
+                .build();
+        em.persist(testItem2);
+        Item testItem3 = Item.builder()
+                .num(4)
+                .name("testItem3")
+                .build();
+        em.persist(testItem3);
+        Item testItem4 = Item.builder()
+                .num(5)
+                .name("testItem4")
+                .build();
+        em.persist(testItem4);
 
-        MatchItem testMatchItem = MatchItem.builder()
-                .item(testItem)
-                .matchUnit(testMatchUnit)
+        SeasonItem seasonItem1 = SeasonItem.builder()
+                .season(testSeason1)
+                .item(testItem1)
                 .build();
-        em.persist(testMatchItem);
+        em.persist(seasonItem1);
+        SeasonItem seasonItem2 = SeasonItem.builder()
+                .season(testSeason1)
+                .item(testItem2)
+                .build();
+        em.persist(seasonItem2);
+        SeasonItem seasonItem3 = SeasonItem.builder()
+                .season(testSeason1)
+                .item(testItem3)
+                .build();
+        em.persist(seasonItem3);
+        SeasonItem seasonItem4 = SeasonItem.builder()
+                .season(testSeason2)
+                .item(testItem4)
+                .build();
+        em.persist(seasonItem4);
         //when
         ItemDTO.ItemsRequest itemsRequest = ItemDTO.ItemsRequest.builder()
-                .seasonId(testSeason.getId())
+                .seasonId(testSeason1.getId())
+                .itemName("testItem")
                 .build();
         List<Item> findItems = itemRepository.searchByItemsRequestContainsSeasonId(itemsRequest);
         //then
         assertThat(findItems).isNotEmpty();
-        assertThat(findItems.get(0)).isEqualTo(testItem);
+        assertThat(findItems.size()).isEqualTo(3);
+        assertThat(findItems).contains(testItem1, testItem2, testItem3);
     }
 
     @Test
@@ -397,64 +398,6 @@ class ItemRepositoryTest {
 
     @Test
     void searchBySeasonIdTest() throws Exception {
-        //given
-        Season testSeason1 = Season.builder()
-                .seasonNum(1)
-                .seasonName("testSeason1")
-                .build();
-        em.persist(testSeason1);
-        Season testSeason2 = Season.builder()
-                .seasonNum(2)
-                .seasonName("testSeason2")
-                .build();
-        em.persist(testSeason2);
 
-        Item testItem1 = Item.builder()
-                .num(2)
-                .name("testItem1")
-                .build();
-        em.persist(testItem1);
-        Item testItem2 = Item.builder()
-                .num(3)
-                .name("testItem2")
-                .build();
-        em.persist(testItem2);
-        Item testItem3 = Item.builder()
-                .num(4)
-                .name("testItem3")
-                .build();
-        em.persist(testItem3);
-        Item testItem4 = Item.builder()
-                .num(5)
-                .name("testItem4")
-                .build();
-        em.persist(testItem4);
-
-        SeasonItem seasonItem1 = SeasonItem.builder()
-                .season(testSeason1)
-                .item(testItem1)
-                .build();
-        em.persist(seasonItem1);
-        SeasonItem seasonItem2 = SeasonItem.builder()
-                .season(testSeason1)
-                .item(testItem2)
-                .build();
-        em.persist(seasonItem2);
-        SeasonItem seasonItem3 = SeasonItem.builder()
-                .season(testSeason1)
-                .item(testItem3)
-                .build();
-        em.persist(seasonItem3);
-        SeasonItem seasonItem4 = SeasonItem.builder()
-                .season(testSeason2)
-                .item(testItem4)
-                .build();
-        em.persist(seasonItem4);
-        //when
-        List<Item> findItems = itemRepository.searchBySeasonId(testSeason1.getId());
-        //then
-        assertThat(findItems).isNotEmpty();
-        assertThat(findItems.size()).isEqualTo(3);
-        assertThat(findItems).contains(testItem1, testItem2, testItem3);
     }
 }
