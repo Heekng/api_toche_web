@@ -331,4 +331,67 @@ class ItemRepositoryTest {
         assertThat(items.size()).isEqualTo(2);
 
     }
+
+    @Test
+    void searchSeasonUsedItemBySeasonIdTest() throws Exception {
+        //given
+        Summoner testSummoner = Summoner.builder()
+                .id("summonerId")
+                .name("summonerName")
+                .puuid("123-123-123")
+                .build();
+        em.persist(testSummoner);
+
+        TftMatch testTftMatch = TftMatch.builder()
+                .matchId("1234567")
+                .summoner(testSummoner)
+                .build();
+        em.persist(testTftMatch);
+
+        Season testSeason = Season.builder()
+                .seasonNum(6)
+                .seasonName("testSeasonName")
+                .build();
+        em.persist(testSeason);
+
+        LocalDateTime gameDatetime = LocalDateTime.of(2022, 6, 4, 15, 22);
+        MatchInfo testMatchInfo = MatchInfo.builder()
+                .gameDatetime(gameDatetime)
+                .tftMatch(testTftMatch)
+                .season(testSeason)
+                .build();
+        em.persist(testMatchInfo);
+
+        Unit testUnit = Unit.builder()
+                .rarity(1)
+                .name("testUnit")
+                .tier(1)
+                .season(testSeason)
+                .cost(5)
+                .build();
+        em.persist(testUnit);
+
+        MatchUnit testMatchUnit = MatchUnit.builder()
+                .unit(testUnit)
+                .matchInfo(testMatchInfo)
+                .build();
+        em.persist(testMatchUnit);
+
+        Item testItem = Item.builder()
+                .name("testItemName")
+                .num(2)
+                .build();
+        em.persist(testItem);
+
+        MatchItem testMatchItem = MatchItem.builder()
+                .item(testItem)
+                .matchUnit(testMatchUnit)
+                .build();
+        em.persist(testMatchItem);
+        //when
+        List<Item> findItems = itemRepository.searchSeasonUsedItemBySeasonId(testSeason.getId());
+        //then
+        assertThat(findItems).isNotEmpty();
+        assertThat(findItems.get(0)).isEqualTo(testItem);
+    }
 }

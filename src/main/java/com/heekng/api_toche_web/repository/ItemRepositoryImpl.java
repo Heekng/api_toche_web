@@ -75,6 +75,27 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
     }
 
     @Override
+    public List<Item> searchSeasonUsedItemBySeasonId(Long seasonId) {
+        return queryFactory
+                .select(item)
+                .from(matchInfo)
+                .innerJoin(matchInfo.season, season)
+                .leftJoin(matchInfo.matchUnits, matchUnit)
+                .leftJoin(matchUnit.matchItems, matchItem)
+                .innerJoin(matchItem.item, item)
+                .on(item.id.isNotNull())
+                .where(
+                        seasonIdEq(seasonId)
+                )
+                .orderBy(
+                        item.num.asc(),
+                        item.name.asc()
+                )
+                .distinct()
+                .fetch();
+    }
+
+    @Override
     public Optional<ItemDTO.ItemDetailResponse> searchWithFromItemByItemId(Long itemId) {
         QItem fromItem1 = new QItem("fromItem1");
         QItem fromItem2 = new QItem("fromItem2");
