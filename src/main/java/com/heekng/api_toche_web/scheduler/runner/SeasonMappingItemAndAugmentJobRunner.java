@@ -1,6 +1,7 @@
 package com.heekng.api_toche_web.scheduler.runner;
 
-import com.heekng.api_toche_web.scheduler.schedule.ApiMatchDetailSchJob;
+import com.heekng.api_toche_web.scheduler.schedule.CDragonAllDataPatchSchJob;
+import com.heekng.api_toche_web.scheduler.schedule.SeasonMappingItemAndAugmentSchJob;
 import lombok.RequiredArgsConstructor;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -13,14 +14,14 @@ import java.util.HashMap;
 
 @Component
 @RequiredArgsConstructor
-public class ApiMatchDetailJobRunner extends JobRunner {
+public class SeasonMappingItemAndAugmentJobRunner extends JobRunner {
 
     private final Scheduler scheduler;
 
     @Override
     protected void doRun(ApplicationArguments args) {
-        JobDetail jobDetailMaster = buildJobDetail(ApiMatchDetailSchJob.class, "ApiMatchDetailSchJob", "batch", new HashMap<>());
-        Trigger triggerMaster = buildJobTrigger("0 20 1/2 * * ?");
+        JobDetail jobDetailMaster = buildJobDetail(SeasonMappingItemAndAugmentSchJob.class, "SeasonMappingItemAndAugmentSchJob", "batch", new HashMap<>());
+        Trigger triggerMaster = buildJobTrigger("0 10 0/2 * * ?");
 
         try {
             scheduler.scheduleJob(jobDetailMaster, triggerMaster);
