@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SeasonItemRepository extends JpaRepository<SeasonItem, Long>, SeasonItemRepositoryCustom {
 
+    Boolean existsBySeasonIdAndItemId(Long seasonId, Long itemId);
 }

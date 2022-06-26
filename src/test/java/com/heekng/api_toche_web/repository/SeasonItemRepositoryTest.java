@@ -65,4 +65,12 @@ public class SeasonItemRepositoryTest {
         Optional<SeasonItem> afterDeleteObject = seasonItemRepository.findById(seasonItem.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
+
+    @Test
+    void existsBySeasonIdAndItemIdTest() throws Exception {
+        //when
+        Boolean isExist = seasonItemRepository.existsBySeasonIdAndItemId(season.getId(), item.getId());
+        //then
+        assertThat(isExist).isTrue();
+    }
 }
