@@ -69,4 +69,12 @@ class SeasonAugmentRepositoryTest {
         assertThat(afterDeleteObject).isEmpty();
     }
 
+    @Test
+    void existsBySeasonIdAndAugmentIdTest() throws Exception {
+        //when
+        Boolean isExist = seasonAugmentRepository.existsBySeasonIdAndAugmentId(season.getId(), augment.getId());
+        //then
+        assertThat(isExist).isTrue();
+    }
+
 }

@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SeasonAugmentRepository extends JpaRepository<SeasonAugment, Long>, SeasonAugmentRepositoryCustom {
 
+    Boolean existsBySeasonIdAndAugmentId(Long seasonId, Long augmentId);
 }
