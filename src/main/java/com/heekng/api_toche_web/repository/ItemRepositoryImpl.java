@@ -3,6 +3,7 @@ package com.heekng.api_toche_web.repository;
 import com.heekng.api_toche_web.dto.*;
 import com.heekng.api_toche_web.entity.Item;
 import com.heekng.api_toche_web.entity.QItem;
+import com.heekng.api_toche_web.entity.QSeasonItem;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -16,6 +17,7 @@ import static com.heekng.api_toche_web.entity.QMatchInfo.matchInfo;
 import static com.heekng.api_toche_web.entity.QMatchItem.*;
 import static com.heekng.api_toche_web.entity.QMatchUnit.*;
 import static com.heekng.api_toche_web.entity.QSeason.*;
+import static com.heekng.api_toche_web.entity.QSeasonItem.*;
 import static com.heekng.api_toche_web.entity.QUnit.unit;
 import static org.springframework.util.StringUtils.*;
 
@@ -184,6 +186,20 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                         itemNumsEq(nums)
                 )
                 .fetch();
+    }
+
+    @Override
+    public List<Item> searchBySeasonId(Long seasonId) {
+        return queryFactory
+                .select(item)
+                .from(seasonItem)
+                .innerJoin(seasonItem.season, season)
+                .on(
+                        seasonIdEq(seasonId)
+                )
+                .innerJoin(seasonItem.item, item)
+                .fetch();
+
     }
 
     private BooleanExpression seasonIdEq(Long seasonId) {
