@@ -69,6 +69,25 @@ public class AugmentRepositoryImpl implements AugmentRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public List<Augment> searchSeasonUsedAugmentBySeasonId(Long seasonId) {
+        return queryFactory
+                .select(augment)
+                .from(matchInfo)
+                .leftJoin(matchInfo.season, season)
+                .leftJoin(matchInfo.matchAugments, matchAugment)
+                .leftJoin(matchAugment.augment, augment)
+                .on(augment.id.isNotNull())
+                .where(
+                        seasonIdEq(seasonId)
+                )
+                .orderBy(
+                        augment.name.asc()
+                )
+                .distinct()
+                .fetch();
+    }
+
     private BooleanExpression augmentNameContains(String augmentName) {
         return hasText(augmentName) ? augment.name.contains(augmentName) : null;
     }
