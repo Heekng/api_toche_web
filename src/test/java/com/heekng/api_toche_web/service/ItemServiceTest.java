@@ -131,6 +131,13 @@ class ItemServiceTest {
                 .matchUnit(testMatchUnit)
                 .build();
         em.persist(testMatchItem);
+
+        SeasonItem seasonItem = SeasonItem.builder()
+                .item(testItem)
+                .season(testSeason)
+                .build();
+        em.persist(seasonItem);
+
         //when
         ItemDTO.ItemsRequest itemsRequest = ItemDTO.ItemsRequest.builder()
                 .seasonId(testSeason.getId())
