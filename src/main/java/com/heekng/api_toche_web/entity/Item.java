@@ -46,7 +46,7 @@ public class Item extends BaseTimeEntity {
     @OneToMany(mappedBy = "item")
     private List<MatchItem> matchItems = new ArrayList<>();
     @OneToMany(mappedBy = "item")
-    private List<SeasonAugment> seasonAugments = new ArrayList<>();
+    private List<SeasonItem> seasonItems = new ArrayList<>();
 
     @Builder
     public Item(Integer num, String name, String itemDesc, String krName, Integer fromItem1, Integer fromItem2, Boolean isUnique, String iconPath) {
