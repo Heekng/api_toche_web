@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -64,9 +65,11 @@ public class Item extends BaseTimeEntity {
         this.itemDesc = itemDesc;
         this.krName = krName;
         this.isUnique = isUnique;
-        this.iconPath = iconPath;
         this.fromItem1 = fromItem1;
         this.fromItem2 = fromItem2;
+        if (!StringUtils.hasText(this.iconPath)) {
+            this.iconPath = iconPath;
+        }
     }
 
     public void updateName(String name) {
