@@ -4,12 +4,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static javax.persistence.CascadeType.REMOVE;
 
 @Entity
 @Getter
@@ -52,13 +51,15 @@ public class Augment extends BaseTimeEntity{
         this.iconPath = iconPath;
     }
 
-    public void updateCDragonData(Integer num, String augmentDesc, String krName, String enName, Boolean isUnique, String iconPath) {
+    public void updateByCDragonData(Integer num, String augmentDesc, String krName, String enName, Boolean isUnique, String iconPath) {
         this.num = num;
         this.augmentDesc = augmentDesc;
         this.krName = krName;
         this.enName = enName;
         this.isUnique = isUnique;
-        this.iconPath = iconPath;
+        if (!StringUtils.hasText(this.iconPath)) {
+            this.iconPath = iconPath;
+        }
     }
 
     public void updateName(String name) {

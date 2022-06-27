@@ -44,7 +44,7 @@ public class CDragonItemInsertProcessor implements ItemProcessor<CDragonItemDTO,
         for (String key : cDragonItemDTO.getEffects().keySet()) {
             desc = desc.replace("@" + key + "@", String.valueOf(cDragonItemDTO.getEffects().get(key)));
         }
-        item.updateCDragonData(desc, krName, isUnique, iconPath, fromItem1, fromItem2);
+        item.updateByCDragonData(desc, krName, isUnique, iconPath, fromItem1, fromItem2);
 
         return item;
     }

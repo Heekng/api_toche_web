@@ -22,7 +22,8 @@ public class SeasonRepositoryImpl implements SeasonRepositoryCustom {
                 .selectFrom(season)
                 .where(
                         seasonNumEq(seasonsRequest.getSeasonNum()),
-                        seasonNameContains(seasonsRequest.getSeasonName())
+                        seasonNameContains(seasonsRequest.getSeasonName()),
+                        season.seasonNum.goe(5)
                 )
                 .orderBy(season.seasonNum.desc(), season.seasonName.desc())
                 .fetch();

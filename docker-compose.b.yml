@@ -6,6 +6,8 @@ services:
     restart: on-failure
     ports:
       - 9006:8080
+    volumes:
+      - /toche_api/files:/files
 
 networks:
   default:

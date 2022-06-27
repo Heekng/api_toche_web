@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 
@@ -42,6 +43,8 @@ public class Unit extends BaseTimeEntity {
     private String iconPath;
     @Column(name = "kr_name")
     private String krName;
+    @Column(name = "is_display")
+    private Boolean isDisplay;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "season_id", nullable = false)
@@ -66,6 +69,8 @@ public class Unit extends BaseTimeEntity {
         this.iconPath = iconPath;
         this.krName = krName;
         this.season = season;
+
+        this.isDisplay = true;
     }
 
     public void addUnitTrait(UnitTrait unitTrait) {
@@ -83,9 +88,11 @@ public class Unit extends BaseTimeEntity {
         this.abilities.add(ability);
     }
 
-    public void updateCDragonData(Integer cost, String iconPath, String krName) {
+    public void updateByCDragonData(Integer cost, String iconPath, String krName) {
         this.cost = cost;
-        this.iconPath = iconPath;
         this.krName = krName;
+        if (!StringUtils.hasText(this.iconPath)) {
+            this.iconPath = iconPath;
+        }
     }
 }
