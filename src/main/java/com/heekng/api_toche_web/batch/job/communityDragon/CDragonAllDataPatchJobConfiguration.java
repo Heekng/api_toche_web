@@ -111,7 +111,7 @@ public class CDragonAllDataPatchJobConfiguration {
                     //setData
                     Map<String, Map<String, String>> enAbilityNameMap = enCDragonTftDto.getSetData().stream()
                             .filter(cDragonSetDataDTO ->
-                                    !cDragonSetDataDTO.getMutator().contains("PAIRS") && !cDragonSetDataDTO.getMutator().contains("TURBO")
+                                    !cDragonSetDataDTO.getMutator().contains("PAIRS") && !cDragonSetDataDTO.getMutator().contains("TURBO") && !cDragonSetDataDTO.getMutator().contains("Tutorial")
                             )
                             .collect(Collectors.toMap(CDragonSetDataDTO::getMutator, setDataDTO ->
                                     setDataDTO.getChampions().stream()
