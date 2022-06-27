@@ -13,4 +13,4 @@ spring:
   quartz:
     auto-startup: false
 
-path.setPatch: /Users/heekng/heekngCoding/api_toche_web_setPatch/
+files.path: /Users/heekng/heekngCoding/api_toche_web_files
