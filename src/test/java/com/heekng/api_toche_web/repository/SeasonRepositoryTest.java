@@ -68,29 +68,29 @@ class SeasonRepositoryTest {
     void searchBySeasonsRequestTest() throws Exception {
         //given
         Season testSeason1 = Season.builder()
-                .seasonNum(1)
+                .seasonNum(5)
                 .seasonName("testSeason1")
                 .build();
         seasonRepository.save(testSeason1);
         Season testSeason2 = Season.builder()
-                .seasonNum(2)
+                .seasonNum(5)
                 .seasonName("testSeason2")
                 .build();
         seasonRepository.save(testSeason2);
         Season testSeason2_2 = Season.builder()
-                .seasonNum(2)
+                .seasonNum(6)
                 .seasonName("testSeason2_2")
                 .build();
         seasonRepository.save(testSeason2_2);
         //when
         SeasonDTO.SeasonsRequest seasonsRequest = SeasonDTO.SeasonsRequest.builder()
-                .seasonNum(2)
+                .seasonNum(5)
                 .build();
         List<Season> seasons = seasonRepository.searchBySeasonsRequest(seasonsRequest);
         //then
         assertThat(seasons).isNotEmpty();
         assertThat(seasons.size()).isEqualTo(2);
-        assertThat(seasons.get(0).getSeasonName()).isEqualTo(testSeason2_2.getSeasonName());
+        assertThat(seasons.get(0).getSeasonName()).isEqualTo(testSeason2.getSeasonName());
     }
 
     @Test
