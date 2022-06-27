@@ -1,11 +1,9 @@
 package com.heekng.api_toche_web.batch.chunk.processor;
 
-import com.heekng.api_toche_web.batch.dto.cDragon.CDragonChampionDTO;
 import com.heekng.api_toche_web.batch.dto.cDragon.CDragonSetDataDTO;
 import com.heekng.api_toche_web.batch.dto.cDragon.CDragonTraitDTO;
 import com.heekng.api_toche_web.entity.Season;
 import com.heekng.api_toche_web.entity.Trait;
-import com.heekng.api_toche_web.entity.Unit;
 import com.heekng.api_toche_web.repository.SeasonRepository;
 import com.heekng.api_toche_web.repository.TraitRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +48,7 @@ public class CDragonTraitInsertProcessor implements ItemProcessor<CDragonSetData
             String krName = traitDTO.getName();
             String iconPath = CDRAGON_PATH_IMAGE + traitDTO.getIcon().toLowerCase().replace(".tex", ".png");
             String desc = traitDTO.getDesc();
-            trait.updateCDragonData(desc, iconPath, krName);
+            trait.updateByCDragonData(desc, iconPath, krName);
             traitList.add(trait);
         }
 

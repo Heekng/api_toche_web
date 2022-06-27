@@ -61,7 +61,7 @@ public class Item extends BaseTimeEntity {
         this.iconPath = iconPath;
     }
 
-    public void updateCDragonData(String itemDesc, String krName, Boolean isUnique, String iconPath, Integer fromItem1, Integer fromItem2) {
+    public void updateByCDragonData(String itemDesc, String krName, Boolean isUnique, String iconPath, Integer fromItem1, Integer fromItem2) {
         this.itemDesc = itemDesc;
         this.krName = krName;
         this.isUnique = isUnique;

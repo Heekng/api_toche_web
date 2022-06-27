@@ -55,7 +55,7 @@ public class CDragonChampionInsertProcessor implements ItemProcessor<CDragonSetD
                     .replaceFirst("[.]", "_mobile.") : null;
             String krName = championDTO.getName();
             Integer cost = championDTO.getCost();
-            unit.updateCDragonData(cost, iconPath, krName);
+            unit.updateByCDragonData(cost, iconPath, krName);
 
             // add stat
             Map<String, Stat> statMap = unit.getStats().stream()

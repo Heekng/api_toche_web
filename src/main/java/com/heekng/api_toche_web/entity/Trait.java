@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -65,9 +66,11 @@ public class Trait extends BaseTimeEntity {
         this.traitSets.addAll(traitSets);
     }
 
-    public void updateCDragonData(String traitDesc, String iconPath, String krName) {
+    public void updateByCDragonData(String traitDesc, String iconPath, String krName) {
         this.traitDesc = traitDesc;
-        this.iconPath = iconPath;
         this.krName = krName;
+        if (!StringUtils.hasText(this.iconPath)) {
+            this.iconPath = iconPath;
+        }
     }
 }

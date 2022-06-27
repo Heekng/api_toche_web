@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 
@@ -83,9 +84,11 @@ public class Unit extends BaseTimeEntity {
         this.abilities.add(ability);
     }
 
-    public void updateCDragonData(Integer cost, String iconPath, String krName) {
+    public void updateByCDragonData(Integer cost, String iconPath, String krName) {
         this.cost = cost;
-        this.iconPath = iconPath;
         this.krName = krName;
+        if (!StringUtils.hasText(this.iconPath)) {
+            this.iconPath = iconPath;
+        }
     }
 }
