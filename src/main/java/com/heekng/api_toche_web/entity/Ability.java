@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 
@@ -47,8 +48,10 @@ public class Ability extends BaseTimeEntity{
 
     public void updateByCDragonData(String abilityDesc, String iconPath, String name, String krName) {
         this.abilityDesc = abilityDesc;
-        this.iconPath = iconPath;
         this.name = name;
         this.krName = krName;
+        if (!StringUtils.hasText(this.iconPath)) {
+            this.iconPath = iconPath;
+        }
     }
 }
