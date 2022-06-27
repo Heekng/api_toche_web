@@ -2,7 +2,6 @@ package com.heekng.api_toche_web.batch.job.communityDragon;
 
 import com.heekng.api_toche_web.batch.chunk.processor.*;
 import com.heekng.api_toche_web.batch.chunk.writer.JpaItemListWriter;
-import com.heekng.api_toche_web.batch.dto.cDragon.CDragonChampionDTO;
 import com.heekng.api_toche_web.batch.dto.cDragon.CDragonItemDTO;
 import com.heekng.api_toche_web.batch.dto.cDragon.CDragonSetDataDTO;
 import com.heekng.api_toche_web.batch.dto.cDragon.CDragonTftDTO;
@@ -104,33 +103,17 @@ public class CDragonAllDataPatchJobConfiguration {
                     Map<Integer, String> enNameMap = enCDragonTftDto.getItems().stream()
                             .filter(cDragonItemDTO -> cDragonItemDTO.getIcon().contains("Augments"))
                             .filter(cDragonItemDTO -> cDragonItemDTO.getName() != null)
-                            .collect(Collectors.toMap(CDragonItemDTO::getId, CDragonItemDTO::getName));
+                            .collect(Collectors.toMap(CDragonItemDTO::getId, CDragonItemDTO::getName, (beforeName, afterName) -> afterName));
                     cDragonItemDTOFilterAugmentList.forEach(cDragonItemDTO ->
                             cDragonItemDTO.setNameEn(enNameMap.get(cDragonItemDTO.getId()))
                     );
                     //setData
-                    Map<String, Map<String, String>> enAbilityNameMap = enCDragonTftDto.getSetData().stream()
-                            .filter(cDragonSetDataDTO ->
-                                    !cDragonSetDataDTO.getMutator().contains("PAIRS") && !cDragonSetDataDTO.getMutator().contains("TURBO")
-                            )
-                            .collect(Collectors.toMap(CDragonSetDataDTO::getMutator, setDataDTO ->
-                                    setDataDTO.getChampions().stream()
-                                            .collect(Collectors.toMap(CDragonChampionDTO::getApiName, championDTO ->
-                                                championDTO.getAbility().getName() == null ? "" : championDTO.getAbility().getName()
-                                            ))
-                            ));
-
-                    cDragonSetDataDTOList = cDragonTftDTO.getSetData().stream()
-                            .filter(cDragonSetDataDTO ->
-                                !cDragonSetDataDTO.getMutator().contains("PAIRS") && !cDragonSetDataDTO.getMutator().contains("TURBO")
-                            )
-                            .collect(Collectors.toList());
-                    cDragonSetDataDTOList.forEach(cDragonSetDataDTO ->
-                            cDragonSetDataDTO.getChampions().forEach(championDTO -> {
-                                String enAbilityName = enAbilityNameMap.get(cDragonSetDataDTO.getMutator()).get(championDTO.getApiName());
-                                championDTO.getAbility().setEnName(enAbilityName);
-                            })
-                    );
+                    List<String> deleteKeywords = new ArrayList<>(List.of("PAIRS", "TURBO", "Tutorial"));
+                    enCDragonTftDto.updateSetDataInsertableValueByKeywordList(deleteKeywords);
+                    Map<String, Map<String, String>> enAbilityNameMap = enCDragonTftDto.getMutatorAndApiNameAndAbilityNameMap();
+                    cDragonTftDTO.updateSetDataInsertableValueByKeywordList(deleteKeywords);
+                    cDragonTftDTO.updateSetDataEnNameByMutatorAndApiNameAndAbilityNameMap(enAbilityNameMap);
+                    cDragonSetDataDTOList = cDragonTftDTO.getSetData();
 
                     return RepeatStatus.FINISHED;
                 })
