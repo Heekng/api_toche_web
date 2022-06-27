@@ -109,6 +109,10 @@ public class CDragonAllDataPatchJobConfiguration {
                             cDragonItemDTO.setNameEn(enNameMap.get(cDragonItemDTO.getId()))
                     );
                     //setData
+                    enCDragonTftDto.getSetData()
+                                    .forEach(cDragonSetDataDTO -> {
+                                        cDragonSetDataDTO.setMutator(cDragonSetDataDTO.getMutator().replace("TFT_Set", "TFTSet"));
+                                    });
                     Map<String, Map<String, String>> enAbilityNameMap = enCDragonTftDto.getSetData().stream()
                             .filter(cDragonSetDataDTO ->
                                     !cDragonSetDataDTO.getMutator().contains("PAIRS") && !cDragonSetDataDTO.getMutator().contains("TURBO") && !cDragonSetDataDTO.getMutator().contains("Tutorial")
@@ -119,7 +123,10 @@ public class CDragonAllDataPatchJobConfiguration {
                                                 championDTO.getAbility().getName() == null ? "" : championDTO.getAbility().getName()
                                             ))
                             ));
-
+                    cDragonTftDTO.getSetData()
+                            .forEach(cDragonSetDataDTO -> {
+                                cDragonSetDataDTO.setMutator(cDragonSetDataDTO.getMutator().replace("TFT_Set", "TFTSet"));
+                            });
                     cDragonSetDataDTOList = cDragonTftDTO.getSetData().stream()
                             .filter(cDragonSetDataDTO ->
                                 !cDragonSetDataDTO.getMutator().contains("PAIRS") && !cDragonSetDataDTO.getMutator().contains("TURBO")
