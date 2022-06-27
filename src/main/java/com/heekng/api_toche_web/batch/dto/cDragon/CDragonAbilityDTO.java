@@ -2,6 +2,7 @@ package com.heekng.api_toche_web.batch.dto.cDragon;
 
 import com.heekng.api_toche_web.entity.Ability;
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -22,5 +23,9 @@ public class CDragonAbilityDTO {
                 .krName(name)
                 .name(enName.equals("") ? null : enName)
                 .build();
+    }
+
+    public String getNullSafeName() {
+        return StringUtils.hasText(name) ? name : "";
     }
 }
