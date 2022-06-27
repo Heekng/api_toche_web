@@ -103,7 +103,7 @@ public class CDragonAllDataPatchJobConfiguration {
                     Map<Integer, String> enNameMap = enCDragonTftDto.getItems().stream()
                             .filter(cDragonItemDTO -> cDragonItemDTO.getIcon().contains("Augments"))
                             .filter(cDragonItemDTO -> cDragonItemDTO.getName() != null)
-                            .collect(Collectors.toMap(CDragonItemDTO::getId, CDragonItemDTO::getName));
+                            .collect(Collectors.toMap(CDragonItemDTO::getId, CDragonItemDTO::getName, (beforeName, afterName) -> afterName));
                     cDragonItemDTOFilterAugmentList.forEach(cDragonItemDTO ->
                             cDragonItemDTO.setNameEn(enNameMap.get(cDragonItemDTO.getId()))
                     );
