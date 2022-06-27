@@ -112,6 +112,7 @@ public class CDragonAllDataPatchJobConfiguration {
                     enCDragonTftDto.getSetData()
                                     .forEach(cDragonSetDataDTO -> {
                                         cDragonSetDataDTO.setMutator(cDragonSetDataDTO.getMutator().replace("TFT_Set", "TFTSet"));
+                                        cDragonSetDataDTO.setMutator(cDragonSetDataDTO.getMutator().replace("Act", "Stage"));
                                     });
                     Map<String, Map<String, String>> enAbilityNameMap = enCDragonTftDto.getSetData().stream()
                             .filter(cDragonSetDataDTO ->
@@ -126,6 +127,7 @@ public class CDragonAllDataPatchJobConfiguration {
                     cDragonTftDTO.getSetData()
                             .forEach(cDragonSetDataDTO -> {
                                 cDragonSetDataDTO.setMutator(cDragonSetDataDTO.getMutator().replace("TFT_Set", "TFTSet"));
+                                cDragonSetDataDTO.setMutator(cDragonSetDataDTO.getMutator().replace("Act", "Stage"));
                             });
                     cDragonSetDataDTOList = cDragonTftDTO.getSetData().stream()
                             .filter(cDragonSetDataDTO ->
