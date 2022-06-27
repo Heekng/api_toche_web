@@ -31,6 +31,8 @@ public class Season extends BaseTimeEntity {
     private Integer seasonNum;
     @Column(name = "season_name", nullable = false)
     private String seasonName;
+    @Column(name = "last_patch_version")
+    private String lastPatchVersion;
 
 
     @OneToMany(mappedBy = "season", cascade = REMOVE)
