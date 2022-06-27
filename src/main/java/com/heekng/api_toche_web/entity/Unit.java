@@ -43,6 +43,8 @@ public class Unit extends BaseTimeEntity {
     private String iconPath;
     @Column(name = "kr_name")
     private String krName;
+    @Column(name = "is_display")
+    private Boolean isDisplay;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "season_id", nullable = false)
@@ -67,6 +69,8 @@ public class Unit extends BaseTimeEntity {
         this.iconPath = iconPath;
         this.krName = krName;
         this.season = season;
+
+        this.isDisplay = true;
     }
 
     public void addUnitTrait(UnitTrait unitTrait) {

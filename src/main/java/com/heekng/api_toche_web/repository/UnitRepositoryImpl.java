@@ -33,7 +33,8 @@ public class UnitRepositoryImpl implements UnitRepositoryCustom {
                 .fetchJoin()
                 .where(
                         seasonIdEq(unitsRequest.getSeasonId()),
-                        unitNameContain(unitsRequest.getUnitName())
+                        unitNameContain(unitsRequest.getUnitName()),
+                        unit.isDisplay.eq(true)
                 )
                 .orderBy(
                         unit.cost.asc(),
