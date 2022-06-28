@@ -98,6 +98,10 @@ public class UnitRepositoryImpl implements UnitRepositoryCustom {
                 .on(
                         unitTrait.trait.id.eq(traitId)
                 )
+                .orderBy(
+                        unit.cost.asc(),
+                        unit.name.asc()
+                )
                 .fetch();
     }
 
