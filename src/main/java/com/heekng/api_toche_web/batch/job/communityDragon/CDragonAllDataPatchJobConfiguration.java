@@ -90,23 +90,14 @@ public class CDragonAllDataPatchJobConfiguration {
                 .tasklet((contribution, chunkContext) -> {
                     RestTemplate restTemplate = new RestTemplate();
                     CDragonTftDTO cDragonTftDTO = restTemplate.getForObject(CDRAGON_PATH_TFTLASTJSON, CDragonTftDTO.class);
-                    //아이템
-                    cDragonItemDTOFilterItemList = cDragonTftDTO.getItems().stream()
-                            .filter(cDragonItemDTO -> !cDragonItemDTO.getIcon().contains("Augments"))
-                            .filter(cDragonItemDTO -> !cDragonItemDTO.getIcon().contains("Mercenary"))
-                            .collect(Collectors.toList());
-                    //증강체
-                    cDragonItemDTOFilterAugmentList = cDragonTftDTO.getItems().stream()
-                            .filter(cDragonItemDTO -> cDragonItemDTO.getIcon().contains("Augments"))
-                            .collect(Collectors.toList());
+                    cDragonItemDTOFilterItemList = cDragonTftDTO.getItemsWithoutAugmentsAndMercenary();
+                    cDragonItemDTOFilterAugmentList = cDragonTftDTO.getItemsOnlyAugments();
                     CDragonTftDTO enCDragonTftDto = restTemplate.getForObject(CDRAGON_PATH_TFTLASTJSONEN, CDragonTftDTO.class);
-                    Map<Integer, String> enNameMap = enCDragonTftDto.getItems().stream()
-                            .filter(cDragonItemDTO -> cDragonItemDTO.getIcon().contains("Augments"))
+                    List<CDragonItemDTO> enAugments = enCDragonTftDto.getItemsOnlyAugments();
+                    Map<Integer, String> augmentEnNameMap = enAugments.stream()
                             .filter(cDragonItemDTO -> cDragonItemDTO.getName() != null)
                             .collect(Collectors.toMap(CDragonItemDTO::getId, CDragonItemDTO::getName, (beforeName, afterName) -> afterName));
-                    cDragonItemDTOFilterAugmentList.forEach(cDragonItemDTO ->
-                            cDragonItemDTO.setNameEn(enNameMap.get(cDragonItemDTO.getId()))
-                    );
+                    insertAugmentEnNameByEnNameMap(augmentEnNameMap);
                     //setData
                     List<String> deleteKeywords = new ArrayList<>(List.of("PAIRS", "TURBO", "Tutorial"));
                     enCDragonTftDto.updateSetDataInsertableValueByKeywordList(deleteKeywords);
@@ -275,5 +266,11 @@ public class CDragonAllDataPatchJobConfiguration {
         writer.setUsePersist(false);
 
         return new JpaItemListWriter<>(writer);
+    }
+
+    private void insertAugmentEnNameByEnNameMap(Map<Integer, String> augmentEnNameMap) {
+        cDragonItemDTOFilterAugmentList.forEach(cDragonItemDTO ->
+                cDragonItemDTO.setNameEn(augmentEnNameMap.get(cDragonItemDTO.getId()))
+        );
     }
 }

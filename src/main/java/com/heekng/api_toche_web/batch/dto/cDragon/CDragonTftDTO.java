@@ -52,4 +52,17 @@ public class CDragonTftDTO {
             cDragonSetDataDTO.updateChampionsAbilityEnNameByApiNameAndEnNameMap(apiNameAndEnNameMap);
         });
     }
+
+    public List<CDragonItemDTO> getItemsWithoutAugmentsAndMercenary() {
+        return this.getItems().stream()
+                .filter(cDragonItemDTO -> !cDragonItemDTO.getIcon().contains("Augments"))
+                .filter(cDragonItemDTO -> !cDragonItemDTO.getIcon().contains("Mercenary"))
+                .collect(Collectors.toList());
+    }
+
+    public List<CDragonItemDTO> getItemsOnlyAugments() {
+        return this.getItems().stream()
+                .filter(cDragonItemDTO -> cDragonItemDTO.getIcon().contains("Augments"))
+                .collect(Collectors.toList());
+    }
 }
