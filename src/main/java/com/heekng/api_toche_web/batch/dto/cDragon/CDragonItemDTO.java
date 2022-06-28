@@ -19,43 +19,51 @@ public class CDragonItemDTO {
     private Boolean unique;
 
     private String nameEn;
+    private Map<String, Float> hashEffects = new HashMap<>();
 
     public void fetchDesc() {
+        updateEffectsKeysFromHash();
+        deleteIconNameFromDesc();
         updateDescFromEffects();
-        deleteKeywordFromDesc();
     }
 
-    private void deleteKeywordFromDesc() {
-        List<String> deleteKeywords = List.of("scaleAP", "scaleRange", "scaleAS", "scaleMana", "scaleAD", "scaleHealth", "scaleCritMult", "scaleCrit", "goldCoins", "scaleArmor", "star", "scaleMR");
-        for (String keyword : deleteKeywords) {
-            this.desc = this.desc.replace(" %i:"+keyword+"%", "");
+    private void updateEffectsKeysFromHash() {
+        for (String effectsKey : this.effects.keySet()) {
+            String hashEffectsKey = effectsKey;
+            Float effectsValue = this.effects.get(effectsKey);
+            if (!effectsKey.contains("{")) {
+                hashEffectsKey = Fnv1aHash.hashCDragonValue(hashEffectsKey);
+            }
+            hashEffects.put(hashEffectsKey, effectsValue);
+        }
+    }
+
+    private void deleteIconNameFromDesc() {
+        List<String> iconNameKeywords = List.of("scaleAP", "scaleRange", "scaleAS", "scaleMana", "scaleAD", "scaleHealth", "scaleCritMult", "scaleCrit", "goldCoins", "scaleArmor", "star", "scaleMR");
+        for (String iconNameKeyword : iconNameKeywords) {
+            this.desc = this.desc.replace(" %i:"+iconNameKeyword+"%", "");
         }
     }
 
     private void updateDescFromEffects() {
         List<String> effectKeywords = getEffectKeywordFromDesc();
-        List<String> filterMultipleByEffectKeywords = filterMultipleByEffectKeywords(effectKeywords);
-        Map<String, String> hashEffectMap = Fnv1aHash.getHashTextAndTextMapByTexts(filterMultipleByEffectKeywords);
-        Map<String, Float> convertEffectsByHashEffectMap = getConvertEffectsByHashEffectMap(hashEffectMap);
+        List<String> deleteMultipleByEffectKeywords = getDeleteMultipleByEffectKeywords(effectKeywords);
+        Map<String, String> hashEffectMap = Fnv1aHash.getTextAndHashTextMapByTexts(deleteMultipleByEffectKeywords);
+
         for (String effectKeyword : effectKeywords) {
             String mapKey = effectKeyword;
-            Float mapValue = convertEffectsByHashEffectMap.get(mapKey);
+            String hashKey = hashEffectMap.get(mapKey);
+            Float mapValue = 1F;
             int multipleIndex = effectKeyword.indexOf("*100");
             if (multipleIndex != -1) {
                 mapKey = effectKeyword.substring(0, multipleIndex);
-                mapValue = convertEffectsByHashEffectMap.get(mapKey) * 100;
+                hashKey = hashEffectMap.get(mapKey);
+                mapValue *= 100;
             }
+            mapValue *= hashEffects.get(hashKey) == null ? 0F : hashEffects.get(hashKey);
+
             this.desc = this.desc.replace("@" + effectKeyword + "@", String.valueOf(mapValue));
         }
-    }
-
-    private Map<String, Float> getConvertEffectsByHashEffectMap(Map<String, String> hashEffectMap) {
-        Map<String, Float> decodeEffectsMap = new HashMap<>();
-        for (String effectsKey : this.effects.keySet()) {
-            Float effectValue = this.effects.get(effectsKey);
-            decodeEffectsMap.put(hashEffectMap.getOrDefault(effectsKey, effectsKey), effectValue);
-        }
-        return decodeEffectsMap;
     }
 
     private List<String> getEffectKeywordFromDesc() {
@@ -68,7 +76,7 @@ public class CDragonItemDTO {
         return results;
     }
 
-    private List<String> filterMultipleByEffectKeywords(List<String> effectKeywords) {
+    private List<String> getDeleteMultipleByEffectKeywords(List<String> effectKeywords) {
         return effectKeywords.stream()
                 .map(effectKeyword -> {
                     int multipleIndex = effectKeyword.indexOf("*100");

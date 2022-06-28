@@ -19,18 +19,20 @@ public class Fnv1aHash {
 
         int hashStringSize = hashString.length();
         StringBuilder resultBuilder = new StringBuilder();
+        resultBuilder.append("{");
         for (int i = 0; i < 8 - hashStringSize; i++) {
             resultBuilder.append("0");
         }
         resultBuilder.append(hashString);
+        resultBuilder.append("}");
         return resultBuilder.toString();
     }
 
-    public static Map<String, String> getHashTextAndTextMapByTexts(List<String> texts) {
+    public static Map<String, String> getTextAndHashTextMapByTexts(List<String> texts) {
         Map<String, String> hashMap = new HashMap<>();
         for (String text : texts) {
-            String hashString = "{" + hashCDragonValue(text) + "}";
-            hashMap.put(hashString, text);
+            String hashString = hashCDragonValue(text);
+            hashMap.put(text, hashString);
         }
         return hashMap;
     }
