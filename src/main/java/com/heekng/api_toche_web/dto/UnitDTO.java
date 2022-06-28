@@ -122,4 +122,19 @@ public class UnitDTO {
         }
     }
 
+    @Data
+    @NoArgsConstructor
+    public static class TraitDetailResponse {
+
+        private Long id;
+        private String name;
+        private String krName;
+        private Integer rarity;
+        private Integer tier;
+        private Integer cost;
+        private String iconPath;
+
+    }
+
+
 }

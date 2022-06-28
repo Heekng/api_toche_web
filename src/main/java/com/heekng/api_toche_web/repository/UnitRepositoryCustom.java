@@ -12,4 +12,6 @@ public interface UnitRepositoryCustom {
     List<UnitDTO.ItemRankResponse> searchUnitRankByItemId(Long itemId, Long seasonId);
 
     List<Unit> searchByNamesAndSeasonId(List<String> names, Long seasonId);
+
+    List<Unit> searchByTraitId(Long traitId);
 }
