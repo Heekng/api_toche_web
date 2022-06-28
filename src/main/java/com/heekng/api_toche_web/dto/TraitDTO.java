@@ -1,10 +1,12 @@
 package com.heekng.api_toche_web.dto;
 
 import com.heekng.api_toche_web.entity.Trait;
-import com.heekng.api_toche_web.entity.Unit;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TraitDTO {
 
@@ -55,4 +57,23 @@ public class TraitDTO {
             this.iconPath = trait.getIconPath();
         }
     }
+
+    @Data
+    @NoArgsConstructor
+    public static class TraitDetailResponse {
+
+        private Long id;
+        private String name;
+        private String krName;
+        private Integer tierTotalCount;
+        private String desc;
+        private String iconPath;
+        private SeasonDTO.SeasonsResponse season;
+        private List<UnitDTO.TraitDetailResponse> units = new ArrayList<>();
+
+        public void insertUnits(List<UnitDTO.TraitDetailResponse> units) {
+            this.units.addAll(units);
+        }
+    }
+
 }
