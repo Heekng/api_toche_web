@@ -18,6 +18,7 @@ import static com.heekng.api_toche_web.entity.QMatchUnit.*;
 import static com.heekng.api_toche_web.entity.QSeason.*;
 import static com.heekng.api_toche_web.entity.QTftMatch.*;
 import static com.heekng.api_toche_web.entity.QUnit.*;
+import static com.heekng.api_toche_web.entity.QUnitTrait.*;
 import static org.springframework.util.StringUtils.*;
 
 @RequiredArgsConstructor
@@ -84,6 +85,18 @@ public class UnitRepositoryImpl implements UnitRepositoryCustom {
                         seasonIdEq(seasonId).and(
                                 unitNameEqs(names)
                         )
+                )
+                .fetch();
+    }
+
+    @Override
+    public List<Unit> searchByTraitId(Long traitId) {
+        return queryFactory
+                .select(unit)
+                .from(unitTrait)
+                .innerJoin(unitTrait.unit, unit)
+                .on(
+                        unitTrait.trait.id.eq(traitId)
                 )
                 .fetch();
     }

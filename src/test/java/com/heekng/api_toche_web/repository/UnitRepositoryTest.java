@@ -244,4 +244,46 @@ class UnitRepositoryTest {
         assertThat(units).isNotEmpty();
         assertThat(units.size()).isEqualTo(2);
     }
+
+    @Test
+    void searchByTraitIdTest() throws Exception {
+        //given
+        Season testSeason10 = Season.builder()
+                .seasonNum(10)
+                .seasonName("testSeason10")
+                .build();
+        em.persist(testSeason10);
+        Unit testUnit1 = Unit.builder()
+                .name("testUnit1")
+                .season(testSeason10)
+                .build();
+        em.persist(testUnit1);
+        Unit testUnit2 = Unit.builder()
+                .name("testUnit2")
+                .season(testSeason10)
+                .build();
+        em.persist(testUnit2);
+        Trait testTrait1 = Trait.builder()
+                .name("testTrait1")
+                .tierTotalCount(5)
+                .season(testSeason10)
+                .build();
+        em.persist(testTrait1);
+        UnitTrait unitTrait1 = UnitTrait.builder()
+                .trait(testTrait1)
+                .unit(testUnit1)
+                .build();
+        em.persist(unitTrait1);
+        UnitTrait unitTrait2 = UnitTrait.builder()
+                .trait(testTrait1)
+                .unit(testUnit2)
+                .build();
+        em.persist(unitTrait2);
+        //when
+        List<Unit> units = unitRepository.searchByTraitId(testTrait1.getId());
+        //then
+        assertThat(units).isNotEmpty();
+        assertThat(units.size()).isEqualTo(2);
+        assertThat(units).contains(testUnit1, testUnit2);
+    }
 }
