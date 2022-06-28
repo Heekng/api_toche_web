@@ -3,6 +3,7 @@ package com.heekng.api_toche_web.api;
 import com.heekng.api_toche_web.dto.TraitDTO;
 import com.heekng.api_toche_web.entity.Trait;
 import com.heekng.api_toche_web.repository.TraitRepository;
+import com.heekng.api_toche_web.service.TraitService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -19,6 +20,7 @@ public class TraitApiController {
 
     private final TraitRepository traitRepository;
     private final ModelMapper standardMapper;
+    private final TraitService traitService;
 
     @GetMapping("/traits")
     public List<TraitDTO.TraitsResponse> traits(
@@ -31,11 +33,9 @@ public class TraitApiController {
     }
 
     @GetMapping("/traits/{traitId}")
-    public TraitDTO.TraitsResponse traitByTraitId(
+    public TraitDTO.TraitDetailResponse traitByTraitId(
             @PathVariable(name = "traitId", required = true) Long traitId
     ) {
-        Trait trait = traitRepository.findWithSeasonById(traitId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Trait 입니다."));
-        return standardMapper.map(trait, TraitDTO.TraitsResponse.class);
+        return traitService.findTraitDetail(traitId);
     }
 }
