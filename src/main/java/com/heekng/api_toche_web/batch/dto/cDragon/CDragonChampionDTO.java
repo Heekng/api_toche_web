@@ -15,4 +15,12 @@ public class CDragonChampionDTO {
     private String name;
     private Map<String, Float> stats;
     private List<String> traits;
+
+    public void updateIconToUsageIcon() {
+        if (icon != null) {
+            this.icon = this.icon.toLowerCase()
+                    .replace(".dds", ".png")
+                    .replaceFirst("[.]", "_mobile.");
+        }
+    }
 }
