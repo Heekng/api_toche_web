@@ -53,7 +53,7 @@ public class CommonTest {
     void cDragonHashTest2() throws Exception {
         String text = "ShieldHealthPercent";
         String result = Fnv1aHash.hashCDragonValue(text);
-        Assertions.assertThat(result).isEqualTo("0034a6ef");
+        Assertions.assertThat(result).isEqualTo("{0034a6ef}");
     }
 
     @Test
