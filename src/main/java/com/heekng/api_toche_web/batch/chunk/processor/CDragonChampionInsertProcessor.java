@@ -85,6 +85,7 @@ public class CDragonChampionInsertProcessor implements ItemProcessor<CDragonSetD
                 }
             });
 
+            championDTO.getAbility().updateDescToUsageDesc();
             Ability ability = championDTO.getAbility().toAbilityEntity(CDRAGON_PATH_IMAGE);
             if (unitOptional.isEmpty() || unit.getAbilities().size() == 0) {
                 // add ability
