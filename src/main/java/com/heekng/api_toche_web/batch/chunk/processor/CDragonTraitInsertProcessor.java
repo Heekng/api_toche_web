@@ -45,6 +45,9 @@ public class CDragonTraitInsertProcessor implements ItemProcessor<CDragonSetData
                             .tierTotalCount(traitDTO.getEffects().size())
                             .build()
             );
+
+            traitDTO.updateDesc();
+
             String krName = traitDTO.getName();
             String iconPath = CDRAGON_PATH_IMAGE + traitDTO.getIcon().toLowerCase().replace(".tex", ".png");
             String desc = traitDTO.getDesc();
