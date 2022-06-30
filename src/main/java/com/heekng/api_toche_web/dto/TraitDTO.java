@@ -53,7 +53,7 @@ public class TraitDTO {
             this.name = trait.getName();
             this.krName = trait.getKrName();
             this.tierTotalCount = trait.getTierTotalCount();
-            this.desc = trait.getName();
+            this.desc = trait.getTraitDesc();
             this.iconPath = trait.getIconPath();
         }
     }
