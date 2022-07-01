@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -22,7 +21,7 @@ class UseDeckUnitRepositoryTest {
     @PersistenceContext
     EntityManager em;
     @Autowired
-    UseDeckUnitRepository useDeckUnitRepository;
+    UseUnitRepository useDeckUnitRepository;
 
     @Test
     void basicTest() throws Exception {
@@ -32,42 +31,36 @@ class UseDeckUnitRepositoryTest {
                 .seasonName("testSeason")
                 .build();
         em.persist(season);
-        UseDeckAugment useDeckAugment = UseDeckAugment.builder()
-                .season(season)
+        UseDeckUnit useDeckUnit = UseDeckUnit.builder()
                 .useCount(0L)
                 .build();
-        em.persist(useDeckAugment);
-        UseDeck useDeck = UseDeck.builder()
-                .useDeckAugment(useDeckAugment)
-                .useCount(0L)
-                .build();
-        em.persist(useDeck);
+        em.persist(useDeckUnit);
         Unit unit = Unit.builder()
                 .name("testUnit")
                 .season(season)
                 .build();
         em.persist(unit);
         //when
-        UseDeckUnit useDeckUnit = UseDeckUnit.builder()
+        UseUnit useUnit = UseUnit.builder()
                 .unit(unit)
-                .useDeck(useDeck)
+                .useDeckUnit(useDeckUnit)
                 .build();
         //then
         //save
-        useDeckUnitRepository.save(useDeckUnit);
+        useDeckUnitRepository.save(useUnit);
         // findById
-        Optional<UseDeckUnit> findByIdObject = useDeckUnitRepository.findById(useDeckUnit.getId());
+        Optional<UseUnit> findByIdObject = useDeckUnitRepository.findById(useUnit.getId());
         assertThat(findByIdObject).isNotEmpty();
-        assertThat(findByIdObject.get()).isEqualTo(useDeckUnit);
+        assertThat(findByIdObject.get()).isEqualTo(useUnit);
 
         // findAll
-        List<UseDeckUnit> findAllObject = useDeckUnitRepository.findAll();
+        List<UseUnit> findAllObject = useDeckUnitRepository.findAll();
         assertThat(findAllObject).isNotEmpty();
         assertThat(findAllObject.size()).isEqualTo(1);
 
         // delete
-        useDeckUnitRepository.delete(useDeckUnit);
-        Optional<UseDeckUnit> afterDeleteObject = useDeckUnitRepository.findById(useDeckUnit.getId());
+        useDeckUnitRepository.delete(useUnit);
+        Optional<UseUnit> afterDeleteObject = useDeckUnitRepository.findById(useUnit.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
 }

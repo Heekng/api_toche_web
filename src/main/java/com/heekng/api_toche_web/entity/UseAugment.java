@@ -31,4 +31,8 @@ public class UseAugment {
         this.augment = augment;
         this.useDeckAugment = useDeckAugment;
     }
+
+    public void updateUseDeckAugment(UseDeckAugment useDeckAugment) {
+        this.useDeckAugment = useDeckAugment;
+    }
 }

@@ -4,7 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class UseDeckRepositoryImpl implements UseDeckRepositoryCustom {
+public class UseUnitRepositoryImpl implements UseUnitRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 

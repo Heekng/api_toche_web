@@ -1,5 +1,5 @@
 package com.heekng.api_toche_web.repository;
 
-public interface UseDeckRepositoryCustom {
+public interface UseUnitRepositoryCustom {
 
 }

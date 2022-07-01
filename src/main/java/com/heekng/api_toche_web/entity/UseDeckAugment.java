@@ -29,14 +29,21 @@ public class UseDeckAugment {
     @JoinColumn(name = "season_id", nullable = false)
     private Season season;
 
-    @OneToMany(mappedBy = "useDeckAugment", fetch = LAZY)
+    @OneToMany(mappedBy = "useDeckAugment", fetch = LAZY, cascade = CascadeType.PERSIST)
     private List<UseAugment> useAugments = new ArrayList<>();
-    @OneToMany(mappedBy = "useDeckAugment", fetch = LAZY)
-    private List<UseDeck> useDecks = new ArrayList<>();
 
     @Builder
     public UseDeckAugment(Long useCount, Season season) {
         this.useCount = useCount;
         this.season = season;
+    }
+
+    public void insertUseAugment(UseAugment useAugment) {
+        useAugment.updateUseDeckAugment(this);
+        this.useAugments.add(useAugment);
+    }
+
+    public void addUseCount() {
+        this.useCount++;
     }
 }

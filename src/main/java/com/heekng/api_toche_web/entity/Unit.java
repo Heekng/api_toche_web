@@ -59,7 +59,7 @@ public class Unit extends BaseTimeEntity {
     @OneToMany(mappedBy = "unit", cascade = ALL)
     private List<Ability> abilities = new ArrayList<>();
     @OneToMany(mappedBy = "unit", cascade = ALL)
-    private List<UseDeckUnit> useDeckUnits = new ArrayList<>();
+    private List<UseUnit> useUnits = new ArrayList<>();
 
 
     @Builder

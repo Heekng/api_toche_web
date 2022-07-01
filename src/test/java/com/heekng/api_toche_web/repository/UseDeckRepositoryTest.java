@@ -1,8 +1,7 @@
 package com.heekng.api_toche_web.repository;
 
 import com.heekng.api_toche_web.entity.Season;
-import com.heekng.api_toche_web.entity.UseDeck;
-import com.heekng.api_toche_web.entity.UseDeckAugment;
+import com.heekng.api_toche_web.entity.UseDeckUnit;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -24,7 +22,7 @@ class UseDeckRepositoryTest {
     @PersistenceContext
     EntityManager em;
     @Autowired
-    UseDeckRepository useDeckRepository;
+    UseDeckUnitRepository useDeckRepository;
 
     @Test
     void basicTest() throws Exception {
@@ -34,32 +32,26 @@ class UseDeckRepositoryTest {
                 .seasonName("testSeason")
                 .build();
         em.persist(season);
-        UseDeckAugment useDeckAugment = UseDeckAugment.builder()
-                .season(season)
-                .useCount(0L)
-                .build();
-        em.persist(useDeckAugment);
         //when
-        UseDeck useDeck = UseDeck.builder()
-                .useDeckAugment(useDeckAugment)
+        UseDeckUnit useDeck = UseDeckUnit.builder()
                 .useCount(0L)
                 .build();
         //then
         //save
         useDeckRepository.save(useDeck);
         // findById
-        Optional<UseDeck> findByIdObject = useDeckRepository.findById(useDeck.getId());
+        Optional<UseDeckUnit> findByIdObject = useDeckRepository.findById(useDeck.getId());
         assertThat(findByIdObject).isNotEmpty();
         assertThat(findByIdObject.get()).isEqualTo(useDeck);
 
         // findAll
-        List<UseDeck> findAllObject = useDeckRepository.findAll();
+        List<UseDeckUnit> findAllObject = useDeckRepository.findAll();
         assertThat(findAllObject).isNotEmpty();
         assertThat(findAllObject.size()).isEqualTo(1);
 
         // delete
         useDeckRepository.delete(useDeck);
-        Optional<UseDeck> afterDeleteObject = useDeckRepository.findById(useDeck.getId());
+        Optional<UseDeckUnit> afterDeleteObject = useDeckRepository.findById(useDeck.getId());
         assertThat(afterDeleteObject).isEmpty();
 
     }

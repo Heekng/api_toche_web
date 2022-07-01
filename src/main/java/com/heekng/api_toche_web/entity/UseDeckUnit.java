@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import static javax.persistence.FetchType.LAZY;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Getter
@@ -18,17 +21,14 @@ public class UseDeckUnit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "use_deck_unit_id")
     private Long id;
+    @Column(name = "use_count")
+    private Long useCount;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "unit_id", nullable = false)
-    private Unit unit;
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "unit_deck_id", nullable = false)
-    private UseDeck useDeck;
+    @OneToMany(mappedBy = "useDeckUnit", cascade = ALL)
+    private List<UseUnit> useDeckUnits = new ArrayList<>();
 
     @Builder
-    public UseDeckUnit(Unit unit, UseDeck useDeck) {
-        this.unit = unit;
-        this.useDeck = useDeck;
+    public UseDeckUnit(Long useCount) {
+        this.useCount = useCount;
     }
 }
