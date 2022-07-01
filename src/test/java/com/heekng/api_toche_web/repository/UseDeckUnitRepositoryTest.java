@@ -29,6 +29,38 @@ class UseDeckUnitRepositoryTest {
     UseDeckUnitRepository useDeckUnitRepository;
 
     @Test
+    void basicTest() throws Exception {
+        //given
+        Season season = Season.builder()
+                .seasonNum(7)
+                .seasonName("testSeason")
+                .build();
+        em.persist(season);
+        //when
+        UseDeckUnit useDeck = UseDeckUnit.builder()
+                .useCount(0L)
+                .build();
+        //then
+        //save
+        useDeckUnitRepository.save(useDeck);
+        // findById
+        Optional<UseDeckUnit> findByIdObject = useDeckUnitRepository.findById(useDeck.getId());
+        assertThat(findByIdObject).isNotEmpty();
+        assertThat(findByIdObject.get()).isEqualTo(useDeck);
+
+        // findAll
+        List<UseDeckUnit> findAllObject = useDeckUnitRepository.findAll();
+        assertThat(findAllObject).isNotEmpty();
+        assertThat(findAllObject.size()).isEqualTo(1);
+
+        // delete
+        useDeckUnitRepository.delete(useDeck);
+        Optional<UseDeckUnit> afterDeleteObject = useDeckUnitRepository.findById(useDeck.getId());
+        assertThat(afterDeleteObject).isEmpty();
+
+    }
+    
+    @Test
     void searchByUnitsTest() throws Exception {
         //given
         Season season = Season.builder()
