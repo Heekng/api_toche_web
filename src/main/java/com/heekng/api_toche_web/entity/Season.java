@@ -35,16 +35,18 @@ public class Season extends BaseTimeEntity {
     private String lastPatchVersion;
 
 
-    @OneToMany(mappedBy = "season", cascade = REMOVE)
+    @OneToMany(mappedBy = "season")
     private List<MatchInfo> matchInfos = new ArrayList<>();
-    @OneToMany(mappedBy = "season", cascade = REMOVE)
+    @OneToMany(mappedBy = "season")
     private List<Unit> units = new ArrayList<>();
-    @OneToMany(mappedBy = "season", cascade = REMOVE)
+    @OneToMany(mappedBy = "season")
     private List<Trait> traits = new ArrayList<>();
-    @OneToMany(mappedBy = "season", cascade = REMOVE)
+    @OneToMany(mappedBy = "season")
     private List<SeasonAugment> seasonAugments = new ArrayList<>();
-    @OneToMany(mappedBy = "season", cascade = REMOVE)
+    @OneToMany(mappedBy = "season")
     private List<SeasonItem> seasonItems = new ArrayList<>();
+    @OneToMany(mappedBy = "season")
+    private List<UseDeckAugment> useDeckAugments = new ArrayList<>();
 
     @Builder
     public Season(Integer seasonNum, String seasonName) {

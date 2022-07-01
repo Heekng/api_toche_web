@@ -26,6 +26,8 @@ public class MatchInfo extends BaseTimeEntity {
     private LocalDateTime gameDatetime;
     @Column(name = "ranking")
     private Integer ranking;
+    @Column(name = "is_deck_collected")
+    private Boolean isDeckCollected;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "season_id", nullable = false)
@@ -60,5 +62,8 @@ public class MatchInfo extends BaseTimeEntity {
     public void addMatchTrait(MatchTrait matchTrait) {
         matchTrait.changeMatchInfo(this);
         this.matchTraits.add(matchTrait);
+    }
+    public void updateIsDeckCollectedByIsDeckCollected(Boolean isDeckCollected) {
+        this.isDeckCollected = isDeckCollected;
     }
 }
