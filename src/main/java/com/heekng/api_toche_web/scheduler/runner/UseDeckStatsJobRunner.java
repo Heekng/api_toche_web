@@ -21,7 +21,7 @@ public class UseDeckStatsJobRunner extends JobRunner {
     @Override
     protected void doRun(ApplicationArguments args) {
         JobDetail jobDetailMaster = buildJobDetail(UseDeckStatsSchJob.class, "UseDeckStatsSchJob", "batch", new HashMap<>());
-        Trigger triggerMaster = buildJobTrigger("0 5 1/2 * * ?");
+        Trigger triggerMaster = buildJobTrigger("0 15 1/2 * * ?");
 
         try {
             scheduler.scheduleJob(jobDetailMaster, triggerMaster);
