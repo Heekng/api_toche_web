@@ -34,4 +34,8 @@ public class UseDeckUnitAugment {
         this.useDeckUnit = useDeckUnit;
         this.useDeckAugment = useDeckAugment;
     }
+
+    public void addUseCount() {
+        this.useCount++;
+    }
 }

@@ -23,12 +23,16 @@ public class UseUnit {
     @JoinColumn(name = "unit_id", nullable = false)
     private Unit unit;
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "unit_deck_unit_id", nullable = false)
+    @JoinColumn(name = "use_deck_unit_id", nullable = false)
     private UseDeckUnit useDeckUnit;
 
     @Builder
     public UseUnit(Unit unit, UseDeckUnit useDeckUnit) {
         this.unit = unit;
+        this.useDeckUnit = useDeckUnit;
+    }
+
+    public void updateUseDeckUnit(UseDeckUnit useDeckUnit) {
         this.useDeckUnit = useDeckUnit;
     }
 }

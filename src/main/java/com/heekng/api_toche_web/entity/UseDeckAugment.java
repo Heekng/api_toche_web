@@ -10,6 +10,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.*;
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.*;
 
 @Entity
@@ -29,8 +31,10 @@ public class UseDeckAugment {
     @JoinColumn(name = "season_id", nullable = false)
     private Season season;
 
-    @OneToMany(mappedBy = "useDeckAugment", fetch = LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "useDeckAugment", fetch = LAZY, cascade = PERSIST)
     private List<UseAugment> useAugments = new ArrayList<>();
+    @OneToMany(mappedBy = "useDeckAugment", cascade = ALL)
+    private List<UseDeckUnitAugment> useDeckUnitAugments = new ArrayList<>();
 
     @Builder
     public UseDeckAugment(Long useCount, Season season) {

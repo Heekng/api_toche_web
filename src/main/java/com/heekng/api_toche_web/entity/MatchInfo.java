@@ -63,4 +63,7 @@ public class MatchInfo extends BaseTimeEntity {
         matchTrait.changeMatchInfo(this);
         this.matchTraits.add(matchTrait);
     }
+    public void updateIsDeckCollectedByIsDeckCollected(Boolean isDeckCollected) {
+        this.isDeckCollected = isDeckCollected;
+    }
 }

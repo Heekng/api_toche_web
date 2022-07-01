@@ -16,7 +16,7 @@ public class UseAugment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "use_augment")
+    @Column(name = "use_augment_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)

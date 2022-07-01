@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.PERSIST;
 
 @Entity
 @Getter
@@ -24,11 +25,22 @@ public class UseDeckUnit {
     @Column(name = "use_count")
     private Long useCount;
 
-    @OneToMany(mappedBy = "useDeckUnit", cascade = ALL)
-    private List<UseUnit> useDeckUnits = new ArrayList<>();
+    @OneToMany(mappedBy = "useDeckUnit", cascade = PERSIST)
+    private List<UseUnit> useUnits = new ArrayList<>();
+    @OneToMany(mappedBy = "useDeckUnit")
+    private List<UseDeckUnitAugment> useDeckUnitAugments = new ArrayList<>();
 
     @Builder
     public UseDeckUnit(Long useCount) {
         this.useCount = useCount;
+    }
+
+    public void insertUseUnit(UseUnit useUnit) {
+        useUnit.updateUseDeckUnit(this);
+        this.useUnits.add(useUnit);
+    }
+
+    public void addUseCount() {
+        this.useCount++;
     }
 }
