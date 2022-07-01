@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface UseDeckUnitRepositoryCustom {
 
     Optional<UseDeckUnit> searchByUnits(List<Unit> units);
+
+    List<UseDeckUnit> searchUnitContainsByUnitIds(List<Long> unitIds);
 }
