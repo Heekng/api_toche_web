@@ -63,4 +63,34 @@ class UseDeckUnitAugmentRepositoryTest {
         Optional<UseDeckUnitAugment> afterDeleteObject = useDeckUnitAugmentRepository.findById(useDeckUnitAugment.getId());
         assertThat(afterDeleteObject).isEmpty();
     }
+
+    @Test
+    void findByUseDeckUnitAndUseDeckAugmentTest() throws Exception {
+        //given
+        Season season = Season.builder()
+                .seasonNum(7)
+                .seasonName("testSeason")
+                .build();
+        em.persist(season);
+        UseDeckUnit useDeckUnit = UseDeckUnit.builder()
+                .useCount(0L)
+                .build();
+        em.persist(useDeckUnit);
+        UseDeckAugment useDeckAugment = UseDeckAugment.builder()
+                .useCount(0L)
+                .season(season)
+                .build();
+        em.persist(useDeckAugment);
+        UseDeckUnitAugment useDeckUnitAugment = UseDeckUnitAugment.builder()
+                .useDeckUnit(useDeckUnit)
+                .useDeckAugment(useDeckAugment)
+                .useCount(0L)
+                .build();
+        useDeckUnitAugmentRepository.save(useDeckUnitAugment);
+        //when
+        Optional<UseDeckUnitAugment> useDeckUnitAugmentOptional = useDeckUnitAugmentRepository.findByUseDeckUnitAndUseDeckAugment(useDeckUnit, useDeckAugment);
+        //then
+        assertThat(useDeckUnitAugmentOptional).isNotEmpty();
+        assertThat(useDeckUnitAugmentOptional.get()).isEqualTo(useDeckUnitAugment);
+    }
 }
