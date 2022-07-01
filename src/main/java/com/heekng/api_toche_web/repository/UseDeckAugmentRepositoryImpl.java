@@ -41,7 +41,7 @@ public class UseDeckAugmentRepositoryImpl implements UseDeckAugmentRepositoryCus
                 )
                 .distinct()
                 .transform(groupBy(useDeckAugment).as(list(useAugment)));
-        List<UseDeckAugment> useDeckAugments = transform.entrySet().stream()
+        Optional<UseDeckAugment> useDeckAugmentOptional = transform.entrySet().stream()
                 .filter(useDeckAugmentListEntry -> {
                     Set<Augment> augmentSet = useDeckAugmentListEntry.getValue().stream()
                             .map(UseAugment::getAugment)
@@ -50,9 +50,9 @@ public class UseDeckAugmentRepositoryImpl implements UseDeckAugmentRepositoryCus
                 })
                 .filter(useDeckAugmentListEntry -> useDeckAugmentListEntry.getValue().size() == augments.size())
                 .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
+                .findFirst();
 
-        return Optional.ofNullable(useDeckAugments.get(0));
+        return useDeckAugmentOptional;
     }
 
     private BooleanBuilder augmentEqs(List<Augment> augments) {
