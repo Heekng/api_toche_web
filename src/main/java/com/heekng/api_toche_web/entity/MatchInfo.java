@@ -26,6 +26,8 @@ public class MatchInfo extends BaseTimeEntity {
     private LocalDateTime gameDatetime;
     @Column(name = "ranking")
     private Integer ranking;
+    @Column(name = "is_deck_collected")
+    private Boolean isDeckCollected;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "season_id", nullable = false)
