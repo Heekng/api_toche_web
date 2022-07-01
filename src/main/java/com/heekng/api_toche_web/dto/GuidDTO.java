@@ -11,10 +11,10 @@ public class GuidDTO {
     public static class GuidResultResponse {
         private List<UnitDTO.UnitsResponse> units;
         private Long resultCount;
-        private Integer allUsedCount;
+        private Long allUsedCount;
 
         @Builder
-        public GuidResultResponse(List<UnitDTO.UnitsResponse> units, Long resultCount, Integer allUsedCount) {
+        public GuidResultResponse(List<UnitDTO.UnitsResponse> units, Long resultCount, Long allUsedCount) {
             this.units = units;
             this.resultCount = resultCount;
             this.allUsedCount = allUsedCount;
