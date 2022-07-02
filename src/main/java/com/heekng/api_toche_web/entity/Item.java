@@ -43,6 +43,8 @@ public class Item extends BaseTimeEntity {
     private Boolean isUnique;
     @Column(name = "icon_path")
     private String iconPath;
+    @Column(name = "is_display")
+    private Boolean isDisplay;
 
     @OneToMany(mappedBy = "item")
     private List<MatchItem> matchItems = new ArrayList<>();
@@ -59,6 +61,7 @@ public class Item extends BaseTimeEntity {
         this.fromItem2 = fromItem2;
         this.isUnique = isUnique;
         this.iconPath = iconPath;
+        this.isDisplay = true;
     }
 
     public void updateByCDragonData(String itemDesc, String krName, Boolean isUnique, String iconPath, Integer fromItem1, Integer fromItem2) {

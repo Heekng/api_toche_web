@@ -38,7 +38,7 @@ public class UseDeckStatsJobConfiguration {
 
     private Step useDeckStatsStep() {
         return stepBuilderFactory.get("useDeckStatsStep")
-                .<MatchInfo, MatchInfo>chunk(10)
+                .<MatchInfo, MatchInfo>chunk(100)
                 .reader(useDeckStatsReader())
                 .processor(useDeckStatsProcessor)
                 .writer(useDeckStatsWriter())
@@ -56,7 +56,7 @@ public class UseDeckStatsJobConfiguration {
         return new JpaPagingItemReaderBuilder<MatchInfo>()
                 .name("useDeckStatsReader")
                 .entityManagerFactory(emf)
-                .pageSize(10)
+                .pageSize(100)
                 .queryString("select m from MatchInfo m where m.isDeckCollected = FALSE")
                 .build();
     }

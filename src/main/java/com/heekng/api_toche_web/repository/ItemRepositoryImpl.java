@@ -45,7 +45,8 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                 .selectFrom(item)
                 .where(
                         itemNameContains(itemsRequest.getItemName()),
-                        itemNumEq(itemsRequest.getItemNum())
+                        itemNumEq(itemsRequest.getItemNum()),
+                        item.isDisplay.isTrue()
                 )
                 .orderBy(
                         item.num.asc()
@@ -65,7 +66,8 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                 .innerJoin(seasonItem.item, item)
                 .where(
                         itemNameContains(itemsRequest.getItemName()),
-                        itemNumEq(itemsRequest.getItemNum())
+                        itemNumEq(itemsRequest.getItemNum()),
+                        item.isDisplay.isTrue()
                 )
                 .orderBy(
                         item.num.asc(),
