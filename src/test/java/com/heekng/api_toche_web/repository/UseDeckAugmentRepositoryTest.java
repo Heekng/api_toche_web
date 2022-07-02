@@ -104,4 +104,53 @@ class UseDeckAugmentRepositoryTest {
         assertThat(useDeckAugmentOptional).isNotEmpty();
         assertThat(useDeckAugmentOptional.get()).isEqualTo(useDeckAugment);
     }
+
+    @Test
+    void searchAugmentContainsByAugmentIdsAndSeasonIdTest() throws Exception {
+        //given
+        Season season = Season.builder()
+                .seasonNum(7)
+                .seasonName("testSeason")
+                .build();
+        em.persist(season);
+
+        Augment testAugment1 = Augment.builder()
+                .name("testAugment1")
+                .build();
+        em.persist(testAugment1);
+        Augment testAugment2 = Augment.builder()
+                .name("testAugment2")
+                .build();
+        em.persist(testAugment2);
+        Augment testAugment3 = Augment.builder()
+                .name("testAugment3")
+                .build();
+        em.persist(testAugment3);
+
+        UseAugment useAugment1 = UseAugment.builder()
+                .augment(testAugment1)
+                .build();
+        UseAugment useAugment2 = UseAugment.builder()
+                .augment(testAugment2)
+                .build();
+        UseAugment useAugment3 = UseAugment.builder()
+                .augment(testAugment3)
+                .build();
+
+        UseDeckAugment useDeckAugment = UseDeckAugment.builder()
+                .season(season)
+                .useCount(0L)
+                .build();
+        useDeckAugment.insertUseAugment(useAugment1);
+        useDeckAugment.insertUseAugment(useAugment2);
+        useDeckAugment.insertUseAugment(useAugment3);
+        useDeckAugmentRepository.save(useDeckAugment);
+        //when
+        List<Long> augmentIds = List.of(testAugment1.getId(), testAugment2.getId());
+        List<UseDeckAugment> useDeckAugments = useDeckAugmentRepository.searchAugmentContainsByAugmentIdsAndSeasonId(augmentIds, season.getId());
+        //then
+        assertThat(useDeckAugments).isNotEmpty();
+        assertThat(useDeckAugments.size()).isEqualTo(1);
+        assertThat(useDeckAugments.get(0)).isEqualTo(useDeckAugment);
+    }
 }

@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +49,7 @@ public class UnitDTO {
     @Data
     public static class GuidRequest {
         @NotNull(message = "unitIds is not null")
+        @NotEmpty(message = "unitIds is not empty")
         private List<Long> unitIds;
 
         @Builder

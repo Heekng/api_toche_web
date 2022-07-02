@@ -6,10 +6,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.heekng.api_toche_web.entity.QAugment.*;
@@ -55,6 +52,28 @@ public class UseDeckAugmentRepositoryImpl implements UseDeckAugmentRepositoryCus
         return useDeckAugmentOptional;
     }
 
+    @Override
+    public List<UseDeckAugment> searchAugmentContainsByAugmentIdsAndSeasonId(List<Long> augmentIds, Long seasonId) {
+        Map<UseDeckAugment, List<Long>> transform = queryFactory
+                .selectFrom(useDeckAugment)
+                .innerJoin(useDeckAugment.season, season)
+                .on(season.id.eq(seasonId))
+                .leftJoin(useDeckAugment.useAugments, useAugment)
+                .leftJoin(useAugment.augment, augment)
+                .where(
+                        augmentIdEqs(augmentIds)
+                )
+                .transform(groupBy(useDeckAugment).as(list(augment.id)));
+        List<UseDeckAugment> useDeckAugments = transform.entrySet().stream()
+                .filter(useDeckAugmentListEntry ->
+                        new HashSet<>(useDeckAugmentListEntry.getValue()).containsAll(augmentIds)
+                )
+                .map(Map.Entry::getKey)
+                .sorted(Comparator.comparing(UseDeckAugment::getUseCount).reversed())
+                .collect(Collectors.toList());
+        return useDeckAugments;
+    }
+
     private BooleanBuilder augmentEqs(List<Augment> augments) {
         BooleanBuilder builder = new BooleanBuilder();
         augments.forEach(augmentEntity -> builder.or(augmentEq(augmentEntity)));
@@ -63,5 +82,15 @@ public class UseDeckAugmentRepositoryImpl implements UseDeckAugmentRepositoryCus
 
     private BooleanExpression augmentEq(Augment augmentEntity) {
         return augmentEntity != null ? augment.eq(augmentEntity) : null;
+    }
+
+    private BooleanBuilder augmentIdEqs(List<Long> augmentIds) {
+        BooleanBuilder builder = new BooleanBuilder();
+        augmentIds.forEach(augmentId -> builder.or(augmentIdEq(augmentId)));
+        return builder;
+    }
+
+    private BooleanExpression augmentIdEq(Long augmentId) {
+        return augmentId != null ? augment.id.eq(augmentId) : null;
     }
 }

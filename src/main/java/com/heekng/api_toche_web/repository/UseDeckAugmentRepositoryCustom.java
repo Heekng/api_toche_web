@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface UseDeckAugmentRepositoryCustom {
 
     Optional<UseDeckAugment> searchByAugmentsAndSeason(List<Augment> augments, Season season);
+
+    List<UseDeckAugment> searchAugmentContainsByAugmentIdsAndSeasonId(List<Long> augmentIds, Long seasonId);
 }

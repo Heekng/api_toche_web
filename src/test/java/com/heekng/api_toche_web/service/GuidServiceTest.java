@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
+
 @SpringBootTest
 @Transactional
 class GuidServiceTest {
@@ -35,6 +37,12 @@ class GuidServiceTest {
     TftMatchRepository tftMatchRepository;
     @Autowired
     AugmentRepository augmentRepository;
+    @Autowired
+    UseDeckUnitRepository useDeckUnitRepository;
+    @Autowired
+    UseDeckAugmentRepository useDeckAugmentRepository;
+    @Autowired
+    UseDeckUnitAugmentRepository useDeckUnitAugmentRepository;
 
     @Test
     @DisplayName("guidByUnits 는 입력한 유닛 ID가 포함된 승리 수가 가장 많은 덱을 제공한다.")
@@ -60,51 +68,33 @@ class GuidServiceTest {
                 .season(testSeason)
                 .build();
         unitRepository.save(testUnit3);
-        Summoner testSummoner = Summoner.builder()
-                .id("summonerId")
-                .name("summonerName")
-                .puuid("123-123-123")
-                .build();
-        summonerRepository.save(testSummoner);
-
-        TftMatch testTftMatch = TftMatch.builder()
-                .matchId("1234567")
-                .summoner(testSummoner)
-                .build();
-        tftMatchRepository.save(testTftMatch);
-        LocalDateTime localDateTime = LocalDateTime.of(2022, 6, 17, 18, 32);
-        MatchInfo testMatchInfo = MatchInfo.builder()
-                .gameDatetime(localDateTime)
-                .ranking(1)
-                .season(testSeason)
-                .tftMatch(testTftMatch)
-                .build();
-        MatchUnit matchUnit1 = MatchUnit.builder()
+        UseUnit useUnit1 = UseUnit.builder()
                 .unit(testUnit1)
                 .build();
-        MatchUnit matchUnit2 = MatchUnit.builder()
+        UseUnit useUnit2 = UseUnit.builder()
                 .unit(testUnit2)
                 .build();
-        MatchUnit matchUnit3 = MatchUnit.builder()
+        UseUnit useUnit3 = UseUnit.builder()
                 .unit(testUnit3)
                 .build();
-        testMatchInfo.addMatchUnit(matchUnit1);
-        testMatchInfo.addMatchUnit(matchUnit2);
-        testMatchInfo.addMatchUnit(matchUnit3);
-        matchInfoRepository.save(testMatchInfo);
+        UseDeckUnit useDeckUnit = UseDeckUnit.builder()
+                .useCount(1L)
+                .build();
+        useDeckUnit.insertUseUnit(useUnit1);
+        useDeckUnit.insertUseUnit(useUnit2);
+        useDeckUnit.insertUseUnit(useUnit3);
+        useDeckUnitRepository.save(useDeckUnit);
         //when
-        List<Long> unitIds = new ArrayList<>();
-        unitIds.add(testUnit1.getId());
-        unitIds.add(testUnit2.getId());
-        unitIds.add(testUnit3.getId());
+        List<Long> unitIds = List.of(testUnit1.getId(), testUnit2.getId());
         UnitDTO.GuidRequest guidRequest = UnitDTO.GuidRequest.builder()
                 .unitIds(unitIds)
                 .build();
         GuidDTO.GuidResultResponse guidResultResponse = guidService.guidByUnits(guidRequest);
         //then
-        Assertions.assertThat(guidResultResponse.getResultCount()).isEqualTo(1);
-        Assertions.assertThat(guidResultResponse.getAllUsedCount()).isEqualTo(1);
-        Assertions.assertThat(guidResultResponse.getUnits().size()).isEqualTo(3);
+        assertThat(guidResultResponse).isNotNull();
+        assertThat(guidResultResponse.getResultCount()).isEqualTo(1);
+        assertThat(guidResultResponse.getAllUsedCount()).isEqualTo(1);
+        assertThat(guidResultResponse.getUnits().size()).isEqualTo(3);
     }
 
     @Test
@@ -131,76 +121,76 @@ class GuidServiceTest {
                 .season(testSeason)
                 .build();
         unitRepository.save(testUnit3);
+        UseUnit useUnit1 = UseUnit.builder()
+                .unit(testUnit1)
+                .build();
+        UseUnit useUnit2 = UseUnit.builder()
+                .unit(testUnit2)
+                .build();
+        UseUnit useUnit3 = UseUnit.builder()
+                .unit(testUnit3)
+                .build();
+        UseDeckUnit useDeckUnit = UseDeckUnit.builder()
+                .useCount(1L)
+                .build();
+        useDeckUnit.insertUseUnit(useUnit1);
+        useDeckUnit.insertUseUnit(useUnit2);
+        useDeckUnit.insertUseUnit(useUnit3);
+        useDeckUnitRepository.save(useDeckUnit);
+
         Augment testAugment1 = Augment.builder()
                 .name("testAugment1")
                 .build();
         augmentRepository.save(testAugment1);
+        System.out.println("id1:" + testAugment1.getId());
         Augment testAugment2 = Augment.builder()
                 .name("testAugment2")
                 .build();
         augmentRepository.save(testAugment2);
+        System.out.println("id2:" + testAugment2.getId());
         Augment testAugment3 = Augment.builder()
                 .name("testAugment3")
                 .build();
         augmentRepository.save(testAugment3);
+        System.out.println("id3:" + testAugment3.getId());
 
-        Summoner testSummoner = Summoner.builder()
-                .id("summonerId")
-                .name("summonerName")
-                .puuid("123-123-123")
-                .build();
-        summonerRepository.save(testSummoner);
-
-        TftMatch testTftMatch = TftMatch.builder()
-                .matchId("1234567")
-                .summoner(testSummoner)
-                .build();
-        tftMatchRepository.save(testTftMatch);
-        LocalDateTime localDateTime = LocalDateTime.of(2022, 6, 17, 18, 32);
-        MatchInfo testMatchInfo = MatchInfo.builder()
-                .gameDatetime(localDateTime)
-                .ranking(1)
-                .season(testSeason)
-                .tftMatch(testTftMatch)
-                .build();
-        MatchUnit matchUnit1 = MatchUnit.builder()
-                .unit(testUnit1)
-                .build();
-        MatchUnit matchUnit2 = MatchUnit.builder()
-                .unit(testUnit2)
-                .build();
-        MatchUnit matchUnit3 = MatchUnit.builder()
-                .unit(testUnit3)
-                .build();
-        testMatchInfo.addMatchUnit(matchUnit1);
-        testMatchInfo.addMatchUnit(matchUnit2);
-        testMatchInfo.addMatchUnit(matchUnit3);
-        MatchAugment matchAugment1 = MatchAugment.builder()
+        UseAugment useAugment1 = UseAugment.builder()
                 .augment(testAugment1)
                 .build();
-        MatchAugment matchAugment2 = MatchAugment.builder()
+        UseAugment useAugment2 = UseAugment.builder()
                 .augment(testAugment2)
                 .build();
-        MatchAugment matchAugment3 = MatchAugment.builder()
+        UseAugment useAugment3 = UseAugment.builder()
                 .augment(testAugment3)
                 .build();
-        testMatchInfo.addMatchAugment(matchAugment1);
-        testMatchInfo.addMatchAugment(matchAugment2);
-        testMatchInfo.addMatchAugment(matchAugment3);
-        matchInfoRepository.save(testMatchInfo);
+
+        UseDeckAugment useDeckAugment = UseDeckAugment.builder()
+                .season(testSeason)
+                .useCount(1L)
+                .build();
+        useDeckAugment.insertUseAugment(useAugment1);
+        useDeckAugment.insertUseAugment(useAugment2);
+        useDeckAugment.insertUseAugment(useAugment3);
+        useDeckAugmentRepository.save(useDeckAugment);
+
+        UseDeckUnitAugment useDeckUnitAugment = UseDeckUnitAugment.builder()
+                .useDeckAugment(useDeckAugment)
+                .useCount(1L)
+                .useDeckUnit(useDeckUnit)
+                .build();
+        useDeckUnitAugmentRepository.save(useDeckUnitAugment);
         //when
-        List<Long> augmentIds = new ArrayList<>();
-        augmentIds.add(testAugment1.getId());
-        augmentIds.add(testAugment2.getId());
-        augmentIds.add(testAugment3.getId());
+        List<Long> augmentIds = List.of(testAugment1.getId(), testAugment2.getId());
         AugmentDTO.GuidRequest guidRequest = AugmentDTO.GuidRequest.builder()
                 .augmentIds(augmentIds)
+                .seasonId(testSeason.getId())
                 .build();
         GuidDTO.GuidResultResponse guidResultResponse = guidService.guidByAugments(guidRequest);
         //then
-        Assertions.assertThat(guidResultResponse.getResultCount()).isEqualTo(1);
-        Assertions.assertThat(guidResultResponse.getAllUsedCount()).isEqualTo(1);
-        Assertions.assertThat(guidResultResponse.getUnits().size()).isEqualTo(3);
+        assertThat(guidResultResponse).isNotNull();
+        assertThat(guidResultResponse.getResultCount()).isEqualTo(1);
+        assertThat(guidResultResponse.getAllUsedCount()).isEqualTo(1);
+        assertThat(guidResultResponse.getUnits().size()).isEqualTo(3);
     }
 
 
