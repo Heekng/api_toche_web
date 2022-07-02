@@ -55,7 +55,6 @@ public class UnitRepositoryImpl implements UnitRepositoryCustom {
                                 unit.name,
                                 unit.krName,
                                 unit.rarity,
-                                unit.tier,
                                 unit.cost,
                                 unit.iconPath,
                                 unit.count()
