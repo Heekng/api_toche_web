@@ -39,7 +39,6 @@ public class UnitDTO {
         private String name;
         private String krName;
         private Integer rarity;
-        private Integer tier;
         private Integer cost;
         private String iconPath;
         private SeasonDTO.SeasonsResponse season;
@@ -66,18 +65,16 @@ public class UnitDTO {
         private String name;
         private String krName;
         private Integer rarity;
-        private Integer tier;
         private Integer cost;
         private String iconPath;
         private Long itemUsedCount;
 
         @QueryProjection
-        public ItemRankResponse(Long id, String name, String krName, Integer rarity, Integer tier, Integer cost, String iconPath, Long itemUsedCount) {
+        public ItemRankResponse(Long id, String name, String krName, Integer rarity, Integer cost, String iconPath, Long itemUsedCount) {
             this.id = id;
             this.name = name;
             this.krName = krName;
             this.rarity = rarity;
-            this.tier = tier;
             this.cost = cost;
             this.iconPath = iconPath;
             this.itemUsedCount = itemUsedCount;
@@ -92,7 +89,6 @@ public class UnitDTO {
         private String name;
         private String krName;
         private Integer rarity;
-        private Integer tier;
         private Integer cost;
         private String iconPath;
         private SeasonDTO.SeasonsResponse season;
@@ -105,7 +101,6 @@ public class UnitDTO {
             this.name = unit.getName();
             this.krName = unit.getKrName();
             this.rarity = unit.getRarity();
-            this.tier = unit.getTier();
             this.cost = unit.getCost();
             this.iconPath = unit.getIconPath();
             this.season = new SeasonDTO.SeasonsResponse(unit.getSeason());
@@ -132,7 +127,6 @@ public class UnitDTO {
         private String name;
         private String krName;
         private Integer rarity;
-        private Integer tier;
         private Integer cost;
         private String iconPath;
 
