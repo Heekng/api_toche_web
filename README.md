@@ -52,7 +52,8 @@
 
 ## 사용 기술
 
-- SpringBoot
-- SpringBatch
+- SpringBoot, SpringBatch
 - Jpa, SpringDataJpa, Querydsl
+- Quartz
+- Github Action
 
