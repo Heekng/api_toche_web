@@ -10,6 +10,7 @@
 - Backend Developer : [heekng](https://github.com/heekng)
   - [api_toche_web Github](https://github.com/Heekng/api_toche_web)
   - [TOCHE ERD](https://www.erdcloud.com/d/5bCryn3uQmrtpRAkJ)
+  - [TOCHE_API WorkFlow](https://github.com/Heekng/api_toche_web/projects/1)
 - Frontend Developer : [corner](https://github.com/Eight-Corner)
   - [front_toche_web Github](https://github.com/Eight-Corner/front_toche_web)
 
@@ -51,7 +52,8 @@
 
 ## 사용 기술
 
-- SpringBoot
-- SpringBatch
+- SpringBoot, SpringBatch
 - Jpa, SpringDataJpa, Querydsl
+- Quartz
+- Github Action
 
