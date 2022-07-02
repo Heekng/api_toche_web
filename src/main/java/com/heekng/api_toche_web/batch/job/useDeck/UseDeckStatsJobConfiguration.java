@@ -47,8 +47,8 @@ public class UseDeckStatsJobConfiguration {
                 .reader(useDeckStatsReader())
                 .processor(useDeckStatsProcessor)
                 .writer(useDeckStatsWriter())
-                .taskExecutor(executor())
-                .throttleLimit(poolSize)
+//                .taskExecutor(executor())
+//                .throttleLimit(poolSize)
                 .build();
     }
 
