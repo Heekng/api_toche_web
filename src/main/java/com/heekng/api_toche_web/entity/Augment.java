@@ -39,6 +39,8 @@ public class Augment extends BaseTimeEntity{
     private List<MatchAugment> matchAugments = new ArrayList<>();
     @OneToMany(mappedBy = "augment")
     private List<SeasonAugment> seasonAugments = new ArrayList<>();
+    @OneToMany(mappedBy = "augment")
+    private List<UseAugment> useAugments = new ArrayList<>();
 
     @Builder
     public Augment(String name, Integer num, String augmentDesc, String krName, String enName, Boolean isUnique, String iconPath) {
