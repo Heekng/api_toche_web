@@ -137,9 +137,9 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                                 )
                         )
                         .from(item)
-                        .innerJoin(fromItem1)
+                        .leftJoin(fromItem1)
                         .on(item.fromItem1.eq(fromItem1.num))
-                        .innerJoin(fromItem2)
+                        .leftJoin(fromItem2)
                         .on(item.fromItem2.eq(fromItem2.num))
                         .where(
                                 itemIdEq(itemId)
