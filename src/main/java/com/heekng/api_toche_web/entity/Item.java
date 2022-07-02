@@ -43,6 +43,8 @@ public class Item extends BaseTimeEntity {
     private Boolean isUnique;
     @Column(name = "icon_path")
     private String iconPath;
+    @Column(name = "is_display")
+    private Boolean isDisplay;
 
     @OneToMany(mappedBy = "item")
     private List<MatchItem> matchItems = new ArrayList<>();
