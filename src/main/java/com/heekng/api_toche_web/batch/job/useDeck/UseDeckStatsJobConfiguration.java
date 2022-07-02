@@ -16,6 +16,8 @@ import org.springframework.batch.item.database.builder.JpaItemWriterBuilder;
 import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import javax.persistence.EntityManagerFactory;
 
@@ -23,6 +25,9 @@ import javax.persistence.EntityManagerFactory;
 @RequiredArgsConstructor
 @Slf4j
 public class UseDeckStatsJobConfiguration {
+
+    private final int poolSize = 10;
+    private final int chunkSize = 10;
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
@@ -38,10 +43,12 @@ public class UseDeckStatsJobConfiguration {
 
     private Step useDeckStatsStep() {
         return stepBuilderFactory.get("useDeckStatsStep")
-                .<MatchInfo, MatchInfo>chunk(100)
+                .<MatchInfo, MatchInfo>chunk(chunkSize)
                 .reader(useDeckStatsReader())
                 .processor(useDeckStatsProcessor)
                 .writer(useDeckStatsWriter())
+                .taskExecutor(executor())
+                .throttleLimit(poolSize)
                 .build();
     }
 
@@ -56,9 +63,20 @@ public class UseDeckStatsJobConfiguration {
         return new JpaPagingItemReaderBuilder<MatchInfo>()
                 .name("useDeckStatsReader")
                 .entityManagerFactory(emf)
-                .pageSize(100)
+                .pageSize(chunkSize)
                 .queryString("select m from MatchInfo m where m.isDeckCollected = FALSE")
+                .saveState(false)
                 .build();
+    }
+
+    private TaskExecutor executor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(poolSize);
+        executor.setMaxPoolSize(poolSize);
+        executor.setThreadNamePrefix("multi-thread-");
+        executor.setWaitForTasksToCompleteOnShutdown(Boolean.TRUE);
+        executor.initialize();
+        return executor;
     }
 
 }

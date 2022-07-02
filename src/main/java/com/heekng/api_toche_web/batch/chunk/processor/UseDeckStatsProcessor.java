@@ -1,6 +1,7 @@
 package com.heekng.api_toche_web.batch.chunk.processor;
 
 import com.heekng.api_toche_web.entity.*;
+import com.heekng.api_toche_web.repository.MatchInfoRepository;
 import com.heekng.api_toche_web.service.UseDeckAugmentService;
 import com.heekng.api_toche_web.service.UseDeckUnitAugmentService;
 import com.heekng.api_toche_web.service.UseDeckUnitService;
@@ -21,9 +22,11 @@ public class UseDeckStatsProcessor implements ItemProcessor<MatchInfo, MatchInfo
     private final UseDeckAugmentService useDeckAugmentService;
     private final UseDeckUnitService useDeckUnitService;
     private final UseDeckUnitAugmentService useDeckUnitAugmentService;
+    private final MatchInfoRepository matchInfoRepository;
 
     @Override
     public MatchInfo process(MatchInfo matchInfo) throws Exception {
+        matchInfo = matchInfoRepository.findById(matchInfo.getId()).get();
         initializeUnitsAndAugmentsAndSeason(matchInfo);
         List<Augment> augments = getAugmentsByMatchInfo(matchInfo);
         List<Unit> units = getUnitsByMatchInfo(matchInfo);
