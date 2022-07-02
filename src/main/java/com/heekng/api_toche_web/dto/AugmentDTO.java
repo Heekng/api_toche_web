@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -42,12 +43,17 @@ public class AugmentDTO {
     public static class GuidRequest {
 
         @NotNull
+        @NotEmpty
         @Size(max = 3)
         private List<Long> augmentIds;
 
+        @NotNull
+        private Long seasonId;
+
         @Builder
-        public GuidRequest(List<Long> augmentIds) {
+        public GuidRequest(List<Long> augmentIds, Long seasonId) {
             this.augmentIds = augmentIds;
+            this.seasonId = seasonId;
         }
     }
 

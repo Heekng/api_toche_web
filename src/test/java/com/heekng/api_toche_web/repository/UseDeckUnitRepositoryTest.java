@@ -118,4 +118,63 @@ class UseDeckUnitRepositoryTest {
         assertThat(useDeckUnitOptional).isNotEmpty();
         assertThat(useDeckUnitOptional.get()).isEqualTo(useDeckUnit);
     }
+
+    @Test
+    void searchUnitContainsByUnitIdsTest() throws Exception {
+        //given
+        Season season = Season.builder()
+                .seasonNum(7)
+                .seasonName("testSeason")
+                .build();
+        em.persist(season);
+
+        Unit testUnit1 = Unit.builder()
+                .name("testUnit1")
+                .season(season)
+                .build();
+        em.persist(testUnit1);
+        Unit testUnit2 = Unit.builder()
+                .name("testUnit2")
+                .season(season)
+                .build();
+        em.persist(testUnit2);
+        Unit testUnit3 = Unit.builder()
+                .name("testUnit3")
+                .season(season)
+                .build();
+        em.persist(testUnit3);
+        Unit testUnit4 = Unit.builder()
+                .name("testUnit4")
+                .season(season)
+                .build();
+        em.persist(testUnit4);
+
+        UseUnit useUnit1 = UseUnit.builder()
+                .unit(testUnit1)
+                .build();
+        UseUnit useUnit2 = UseUnit.builder()
+                .unit(testUnit2)
+                .build();
+        UseUnit useUnit3 = UseUnit.builder()
+                .unit(testUnit3)
+                .build();
+        UseUnit useUnit4 = UseUnit.builder()
+                .unit(testUnit4)
+                .build();
+
+        UseDeckUnit useDeckUnit = UseDeckUnit.builder()
+                .useCount(0L)
+                .build();
+        useDeckUnit.insertUseUnit(useUnit1);
+        useDeckUnit.insertUseUnit(useUnit2);
+        useDeckUnit.insertUseUnit(useUnit3);
+        useDeckUnit.insertUseUnit(useUnit4);
+        useDeckUnitRepository.save(useDeckUnit);
+        //when
+        List<Long> unitIds = List.of(testUnit1.getId(), testUnit2.getId());
+        List<UseDeckUnit> useDeckUnits = useDeckUnitRepository.searchUnitContainsByUnitIds(unitIds);
+        //then
+        assertThat(useDeckUnits).isNotEmpty();
+        assertThat(useDeckUnits.get(0)).isEqualTo(useDeckUnit);
+    }
 }

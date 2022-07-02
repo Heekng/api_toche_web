@@ -93,4 +93,36 @@ class UseDeckUnitAugmentRepositoryTest {
         assertThat(useDeckUnitAugmentOptional).isNotEmpty();
         assertThat(useDeckUnitAugmentOptional.get()).isEqualTo(useDeckUnitAugment);
     }
+
+    @Test
+    void findByUseDeckAugmentTest() throws Exception {
+        //given
+        Season season = Season.builder()
+                .seasonNum(7)
+                .seasonName("testSeason")
+                .build();
+        em.persist(season);
+        UseDeckUnit useDeckUnit = UseDeckUnit.builder()
+                .useCount(0L)
+                .build();
+        em.persist(useDeckUnit);
+        UseDeckAugment useDeckAugment = UseDeckAugment.builder()
+                .useCount(0L)
+                .season(season)
+                .build();
+        em.persist(useDeckAugment);
+        UseDeckUnitAugment useDeckUnitAugment = UseDeckUnitAugment.builder()
+                .useDeckUnit(useDeckUnit)
+                .useDeckAugment(useDeckAugment)
+                .useCount(0L)
+                .build();
+        useDeckUnitAugmentRepository.save(useDeckUnitAugment);
+        //when
+        List<UseDeckUnitAugment> useDeckUnitAugments = useDeckUnitAugmentRepository.findByUseDeckAugment(useDeckAugment);
+        //then
+        assertThat(useDeckUnitAugments).isNotEmpty();
+        assertThat(useDeckUnitAugments.size()).isEqualTo(1);
+        assertThat(useDeckUnitAugments.get(0)).isEqualTo(useDeckUnitAugment);
+
+    }
 }

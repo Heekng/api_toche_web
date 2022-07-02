@@ -3,11 +3,8 @@ package com.heekng.api_toche_web.service;
 import com.heekng.api_toche_web.dto.AugmentDTO;
 import com.heekng.api_toche_web.dto.GuidDTO;
 import com.heekng.api_toche_web.dto.UnitDTO;
-import com.heekng.api_toche_web.entity.MatchInfo;
-import com.heekng.api_toche_web.entity.MatchUnit;
-import com.heekng.api_toche_web.entity.Unit;
-import com.heekng.api_toche_web.repository.MatchInfoRepository;
-import com.heekng.api_toche_web.repository.UnitRepository;
+import com.heekng.api_toche_web.entity.*;
+import com.heekng.api_toche_web.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -25,17 +22,63 @@ public class GuidService {
 
     private final MatchInfoRepository matchInfoRepository;
     private final ModelMapper standardMapper;
+    private final UseDeckUnitRepository useDeckUnitRepository;
+    private final UseDeckAugmentRepository useDeckAugmentRepository;
+    private final UseDeckUnitAugmentRepository useDeckUnitAugmentRepository;
 
     public GuidDTO.GuidResultResponse guidByUnits(UnitDTO.GuidRequest guidRequest) {
-        // 전체 리스트
-        List<MatchInfo> matchInfos = matchInfoRepository.searchByUnitContains(guidRequest.getUnitIds());
-        return filterGuidResultByMatchInfos(matchInfos);
+        List<UseDeckUnit> useDeckUnits = useDeckUnitRepository.searchUnitContainsByUnitIds(guidRequest.getUnitIds());
+        return getGuidResultResponseByUseDeckUnits(useDeckUnits);
     }
 
     public GuidDTO.GuidResultResponse guidByAugments(AugmentDTO.GuidRequest guidRequest) {
-        // 전체 리스트
-        List<MatchInfo> matchInfos = matchInfoRepository.searchByAugmentContains(guidRequest.getAugmentIds());
-        return filterGuidResultByMatchInfos(matchInfos);
+        List<UseDeckAugment> useDeckAugments = useDeckAugmentRepository.searchAugmentContainsByAugmentIdsAndSeasonId(guidRequest.getAugmentIds(), guidRequest.getSeasonId());
+        List<UseDeckUnitAugment> useDeckUnitAugments = getUseDeckUnitAugmentsByUseDeckAugments(useDeckAugments);
+        return getGuidResultResponseByUseDeckUnitAugments(useDeckUnitAugments);
+    }
+
+    private GuidDTO.GuidResultResponse getGuidResultResponseByUseDeckUnitAugments(List<UseDeckUnitAugment> useDeckUnitAugments) {
+        List<UseDeckUnit> useDeckUnits = useDeckUnitAugments.stream()
+                .map(UseDeckUnitAugment::getUseDeckUnit)
+                .sorted(Comparator.comparing(UseDeckUnit::getUseCount).reversed())
+                .collect(Collectors.toList());
+        return getGuidResultResponseByUseDeckUnits(useDeckUnits);
+    }
+
+    private List<UseDeckUnitAugment> getUseDeckUnitAugmentsByUseDeckAugments(List<UseDeckAugment> useDeckAugments) {
+        List<UseDeckUnitAugment> useDeckUnitAugments = new ArrayList<>();
+        useDeckAugments.stream()
+                .map(useDeckUnitAugmentRepository::findByUseDeckAugment)
+                .forEach(useDeckUnitAugments::addAll);
+        useDeckUnitAugments.sort(Comparator.comparing(UseDeckUnitAugment::getUseCount).reversed());
+        return useDeckUnitAugments;
+    }
+
+    private GuidDTO.GuidResultResponse getGuidResultResponseByUseDeckUnits(List<UseDeckUnit> useDeckUnits) {
+        GuidDTO.GuidResultResponse guidResultResponse;
+        if (useDeckUnits.isEmpty()) {
+            guidResultResponse = GuidDTO.GuidResultResponse.builder()
+                    .allUsedCount(0L)
+                    .resultCount(0L)
+                    .units(null)
+                    .build();
+        } else {
+            Long allUseCount = useDeckUnits.stream()
+                    .mapToLong(UseDeckUnit::getUseCount)
+                    .sum();
+            UseDeckUnit useDeckUnit = useDeckUnits.get(0);
+            Long resultCount = useDeckUnit.getUseCount();
+            List<UnitDTO.UnitsResponse> unitsResponse = useDeckUnit.getUseUnits().stream()
+                    .map(UseUnit::getUnit)
+                    .map(unit -> standardMapper.map(unit, UnitDTO.UnitsResponse.class))
+                    .collect(Collectors.toList());
+            guidResultResponse = GuidDTO.GuidResultResponse.builder()
+                    .allUsedCount(allUseCount)
+                    .resultCount(resultCount)
+                    .units(unitsResponse)
+                    .build();
+        }
+        return guidResultResponse;
     }
 
     private GuidDTO.GuidResultResponse filterGuidResultByMatchInfos(List<MatchInfo> matchInfos) {
@@ -60,7 +103,7 @@ public class GuidService {
         return GuidDTO.GuidResultResponse.builder()
                 .units(unitsResponseList)
                 .resultCount(resultEntry.getValue())
-                .allUsedCount(matchInfos.size())
+                .allUsedCount((long) matchInfos.size())
                 .build();
     }
 }
