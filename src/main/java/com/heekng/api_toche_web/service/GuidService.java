@@ -4,9 +4,7 @@ import com.heekng.api_toche_web.dto.AugmentDTO;
 import com.heekng.api_toche_web.dto.GuidDTO;
 import com.heekng.api_toche_web.dto.UnitDTO;
 import com.heekng.api_toche_web.entity.*;
-import com.heekng.api_toche_web.repository.MatchInfoRepository;
-import com.heekng.api_toche_web.repository.UnitRepository;
-import com.heekng.api_toche_web.repository.UseDeckUnitRepository;
+import com.heekng.api_toche_web.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -25,6 +23,8 @@ public class GuidService {
     private final MatchInfoRepository matchInfoRepository;
     private final ModelMapper standardMapper;
     private final UseDeckUnitRepository useDeckUnitRepository;
+    private final UseDeckAugmentRepository useDeckAugmentRepository;
+    private final UseDeckUnitAugmentRepository useDeckUnitAugmentRepository;
 
     public GuidDTO.GuidResultResponse guidByUnits(UnitDTO.GuidRequest guidRequest) {
         List<UseDeckUnit> useDeckUnits = useDeckUnitRepository.searchUnitContainsByUnitIds(guidRequest.getUnitIds());
@@ -32,9 +32,26 @@ public class GuidService {
     }
 
     public GuidDTO.GuidResultResponse guidByAugments(AugmentDTO.GuidRequest guidRequest) {
-        // 전체 리스트
-        List<MatchInfo> matchInfos = matchInfoRepository.searchByAugmentContains(guidRequest.getAugmentIds());
-        return filterGuidResultByMatchInfos(matchInfos);
+        List<UseDeckAugment> useDeckAugments = useDeckAugmentRepository.searchAugmentContainsByAugmentIdsAndSeasonId(guidRequest.getAugmentIds(), guidRequest.getSeasonId());
+        List<UseDeckUnitAugment> useDeckUnitAugments = getUseDeckUnitAugmentsByUseDeckAugments(useDeckAugments);
+        return getGuidResultResponseByUseDeckUnitAugments(useDeckUnitAugments);
+    }
+
+    private GuidDTO.GuidResultResponse getGuidResultResponseByUseDeckUnitAugments(List<UseDeckUnitAugment> useDeckUnitAugments) {
+        List<UseDeckUnit> useDeckUnits = useDeckUnitAugments.stream()
+                .map(UseDeckUnitAugment::getUseDeckUnit)
+                .sorted(Comparator.comparing(UseDeckUnit::getUseCount).reversed())
+                .collect(Collectors.toList());
+        return getGuidResultResponseByUseDeckUnits(useDeckUnits);
+    }
+
+    private List<UseDeckUnitAugment> getUseDeckUnitAugmentsByUseDeckAugments(List<UseDeckAugment> useDeckAugments) {
+        List<UseDeckUnitAugment> useDeckUnitAugments = new ArrayList<>();
+        useDeckAugments.stream()
+                .map(useDeckUnitAugmentRepository::findByUseDeckAugment)
+                .forEach(useDeckUnitAugments::addAll);
+        useDeckUnitAugments.sort(Comparator.comparing(UseDeckUnitAugment::getUseCount).reversed());
+        return useDeckUnitAugments;
     }
 
     private GuidDTO.GuidResultResponse getGuidResultResponseByUseDeckUnits(List<UseDeckUnit> useDeckUnits) {
