@@ -49,7 +49,7 @@ public class CDragonTraitInsertProcessor implements ItemProcessor<CDragonSetData
             traitDTO.updateDesc();
 
             String krName = traitDTO.getName();
-            String iconPath = CDRAGON_PATH_IMAGE + traitDTO.getIcon().toLowerCase().replace(".tex", ".png");
+            String iconPath = CDRAGON_PATH_IMAGE + traitDTO.getIcon().toLowerCase().replace(".tex", ".png").replace(".dds", ".png");
             String desc = traitDTO.getDesc();
             trait.updateByCDragonData(desc, iconPath, krName);
             traitList.add(trait);
