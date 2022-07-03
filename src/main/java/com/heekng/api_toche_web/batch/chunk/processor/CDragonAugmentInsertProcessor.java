@@ -63,7 +63,7 @@ public class CDragonAugmentInsertProcessor implements ItemProcessor<CDragonItemD
         String desc = cDragonAugmentDTO.getDesc();
         String krName = cDragonAugmentDTO.getName();
         Boolean isUnique = cDragonAugmentDTO.getUnique();
-        String iconPath = CDRAGON_PATH_IMAGE + cDragonAugmentDTO.getIcon().toLowerCase().replace(".dds", ".png");
+        String iconPath = CDRAGON_PATH_IMAGE + cDragonAugmentDTO.getIcon().toLowerCase().replace(".dds", ".png").replace(".tex", ".png");
         augment.updateByCDragonData(num, desc, krName, nameEn, isUnique, iconPath);
 
         return augment;

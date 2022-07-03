@@ -42,7 +42,7 @@ public class CDragonItemInsertProcessor implements ItemProcessor<CDragonItemDTO,
         String desc = cDragonItemDTO.getDesc();
         String krName = cDragonItemDTO.getName();
         Boolean isUnique = cDragonItemDTO.getUnique();
-        String iconPath = CDRAGON_PATH_IMAGE + cDragonItemDTO.getIcon().toLowerCase().replace(".dds", ".png");
+        String iconPath = CDRAGON_PATH_IMAGE + cDragonItemDTO.getIcon().toLowerCase().replace(".dds", ".png").replace(".tex", ".png");
         Integer fromItem1 = null;
         Integer fromItem2 = null;
         if (!cDragonItemDTO.getFrom().isEmpty()) {
