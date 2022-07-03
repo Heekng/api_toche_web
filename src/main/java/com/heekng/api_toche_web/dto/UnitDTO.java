@@ -7,8 +7,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +51,7 @@ public class UnitDTO {
     public static class GuidRequest {
         @NotNull(message = "unitIds is not null")
         @NotEmpty(message = "unitIds is not empty")
+        @Size(max = 7, message = "unitIds is max 7")
         private List<Long> unitIds;
 
         @Builder

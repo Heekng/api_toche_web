@@ -33,7 +33,8 @@ public class Season extends BaseTimeEntity {
     private String seasonName;
     @Column(name = "last_patch_version")
     private String lastPatchVersion;
-
+    @Column(name = "is_display")
+    private Boolean isDisplay;
 
     @OneToMany(mappedBy = "season")
     private List<MatchInfo> matchInfos = new ArrayList<>();
@@ -52,5 +53,6 @@ public class Season extends BaseTimeEntity {
     public Season(Integer seasonNum, String seasonName) {
         this.seasonNum = seasonNum;
         this.seasonName = seasonName;
+        this.isDisplay = true;
     }
 }
